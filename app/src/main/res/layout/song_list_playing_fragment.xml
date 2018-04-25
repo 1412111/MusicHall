@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@color/transparent"
+    android:orientation="vertical">
+
+
+    <android.support.v4.view.ViewPager
+        android:id="@+id/mPager"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_gravity="center"
+        android:layout_weight="1"
+
+        android:paddingRight="50dp"
+        android:background="@color/transparent">
+       <!-- android:paddingLeft="72dp"
+       android:paddingLeft="60dp"
+        android:paddingRight="24dp">-->
+
+    </android.support.v4.view.ViewPager>
+</FrameLayout>

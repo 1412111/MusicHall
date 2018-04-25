@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="media_names">
+        <item>Suggest</item>
+        <item>Songs</item>
+        <item>Artists</item>
+        <item>Playlists</item>
+        <item>Albums</item>
+    </string-array>
+
+
+
+</resources>
