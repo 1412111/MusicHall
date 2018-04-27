@@ -1,17 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/control_bar"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:background="@color/white"
-    android:orientation="vertical">
+    android:layout_height="50dp"
 
+    android:background="@android:color/white"
+    android:orientation="vertical">
 
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@android:color/transparent"
         android:orientation="horizontal">
 
         <ImageView
@@ -19,7 +20,7 @@
             android:layout_width="20dp"
             android:layout_height="20dp"
             android:layout_gravity="top|center_vertical"
-            android:layout_margin="20dp"
+            android:layout_margin="15dp"
             app:srcCompat="@drawable/play"></ImageView>
 
         <!--  <com.sackcentury.shinebuttonlib.ShineButton
@@ -41,9 +42,9 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_gravity="center"
             android:layout_marginRight="40dp"
-            android:layout_marginTop="10dp"
-            android:gravity="top|center_vertical"
+            android:background="@android:color/transparent"
             android:orientation="vertical">
 
             <TextView
@@ -53,7 +54,7 @@
                 android:text="Attention"
                 android:textAlignment="center"
                 android:textColor="@color/black"
-                android:textSize="15sp" />
+                android:textSize="14sp" />
 
             <TextView
                 android:id="@+id/txtSinger_control"
@@ -65,7 +66,7 @@
                 android:text="Charlie Puth"
                 android:textAlignment="center"
                 android:textColor="@color/black"
-                android:textSize="12sp" />
+                android:textSize="10sp" />
         </LinearLayout>
     </LinearLayout>
 
@@ -74,8 +75,8 @@
         style="?android:attr/progressBarStyleHorizontal"
         android:layout_width="match_parent"
         android:layout_height="2dp"
+        android:layout_gravity="bottom"
         android:max="100"
-        android:progress="50"
-        android:progressDrawable="@drawable/custom_progressbar" />
+        android:progress="0" />
 
-</LinearLayout>
+</FrameLayout>

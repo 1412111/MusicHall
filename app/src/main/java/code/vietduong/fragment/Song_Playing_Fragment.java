@@ -14,7 +14,13 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 
 
+import com.ToxicBakery.viewpager.transforms.BackgroundToForegroundTransformer;
+import com.ToxicBakery.viewpager.transforms.CubeOutTransformer;
+import com.ToxicBakery.viewpager.transforms.DepthPageTransformer;
+import com.ToxicBakery.viewpager.transforms.ForegroundToBackgroundTransformer;
 import com.ToxicBakery.viewpager.transforms.RotateUpTransformer;
+import com.ToxicBakery.viewpager.transforms.ScaleInOutTransformer;
+import com.ToxicBakery.viewpager.transforms.StackTransformer;
 import com.ToxicBakery.viewpager.transforms.TabletTransformer;
 import com.ToxicBakery.viewpager.transforms.ZoomOutSlideTransformer;
 import com.squareup.picasso.Picasso;
@@ -74,10 +80,10 @@ public class Song_Playing_Fragment extends Fragment implements FragmentCallbacks
         mPager.setAdapter(adaper);
         mPager.setOffscreenPageLimit(10);
 
-        mPager.setPageTransformer(false, new CustPagerTransformer(getContext()));
-       // mPager.setPageTransformer(true, new ZoomOutSlideTransformer());
+       // mPager.setPageTransformer(false, new CustPagerTransformer(getContext()));
+        mPager.setPageTransformer(true, new DepthPageTransformer());
       //  mPager.setPageTransformer(true, new RotateUpTransformer());
-        mPager.setPageMargin(50);
+       /* mPager.setPageMargin(50);*/
 
         mPager.setDefaultFocusHighlightEnabled(true);
         mPager.setClipToPadding(false);

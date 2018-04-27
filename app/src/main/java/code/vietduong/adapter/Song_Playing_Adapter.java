@@ -38,7 +38,7 @@ public class Song_Playing_Adapter extends FragmentStatePagerAdapter {
 
     @Override
     public float getPageWidth(int position) {
-        return 0.9f;
+        return 1.0f;
     }
 
     // Returns the page title for the top indicator

@@ -9,7 +9,10 @@
         android:id="@+id/img_item_fragment"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-
+        android:layout_marginLeft="42dp"
+        android:layout_marginRight="42dp"
+        android:background="#32FFFFFF"
+        android:padding="10dp"
         app:srcCompat="@drawable/ic_launcher" />
     <!-- android:adjustViewBounds="true"
         android:scaleType="centerCrop"-->

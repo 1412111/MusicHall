@@ -8,6 +8,10 @@ import android.content.ServiceConnection;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.Color;
+import android.graphics.PorterDuff;
+import android.graphics.drawable.Drawable;
+import android.graphics.drawable.GradientDrawable;
+import android.graphics.drawable.LayerDrawable;
 import android.net.Uri;
 import android.os.Handler;
 import android.os.IBinder;
@@ -20,6 +24,7 @@ import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.graphics.Palette;
 import android.text.TextUtils;
 import android.util.DisplayMetrics;
 import android.util.Log;
@@ -68,7 +73,7 @@ public class MainActivity extends AppCompatActivity implements MainCallbacks{
     private SongAdapter _songAdapter;
    // private RecyclerView.LayoutManager _songLayoutManager;
     private SlidingUpPanelLayout _slidingLayout;
-    private LinearLayout _control_bar;
+    private FrameLayout _control_bar;
     private FrameLayout _playing_now;
     private ImageView _img_song, img_bg, img_play, img_previous, img_next;
     private ImageView _btn_play;
@@ -178,6 +183,7 @@ public class MainActivity extends AppCompatActivity implements MainCallbacks{
 
         img_bg = findViewById(R.id.img_bg);
         img_play = findViewById(R.id.img_play);
+        img_play.setAlpha(0.5f);
         img_previous = findViewById(R.id.img_previous);
         img_next = findViewById(R.id.img_next);
         _btn_play = findViewById(R.id.btn_play);
@@ -537,8 +543,33 @@ public class MainActivity extends AppCompatActivity implements MainCallbacks{
 
     private TimerTask timerTask = null;
     private Timer timer = new Timer();
+   /* public void changeSeekbarColor(SeekBar s,int colorp,int colors,int color b)
+    {
+        PorterDuff.Mode mMode = PorterDuff.Mode.SRC_ATOP;
+        LayerDrawable layerDrawable = (LayerDrawable) s.getProgressDrawable();
+        Drawable progress = (Drawable) layerDrawable.findDrawableByLayerId(android.R.id.progress);
+        Drawable background = (Drawable) layerDrawable.findDrawableByLayerId(android.R.id.background);
+
+
+        // Setting colors
+        progress.setColorFilter(colorp,mMode);
+
+        background.setColorFilter(colorb, mMode);
+
+
+        // Applying Tinted Drawables
+        layerDrawable.setDrawableByLayerId(android.R.id.progress, progress);
+
+
+
+        layerDrawable.setDrawableByLayerId(android.R.id.background, background);
+
+    }*/
     private void updateUI(Song song) {
 
+
+       /* seekBar.setProgressDrawableTiled(getResources().getDrawable(R.drawable.gradient_color));
+        seekBar.setBackgroundColor(Color.WHITE);*/
         final Song s = song;
 
         song_playing_fragment.onMsgFromMainToSlideFragment(UPDATE_SONG_UI);
@@ -609,19 +640,30 @@ public class MainActivity extends AppCompatActivity implements MainCallbacks{
                     .sampling(1)
                     .async()
                     .animate(2000).from(bitmap).into(img_bg);
-        }
-
-
-       /* Bitmap bitmap= null;
-        try {
-            bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), Uri.parse(song.getAlbumArtPath()));
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        if(bitmap == null){
-            _playing_now.setBackgroundResource(R.drawable.playing_now_bg);
-        }else{
+/*
             Palette.from(bitmap).generate(new Palette.PaletteAsyncListener() {
+                @Override
+                public void onGenerated(@NonNull Palette palette) {
+                    Palette.Swatch swatch = palette.getVibrantSwatch();
+                    if (swatch == null) {
+                        swatch = palette.getMutedSwatch(); // Sometimes vibrant swatch is not available
+                    }
+                    if (swatch != null) {
+                        // Set the background color of the player bar based on the swatch color
+                        //_playing_now.setBackgroundColor(swatch.getRgb());
+
+
+                        GradientDrawable gradient = new GradientDrawable(GradientDrawable.Orientation.LEFT_RIGHT,
+                                new int[]{swatch.getRgb(), swatch.getTitleTextColor()});
+                        gradient.setShape(GradientDrawable.RECTANGLE);
+                        gradient.setCornerRadius(10.f);
+                        seekBar.setProgressDrawable(gradient);
+
+                    }
+                }
+            });*/
+
+          /*  Palette.from(bitmap).generate(new Palette.PaletteAsyncListener() {
                 public void onGenerated(Palette palette) {
                     Palette.Swatch swatch = palette.getVibrantSwatch();
                     if (swatch == null) {
@@ -633,26 +675,15 @@ public class MainActivity extends AppCompatActivity implements MainCallbacks{
 
 
                         GradientDrawable gradient = new GradientDrawable(GradientDrawable.Orientation.BOTTOM_TOP,
-                                new int[]  {swatch.getRgb(), swatch.getTitleTextColor()});
+                                new int[]{swatch.getRgb(), swatch.getTitleTextColor()});
                         gradient.setShape(GradientDrawable.RECTANGLE);
                         gradient.setCornerRadius(10.f);
-                        _playing_now.setBackgroundDrawable(gradient);
-                        // Update the track's title with the proper title text color
-                        //  titlebar.setTextColor(swatch.getTitleTextColor());
+                        seekBar.setProgressDrawable(gradient);
 
-                        // Update the artist name with the proper body text color
-                        // singerbar.setTextColor(swatch.getBodyTextColor());
-
-
-                        // window.setStatusBarColor(swatch.getRgb());
                     }
                 }
-            });
-
-        }*/
-
-
-
+            }*/
+        }
     }
 
     @Override

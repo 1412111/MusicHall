@@ -12,7 +12,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:gravity="bottom"
-        app:umanoPanelHeight="62dp"
+        app:umanoPanelHeight="50dp"
         app:umanoShadowHeight="2dp">
 
 
@@ -81,7 +81,6 @@
 
                 <com.gigamole.navigationtabstrip.NavigationTabStrip
                     android:id="@+id/nts_center"
-
                     android:layout_width="match_parent"
                     android:layout_height="50dp"
                     android:layout_weight="1"
