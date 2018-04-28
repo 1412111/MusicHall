@@ -4,9 +4,9 @@
     android:layout_height="match_parent">
 
     <include
-        android:id="@+id/playing_now"
+        android:id="@+id/playing_now_demo"
 
-        layout="@layout/playing_now"
+        layout="@layout/playing_now_demo"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:visibility="visible" />

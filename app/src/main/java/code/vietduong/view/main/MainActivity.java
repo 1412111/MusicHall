@@ -183,16 +183,18 @@ public class MainActivity extends AppCompatActivity implements MainCallbacks{
 
         img_bg = findViewById(R.id.img_bg);
         img_play = findViewById(R.id.img_play);
-        img_play.setAlpha(0.5f);
         img_previous = findViewById(R.id.img_previous);
         img_next = findViewById(R.id.img_next);
+        img_play.setAlpha(0.75f);
+        img_previous.setAlpha(0.75f);
+        img_next.setAlpha(0.75f);
         _btn_play = findViewById(R.id.btn_play);
 
         progressbar_control = findViewById(R.id.progressBar_Control);
         progressbar_control.setProgress(0);
         progressbar_control.setMax(100);
         _control_bar = findViewById(R.id.control_bar);
-        _playing_now = findViewById(R.id.playing_now);
+        _playing_now = findViewById(R.id.playing_now_demo);
 
         _txtSongName_control = findViewById(R.id.txtSongName_control);
         _txtSongName_control.setSingleLine();
@@ -206,10 +208,11 @@ public class MainActivity extends AppCompatActivity implements MainCallbacks{
         _txtSinger_control = findViewById(R.id.txtSinger_control);
         _txtSinger_control.setSingleLine();
 
-        _txtSinger_main = findViewById(R.id.txtSinger_main);
+        /*_txtSinger_main = findViewById(R.id.txtSinger_main);
         _txtSongName_main = findViewById(R.id.txtSongName_main);
         _txtSongName_main.setSingleLine();
-        _txtSinger_main.setSingleLine();
+        _txtSinger_main.setSingleLine();*/
+
         _slidingLayout = findViewById(R.id.sliding_layout);
 
 
@@ -583,8 +586,8 @@ public class MainActivity extends AppCompatActivity implements MainCallbacks{
                         _txtSongName_control.setText(s.getTitle());
                         _txtSinger_control.setText(s.getArtist());
 
-                        _txtSongName_main.setText(s.getTitle());
-                        _txtSinger_main.setText(s.getArtist());
+                     /*   _txtSongName_main.setText(s.getTitle());
+                        _txtSinger_main.setText(s.getArtist());*/
 
                         progressbar_control.setProgress(0);
                         seekBar.setProgress(2);

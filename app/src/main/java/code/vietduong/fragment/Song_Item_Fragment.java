@@ -9,6 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import com.squareup.picasso.Picasso;
 
@@ -53,8 +54,12 @@ public class Song_Item_Fragment extends Fragment {
         // inflate res/layout_blue.xml to make GUI holding a TextView and a ListView
         LinearLayout layout = (LinearLayout) inflater.inflate(R.layout.song_item_fragment, null);
         ImageView img = layout.findViewById(R.id.img_item_fragment);
+        TextView txtSongName = layout.findViewById(R.id.txtSongName_VP);
+        TextView txtSinger = layout.findViewById(R.id.txtSinger_VP);
+        txtSongName.setText(Contanst.list_songs.get(position).getTitle());
+        txtSinger.setText(Contanst.list_songs.get(position).getArtist());
         Picasso.with(context).load(Contanst.list_songs.get(position).getAlbumArtPath())
-                .resize(1000, 1000)
+                .resize(320, 320)
                 .centerCrop()
               /*  .transform(new CircleTransform())*/
                 .error(R.drawable.headphone)
