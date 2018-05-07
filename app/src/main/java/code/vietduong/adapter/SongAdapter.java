@@ -152,11 +152,11 @@ public class SongAdapter extends RecyclerView.Adapter<SongAdapter.ViewHolder> im
         }
 
         Picasso.with(mContext).load(Contanst.list_songs.get(position).getAlbumArtPath())
-                .placeholder(R.drawable.headphone)
+                .placeholder(R.drawable.noalbum_100)
                 .resize(100, 100)
               /*  .transform(new CircleTransform())*/
                 .centerCrop()
-                .error(R.drawable.headphone)
+                .error(R.drawable.noalbum_100)
                 .into(holder.imgAlbum);
 
         holder.bind(Contanst.list_songs.get(position), listener);
