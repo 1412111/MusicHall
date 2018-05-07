@@ -83,7 +83,7 @@ public class Song_Playing_Fragment extends Fragment implements FragmentCallbacks
         mPager.setOffscreenPageLimit(10);
 
        // mPager.setPageTransformer(false, new CustPagerTransformer(getContext()));
-        mPager.setPageTransformer(true, new DepthPageTransformer());
+        mPager.setPageTransformer(true, new DefaultTransformer());
       //  mPager.setPageTransformer(true, new RotateUpTransformer());
         mPager.setDefaultFocusHighlightEnabled(true);
         mPager.setClipToPadding(false);

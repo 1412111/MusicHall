@@ -73,9 +73,9 @@ public class MainActivity extends AppCompatActivity implements MainCallbacks{
     private SongAdapter _songAdapter;
    // private RecyclerView.LayoutManager _songLayoutManager;
     private SlidingUpPanelLayout _slidingLayout;
-    private FrameLayout _control_bar;
-    private FrameLayout _playing_now;
-    private ImageView _img_song, img_bg, img_play, img_previous, img_next;
+    private FrameLayout _control_bar, bottom_layout;
+    private LinearLayout _playing_now;
+    private ImageView _img_song, img_bg, img_play;
     private ImageView _btn_play;
 
     private TextView _txtSongName_control, _txtSinger_control, _txtSinger_main, _txtSongName_main;
@@ -181,20 +181,21 @@ public class MainActivity extends AppCompatActivity implements MainCallbacks{
 
     private void initUI() {
 
-        img_bg = findViewById(R.id.img_bg);
+        bottom_layout = findViewById(R.id.bottom_layout);
+       // img_bg = findViewById(R.id.img_bg);
         img_play = findViewById(R.id.img_play);
-        img_previous = findViewById(R.id.img_previous);
+       /* img_previous = findViewById(R.id.img_previous);
         img_next = findViewById(R.id.img_next);
-        img_play.setAlpha(0.75f);
+
         img_previous.setAlpha(0.75f);
-        img_next.setAlpha(0.75f);
+        img_next.setAlpha(0.75f);*/
         _btn_play = findViewById(R.id.btn_play);
 
         progressbar_control = findViewById(R.id.progressBar_Control);
         progressbar_control.setProgress(0);
         progressbar_control.setMax(100);
         _control_bar = findViewById(R.id.control_bar);
-        _playing_now = findViewById(R.id.playing_now_demo);
+        _playing_now = findViewById(R.id.playing_now);
 
         _txtSongName_control = findViewById(R.id.txtSongName_control);
         _txtSongName_control.setSingleLine();
@@ -382,7 +383,7 @@ public class MainActivity extends AppCompatActivity implements MainCallbacks{
 
             }
         });
-        img_next.setOnClickListener(new View.OnClickListener() {
+       /* img_next.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 song_playing_fragment.onMsgFromMainToSlideFragment(SLIDE_NEXT);
@@ -400,7 +401,7 @@ public class MainActivity extends AppCompatActivity implements MainCallbacks{
             public boolean onTouch(View v, MotionEvent event) {
                 return false;
             }
-        });
+        });*/
 
 
         _control_bar.setOnTouchListener(new View.OnTouchListener() {
@@ -636,56 +637,41 @@ public class MainActivity extends AppCompatActivity implements MainCallbacks{
             e.printStackTrace();
         }
         if(bitmap == null){
-            img_bg.setBackgroundColor(Color.WHITE);
+
+            bottom_layout.setBackgroundResource(R.drawable.gradient_color);
         }else {
-            Blurry.with(getApplicationContext())
+   /*         Blurry.with(getApplicationContext())
                     .radius(40)
                     .sampling(1)
                     .async()
-                    .animate(2000).from(bitmap).into(img_bg);
-/*
+                    .animate(2000).from(bitmap).into(img_bg);*/
+
             Palette.from(bitmap).generate(new Palette.PaletteAsyncListener() {
                 @Override
                 public void onGenerated(@NonNull Palette palette) {
-                    Palette.Swatch swatch = palette.getVibrantSwatch();
-                    if (swatch == null) {
-                        swatch = palette.getMutedSwatch(); // Sometimes vibrant swatch is not available
+                    Palette.Swatch swatch1 = palette.getDarkMutedSwatch();
+                    Palette.Swatch swatch2 = palette.getLightVibrantSwatch();
+                    if (swatch1 == null) {
+                        swatch1 = palette.getMutedSwatch(); // Sometimes vibrant swatch is not available
                     }
-                    if (swatch != null) {
+                    if (swatch2 == null) {
+                        swatch2 = palette.getMutedSwatch(); // Sometimes vibrant swatch is not available
+                    }
+                    if (swatch1 != null && swatch2 != null) {
                         // Set the background color of the player bar based on the swatch color
                         //_playing_now.setBackgroundColor(swatch.getRgb());
 
 
-                        GradientDrawable gradient = new GradientDrawable(GradientDrawable.Orientation.LEFT_RIGHT,
-                                new int[]{swatch.getRgb(), swatch.getTitleTextColor()});
+                        GradientDrawable gradient = new GradientDrawable(GradientDrawable.Orientation.BR_TL,
+                                new int[]{swatch2.getRgb(), swatch1.getRgb()});
                         gradient.setShape(GradientDrawable.RECTANGLE);
-                        gradient.setCornerRadius(10.f);
-                        seekBar.setProgressDrawable(gradient);
+                        bottom_layout.setBackground(gradient);
 
                     }
                 }
-            });*/
-
-          /*  Palette.from(bitmap).generate(new Palette.PaletteAsyncListener() {
-                public void onGenerated(Palette palette) {
-                    Palette.Swatch swatch = palette.getVibrantSwatch();
-                    if (swatch == null) {
-                        swatch = palette.getMutedSwatch(); // Sometimes vibrant swatch is not available
-                    }
-                    if (swatch != null) {
-                        // Set the background color of the player bar based on the swatch color
-                        //_playing_now.setBackgroundColor(swatch.getRgb());
+            });
 
 
-                        GradientDrawable gradient = new GradientDrawable(GradientDrawable.Orientation.BOTTOM_TOP,
-                                new int[]{swatch.getRgb(), swatch.getTitleTextColor()});
-                        gradient.setShape(GradientDrawable.RECTANGLE);
-                        gradient.setCornerRadius(10.f);
-                        seekBar.setProgressDrawable(gradient);
-
-                    }
-                }
-            }*/
         }
     }
 

@@ -7,6 +7,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -52,14 +53,14 @@ public class Song_Item_Fragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // inflate res/layout_blue.xml to make GUI holding a TextView and a ListView
-        LinearLayout layout = (LinearLayout) inflater.inflate(R.layout.song_item_fragment, null);
+        FrameLayout layout = (FrameLayout) inflater.inflate(R.layout.song_item_fragment, null);
         ImageView img = layout.findViewById(R.id.img_item_fragment);
         TextView txtSongName = layout.findViewById(R.id.txtSongName_VP);
         TextView txtSinger = layout.findViewById(R.id.txtSinger_VP);
         txtSongName.setText(Contanst.list_songs.get(position).getTitle());
         txtSinger.setText(Contanst.list_songs.get(position).getArtist());
         Picasso.with(context).load(Contanst.list_songs.get(position).getAlbumArtPath())
-                .resize(320, 320)
+                .resize(1000, 1000)
                 .centerCrop()
               /*  .transform(new CircleTransform())*/
                 .error(R.drawable.headphone)
