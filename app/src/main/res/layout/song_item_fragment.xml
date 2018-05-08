@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
 
@@ -17,46 +18,43 @@
         app:srcCompat="@drawable/ic_launcher" />
 
     <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="20dp"
-        android:layout_marginRight="20dp"
-        android:layout_marginTop="20dp"
-        android:orientation="vertical">
+        android:layout_width="300dp"
+        android:layout_height="300dp"
+        android:layout_gravity="center"
+        android:layout_marginBottom="50dp"
+        android:background="@drawable/boder_layout"
+        android:gravity="center"
+        android:orientation="vertical"
+        android:padding="10dp">
 
-
-        <TextView
-            android:id="@+id/txtSinger_VP"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:background="@color/black"
-            android:ellipsize="marquee"
-            android:fontFamily="@font/roboto_thin"
-            android:paddingBottom="4dp"
-            android:paddingLeft="10dp"
-            android:paddingRight="10dp"
-            android:paddingTop="4dp"
-            android:text="Charlie Puth"
-            android:textAlignment="viewStart"
-            android:textColor="@color/shuffle_grey"
-            android:textSize="16sp" />
 
         <TextView
             android:id="@+id/txtSongName_VP"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="6dp"
-            android:background="@color/black"
-            android:fontFamily="@font/roboto_thin"
-            android:paddingBottom="2dp"
-            android:paddingLeft="10dp"
-            android:paddingRight="10dp"
-            android:paddingTop="2dp"
-            android:text="Attention"
-            android:textAlignment="viewStart"
-            android:textColor="@color/white"
-            android:textSize="22sp"
+            android:fontFamily="@font/pt_sans"
+            android:letterSpacing="0.3"
+            android:maxLines="2"
+            android:text="ATTENTION"
+            android:textAlignment="center"
+            android:textColor="#000000"
+            android:textSize="40sp"
             android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/txtSinger_VP"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:ellipsize="marquee"
+            android:fontFamily="@font/pt_sans"
+            android:letterSpacing="0.2"
+            android:maxLines="2"
+            android:text="Charlie Puth"
+            android:textAlignment="center"
+            android:textColor="#949494"
+            android:textSize="22sp" />
+
     </LinearLayout>
 </FrameLayout>
 <!--

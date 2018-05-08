@@ -1,7 +1,11 @@
 package code.vietduong.fragment;
 
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.net.Uri;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -14,9 +18,12 @@ import android.widget.TextView;
 
 import com.squareup.picasso.Picasso;
 
+import java.io.IOException;
+
 import code.vietduong.custom.CircleTransform;
 import code.vietduong.data.Contanst;
 import code.vietduong.oneplayer.R;
+import jp.wasabeef.blurry.Blurry;
 
 /**
  * Created by codev on 4/18/2018.
@@ -57,14 +64,38 @@ public class Song_Item_Fragment extends Fragment {
         ImageView img = layout.findViewById(R.id.img_item_fragment);
         TextView txtSongName = layout.findViewById(R.id.txtSongName_VP);
         TextView txtSinger = layout.findViewById(R.id.txtSinger_VP);
-        txtSongName.setText(Contanst.list_songs.get(position).getTitle());
-        txtSinger.setText(Contanst.list_songs.get(position).getArtist());
-        Picasso.with(context).load(Contanst.list_songs.get(position).getAlbumArtPath())
+
+        txtSongName.setText(Contanst.list_songs.get(position).getTitle().toUpperCase());
+        txtSinger.setText(Contanst.list_songs.get(position).getArtist().toUpperCase());
+
+        Bitmap bitmap = null;
+        try {
+            bitmap = MediaStore.Images.Media.getBitmap(getContext().getContentResolver(),
+                    Uri.parse(Contanst.list_songs.get(position).getAlbumArtPath()));
+            Blurry.with(getContext())
+                    .radius(10)
+                    .sampling(1)
+                    .async()
+                    .animate(2000).from(bitmap).into(img);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        if (bitmap == null){
+            Blurry.with(getContext())
+                    .radius(40)
+                    .sampling(1)
+                    .async()
+                    .animate(2000).from(BitmapFactory.decodeResource(getResources(), R.drawable.noalbum_100)).into(img);
+        }
+
+      /*  Picasso.with(context).load(Contanst.list_songs.get(position).getAlbumArtPath())
                 .resize(1000, 1000)
                 .centerCrop()
-              /*  .transform(new CircleTransform())*/
+              *//*  .transform(new CircleTransform())*//*
                 .error(R.drawable.noalbum_500)
-                .into(img);
+                .into(img);*/
+
+
 
         return layout;
     }
