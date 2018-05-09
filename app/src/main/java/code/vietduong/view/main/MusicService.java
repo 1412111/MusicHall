@@ -72,7 +72,7 @@ public class MusicService extends Service implements
     private IBinder musicBind;
 
     private Song currentSong;
-    private int position = 0;
+    private int position = -1;
 
     private int duration = 0;
 
@@ -204,6 +204,13 @@ public class MusicService extends Service implements
 
     }
     public void continueSong() {
+        if(position < 0){
+            duration = Integer.parseInt(Contanst.list_songs.get(0).getDuration());
+            playSong(Contanst.list_songs.get(0));
+            isPlaying = false;
+            mainCallbacks.onControlFromServiceToMain(ACTION_PLAY);
+            return;
+        }
         player.start();
 
         isPlaying = false;
@@ -257,6 +264,19 @@ public class MusicService extends Service implements
         return duration;
     }
 
+    public void seekTo(int progress){
+
+        if(!player.isPlaying()){
+            continueSong();
+
+            int mili = (duration*progress)/100;
+
+            player.seekTo(mili);
+        }else{
+            int mili = (duration*progress)/100;
+            player.seekTo(mili);
+        }
+    }
     @Override
     public void onCompletion(MediaPlayer mp) {
 

@@ -3,6 +3,7 @@ package code.vietduong.custom;
 import android.graphics.Bitmap;
 import android.graphics.BitmapShader;
 import android.graphics.Canvas;
+import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.RectF;
 
@@ -28,15 +29,19 @@ public class CircleTransform implements Transformation {
         Bitmap bitmap = Bitmap.createBitmap(size, size, source.getConfig());
 
         Canvas canvas = new Canvas(bitmap);
+
         Paint paint = new Paint();
         BitmapShader shader = new BitmapShader(squaredBitmap,
                 BitmapShader.TileMode.CLAMP, BitmapShader.TileMode.CLAMP);
         paint.setShader(shader);
+        paint.setStyle(Paint.Style.STROKE);
+
         paint.setAntiAlias(true);
 
         float r = size / 2f;
-        canvas.drawRoundRect(new RectF(0, 0, size, size),180,180, paint);
-       // canvas.drawCircle(r, r, r, paint);
+        paint.setStrokeWidth((r-42));
+        canvas.drawCircle(r, r, r-(r-42)/2, paint);
+
 
         squaredBitmap.recycle();
         return bitmap;

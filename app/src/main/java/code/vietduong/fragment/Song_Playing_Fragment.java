@@ -81,7 +81,6 @@ public class Song_Playing_Fragment extends Fragment implements FragmentCallbacks
         adaper =  new Song_Playing_Adapter(mainActivity.getSupportFragmentManager());
         mPager.setAdapter(adaper);
         mPager.setOffscreenPageLimit(10);
-     /*   mPager.setPageMargin(100);*/
        // mPager.setPageTransformer(false, new CustPagerTransformer(getContext()));
         mPager.setPageTransformer(true, new DepthPageTransformer());
         mPager.setDefaultFocusHighlightEnabled(true);
@@ -124,7 +123,7 @@ public class Song_Playing_Fragment extends Fragment implements FragmentCallbacks
     public void onMsgFromMainToSlideFragment(String msg) {
         if(msg.equals(MainActivity.LOAD_SONG_FINISHED)){
 
-            mPager.setCurrentItem(1,true);
+            mPager.setCurrentItem(0,true);
 
             first_launch_already = true;
 

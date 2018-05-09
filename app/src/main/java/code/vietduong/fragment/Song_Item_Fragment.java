@@ -10,6 +10,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -55,10 +56,10 @@ public class Song_Item_Fragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // inflate res/layout_blue.xml to make GUI holding a TextView and a ListView
-        //LinearLayout layout = (LinearLayout) inflater.inflate(R.layout.song_item_fragment, null);
+        FrameLayout layout = (FrameLayout) inflater.inflate(R.layout.song_item_fragment, null);
 
-        //ImageView img = layout.findViewById(R.id.img_item_fragment);
-        ImageView img = (ImageView) inflater.inflate(R.layout.song_item_fragment, null);
+        ImageView img = layout.findViewById(R.id.img_item_fragment);
+        //ImageView img = (ImageView) inflater.inflate(R.layout.song_item_fragment, null);
 
         Picasso.with(context).load(Contanst.list_songs.get(position).getAlbumArtPath())
                 .resize(350, 350)
@@ -66,6 +67,6 @@ public class Song_Item_Fragment extends Fragment {
                 .transform(new CircleTransform())
                 .error(R.drawable.noalbum_round)
                 .into(img);
-        return img;
+        return layout;
     }
 }

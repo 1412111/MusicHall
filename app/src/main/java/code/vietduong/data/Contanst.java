@@ -12,6 +12,6 @@ public class Contanst {
     public static ArrayList<Song> list_songs = null;
     public static int width = 0;
     public static int height = 0;
-    public static int position=0;
+    public static int position=-1;
 
 }

@@ -76,9 +76,10 @@ public class MainActivity extends AppCompatActivity implements MainCallbacks{
     private FrameLayout _control_bar;
     private FrameLayout _playing_now;
     private ImageView _img_song, img_play, img_previous, img_next;
-    private ImageView _btn_play, img_bg;
+    private ImageView _btn_play, img_bg, img_down_main;
 
     private TextView _txtSongName_control, _txtSinger_control, txtSongName_main, txtSinger_main;
+    private TextView txtStart_main, txtEnd_main;
     private ListView _listView;
 
     private ProgressBar progressbar_control;
@@ -180,7 +181,15 @@ public class MainActivity extends AppCompatActivity implements MainCallbacks{
 
 
     private void initUI() {
+
+        txtStart_main = findViewById(R.id.txtStart_main);
+        txtEnd_main = findViewById(R.id.txtEnd_main);
+
+        txtEnd_main.setText(convertTimeToString(Integer.parseInt(Contanst.list_songs.get(0).getDuration())));
+
+        img_down_main = findViewById(R.id.img_down_main);
         txtSongName_main  = findViewById(R.id.txtSongName_main);
+
         txtSinger_main = findViewById(R.id.txtSingle_main);
 
         img_bg = findViewById(R.id.img_bg);
@@ -210,10 +219,17 @@ public class MainActivity extends AppCompatActivity implements MainCallbacks{
         _txtSinger_control = findViewById(R.id.txtSinger_control);
         _txtSinger_control.setSingleLine();
 
+        Song s = Contanst.list_songs.get(0);
+        txtSinger_main.setText(s.getArtist());
+        txtSongName_main.setText(s.getTitle());
+        _txtSinger_control.setText(s.getArtist());
+        _txtSongName_control.setText(s.getTitle());
+
 
         _slidingLayout = findViewById(R.id.sliding_layout);
 
 
+       // _txtSinger_control.setText(Contanst.list_songs.get());
 
         /*_listView = findViewById(R.id.list_song);
 
@@ -232,7 +248,6 @@ public class MainActivity extends AppCompatActivity implements MainCallbacks{
         mNavigationTabStrip.setStripColor(Color.parseColor("#f74e76"));
         mNavigationTabStrip.setStripGravity(NavigationTabStrip.StripGravity.BOTTOM);
         mNavigationTabStrip.setStripType(NavigationTabStrip.StripType.LINE);
-
         mNavigationTabStrip.setCornersRadius(4);
         mNavigationTabStrip.setAnimationDuration(300);
         mNavigationTabStrip.setInactiveColor(Color.parseColor("#CDC8C5"));
@@ -263,6 +278,25 @@ public class MainActivity extends AppCompatActivity implements MainCallbacks{
         song_playing_fragment.onMsgFromMainToSlideFragment(MainActivity.LOAD_SONG_FINISHED);
 
         seekBar = findViewById(R.id.seekBar);
+
+
+        /*Set first*/
+        Bitmap bitmap= null;
+        try {
+            bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(),
+                    Uri.parse(Contanst.list_songs.get(0).getAlbumArtPath()));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        if(bitmap == null){
+            img_bg.setBackgroundColor(Color.WHITE);
+        }else {
+            Blurry.with(getApplicationContext())
+                    .radius(100)
+                    .sampling(20)
+                    .async()
+                    .from(bitmap).into(img_bg);
+        }
         ///seekBar.getThumb().mutate().setAlpha(0);
 
         /*wave = findViewById(R.id.wave);
@@ -364,12 +398,47 @@ public class MainActivity extends AppCompatActivity implements MainCallbacks{
     }
 
 
+    private boolean dragging_seekbar = false;
     private void addEvents() {
 
+        seekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+            @Override
+            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
 
+                if(dragging_seekbar){
+                    txtStart_main.setText(convertTimeToString(
+                            (musicService.getDur()*progress)/100));
+                }
+            }
+
+            @Override
+            public void onStartTrackingTouch(SeekBar seekBar) {
+                dragging_seekbar = true;
+
+                Log.e("change",seekBar.getProgress()+"");
+            }
+
+            @Override
+            public void onStopTrackingTouch(SeekBar seekBar) {
+
+                musicService.seekTo(seekBar.getProgress());
+                dragging_seekbar = false;
+            }
+        });
+       img_down_main.setOnTouchListener(new View.OnTouchListener() {
+           @Override
+           public boolean onTouch(View v, MotionEvent event) {
+               if(event.getAction() == MotionEvent.ACTION_UP){
+                   _slidingLayout.setPanelState(SlidingUpPanelLayout.PanelState.COLLAPSED);
+               }
+
+               return true;
+           }
+       });
         img_play.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
                 if(isPlaying){
 
                     musicService.pauseSong();
@@ -422,10 +491,14 @@ public class MainActivity extends AppCompatActivity implements MainCallbacks{
             @Override
             public void onPanelSlide(View panel, float slideOffset) {
                // Log.e("slide up position", slideOffset+"");
-                _control_bar.setAlpha(1.0f - slideOffset*2);
+
                 /*_btn_play.setAlpha(1.0f - slideOffset);
                 _txtSinger_control.setAlpha(1.0f - slideOffset);
                 _txtSongName_control.setAlpha(1.0f - slideOffset);*/
+
+                _control_bar.setAlpha(1.0f - slideOffset*2);
+
+                img_down_main.setAlpha(1.0f - _control_bar.getAlpha());
 
             }
 
@@ -436,14 +509,22 @@ public class MainActivity extends AppCompatActivity implements MainCallbacks{
 
                 Log.e("slide up state", previousState+" "+newState);
 
+                if(newState.equals(SlidingUpPanelLayout.PanelState.EXPANDED)){
+                    _control_bar.setEnabled(false);
+                    img_down_main.setEnabled(true);
 
+
+
+                }else if(newState.equals(SlidingUpPanelLayout.PanelState.COLLAPSED)){
+                    _control_bar.setEnabled(true);
+                    img_down_main.setEnabled(false);
+                }
 
             }
         });
 
 
     }
-
 
 
     @Override
@@ -484,7 +565,7 @@ public class MainActivity extends AppCompatActivity implements MainCallbacks{
             return true;
         }
     });
-    Song song;
+    /*Song song;*/
     @Override
     public void onDisplaySongList(final ArrayList<Song> listSong) {
        // controlAudio = ControlAudio.getInstance(getApplicationContext(), listSong);
@@ -499,8 +580,6 @@ public class MainActivity extends AppCompatActivity implements MainCallbacks{
 
 
         Contanst.list_songs = listSong;
-
-        song = listSong.get(22);
 
         Thread t = new Thread(new Runnable() {
             @Override
@@ -522,7 +601,6 @@ public class MainActivity extends AppCompatActivity implements MainCallbacks{
         img_play.setImageResource(R.drawable.pause_main);
         isPlaying = true;
 
-       //updateUI(song);
 
     }
    /* public Bitmap blur(Bitmap image) {
@@ -542,38 +620,30 @@ public class MainActivity extends AppCompatActivity implements MainCallbacks{
         return outputBitmap;
     }*/
 
+   private String convertTimeToString(int mili){
+       String rs = "";
+       int total = mili/1000;
+       int minute = total/60;
+       int second = total%60;
+       rs = minute+":";
+       if(second < 10){
+           rs +="0"+second;
+       }else{
+           rs += second;
+       }
+      return rs;
+
+   }
     private TimerTask timerTask = null;
     private Timer timer = new Timer();
-   /* public void changeSeekbarColor(SeekBar s,int colorp,int colors,int color b)
-    {
-        PorterDuff.Mode mMode = PorterDuff.Mode.SRC_ATOP;
-        LayerDrawable layerDrawable = (LayerDrawable) s.getProgressDrawable();
-        Drawable progress = (Drawable) layerDrawable.findDrawableByLayerId(android.R.id.progress);
-        Drawable background = (Drawable) layerDrawable.findDrawableByLayerId(android.R.id.background);
-
-
-        // Setting colors
-        progress.setColorFilter(colorp,mMode);
-
-        background.setColorFilter(colorb, mMode);
-
-
-        // Applying Tinted Drawables
-        layerDrawable.setDrawableByLayerId(android.R.id.progress, progress);
-
-
-
-        layerDrawable.setDrawableByLayerId(android.R.id.background, background);
-
-    }*/
     private void updateUI(Song song) {
 
 
-       /* seekBar.setProgressDrawableTiled(getResources().getDrawable(R.drawable.gradient_color));
-        seekBar.setBackgroundColor(Color.WHITE);*/
         final Song s = song;
 
         song_playing_fragment.onMsgFromMainToSlideFragment(UPDATE_SONG_UI);
+
+
         Thread t = new Thread(new Runnable() {
             @Override
             public void run() {
@@ -589,7 +659,7 @@ public class MainActivity extends AppCompatActivity implements MainCallbacks{
                         txtSinger_main.setText(s.getArtist());
 
                         progressbar_control.setProgress(0);
-                        seekBar.setProgress(2);
+                        seekBar.setProgress(0);
                     }
                 });
             }
@@ -600,27 +670,39 @@ public class MainActivity extends AppCompatActivity implements MainCallbacks{
             timer.cancel();
             timer.purge();
         }
+        txtEnd_main.setText(convertTimeToString(musicService.getDur()));
         TimerTask timerTask = new TimerTask() {
             @Override
             public void run() {
 
                 int mCurrentPosition = 0;
+                int currentDuration = 0;
                 int totalDuration = musicService.getDur();
                 if (totalDuration <= 0) {
                     mCurrentPosition = 0;
                 } else {
-                    int currentDuration = musicService.getPosn();
+                    currentDuration = musicService.getPosn();
 
                     // Updating progress bar
                     mCurrentPosition = ((currentDuration * 100) / totalDuration);
 
                 }
-
                 if(mCurrentPosition >= 100){
                     mCurrentPosition = 100;
                 }
+
+
                 progressbar_control.setProgress(mCurrentPosition);
-                seekBar.setProgress(mCurrentPosition);
+                if(!dragging_seekbar){
+                    seekBar.setProgress(mCurrentPosition);
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            txtStart_main.setText(convertTimeToString(musicService.getPosn()));
+                        }
+                    });
+                }
+
             }
         };
         timer = new Timer();
@@ -639,7 +721,7 @@ public class MainActivity extends AppCompatActivity implements MainCallbacks{
                     .radius(100)
                     .sampling(20)
                     .async()
-                    .animate(2000).from(bitmap).into(img_bg);
+                    .from(bitmap).into(img_bg);
         }
         /***************************/
 
