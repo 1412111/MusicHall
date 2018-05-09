@@ -26,7 +26,7 @@ public class CustPagerTransformer implements ViewPager.PageTransformer {
         int centerXInViewPager = leftInScreen + view.getMeasuredWidth() / 2;
         int offsetX = centerXInViewPager - viewPager.getMeasuredWidth() / 2;
 
-        float offsetRate = (float) offsetX * 0.25f / viewPager.getMeasuredWidth();
+        float offsetRate = (float) offsetX * 0.35f / viewPager.getMeasuredWidth();
 
         float scaleFactor = 1 - Math.abs(offsetRate);
 
@@ -37,7 +37,7 @@ public class CustPagerTransformer implements ViewPager.PageTransformer {
             view.setScaleY(scaleFactor);
 
             view.setTranslationX(-maxTranslateOffsetX * offsetRate);
-            view.setAlpha(scaleFactor);
+           // view.setAlpha(scaleFactor);
 
         }
 

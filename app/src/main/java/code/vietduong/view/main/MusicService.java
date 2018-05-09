@@ -330,7 +330,7 @@ public class MusicService extends Service implements
             e.printStackTrace();
         }
         if(bitmap == null){
-            bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.noalbum_500);
+            bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.noalbum_350);
         }
         int icon;
         if(action.equals(ACTION_PAUSE)){

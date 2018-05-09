@@ -1,0 +1,171 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto" android:id="@+id/playing_now"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+
+    <ImageView
+        android:id="@+id/img_bg"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:adjustViewBounds="true"
+        android:scaleType="centerCrop"
+        app:srcCompat="@drawable/gradient_color" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+
+        android:background="@color/transparent"
+        android:orientation="vertical">
+
+        <!-- android:background="@drawable/playing_now_bg"-->
+        <!-- <android.support.v4.view.ViewPager
+            android:id="@+id/mPager"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:background="@color/main_color">
+
+        </android.support.v4.view.ViewPager>-->
+        <!--<FrameLayout
+            android:id="@+id/song_fragment"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1" />-->
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
+                android:layout_marginTop="23dp"
+                android:layout_weight="1"
+                android:gravity="left|center"
+                android:orientation="vertical">
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <fragment
+            android:id="@+id/song_fragment"
+            android:name="code.vietduong.fragment.Song_Playing_Fragment"
+            android:layout_width="match_parent"
+            android:layout_height="425dp"
+            android:layout_gravity="center"
+            android:layout_marginTop="30dp"
+            android:gravity="center" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/transparent"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:id="@+id/img_previous"
+                    android:layout_width="28dp"
+                    android:layout_height="28dp"
+                    app:srcCompat="@drawable/previous_main" />
+
+                <ImageView
+                    android:id="@+id/img_play"
+                    android:layout_width="33dp"
+                    android:layout_height="33dp"
+                    android:layout_marginLeft="80dp"
+                    android:layout_marginRight="80dp"
+                    app:srcCompat="@drawable/play_main" />
+
+                <ImageView
+                    android:id="@+id/img_next"
+                    android:layout_width="28dp"
+                    android:layout_height="28dp"
+                    app:srcCompat="@drawable/next_main" />
+
+            </LinearLayout>
+
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="150dp"
+                android:layout_weight="1"
+                android:orientation="vertical">
+
+                <SeekBar
+                    android:id="@+id/seekBar"
+                    android:layout_width="match_parent"
+                    android:layout_height="3dp"
+                    android:background="@android:color/transparent"
+
+                    android:padding="0dp"
+                    android:paddingBottom="0dp"
+                    android:paddingEnd="0dp"
+                    android:paddingLeft="0dp"
+                    android:paddingRight="0dp"
+                    android:paddingStart="0dp"
+                    android:paddingTop="0dp"
+                    android:progress="50"
+                    android:progressDrawable="@drawable/custom_progressbar"
+                    android:thumb="@color/transparent" />
+
+                <!-- <rm.com.audiowave.AudioWaveView
+                    android:id="@+id/wave"
+                    android:layout_width="match_parent"
+                    android:layout_height="32dp"
+                    android:layout_margin="16dp"
+                    app:animateExpansion="false"
+                    app:chunkHeight="24dp"
+                    app:chunkRadius="1dp"
+                    app:chunkSpacing="1dp"
+                    app:chunkWidth="3dp"
+                    app:minChunkHeight="2dp"
+                    app:waveColor="@android:color/black" />-->
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="#0f000000"
+                    android:gravity="right|center_vertical"
+                    android:orientation="horizontal"
+                    android:paddingRight="40dp">
+
+                    <ImageView
+                        android:id="@+id/imageView68"
+                        android:layout_width="30dp"
+                        android:layout_height="30dp"
+                        android:layout_marginRight="60dp"
+                        app:srcCompat="@drawable/random_main" />
+
+                    <ImageView
+                        android:id="@+id/imageView79"
+                        android:layout_width="30dp"
+                        android:layout_height="30dp"
+                        app:srcCompat="@drawable/repeat_main" />
+
+
+                </LinearLayout>
+
+                <!--  <view
+                    android:layout_width="match_parent"
+                    android:layout_height="5dp"></view>-->
+            </FrameLayout>
+        </LinearLayout>
+
+    </LinearLayout>
+
+</FrameLayout>

@@ -26,7 +26,7 @@ public class Song_Playing_Adapter extends FragmentStatePagerAdapter {
 
     public void setSize(int size) {
         this.size = size;
-       notifyDataSetChanged();
+        notifyDataSetChanged();
     }
 
     // Returns the fragment to display for that page

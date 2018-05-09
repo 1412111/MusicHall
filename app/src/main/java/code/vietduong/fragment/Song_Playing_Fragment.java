@@ -81,13 +81,11 @@ public class Song_Playing_Fragment extends Fragment implements FragmentCallbacks
         adaper =  new Song_Playing_Adapter(mainActivity.getSupportFragmentManager());
         mPager.setAdapter(adaper);
         mPager.setOffscreenPageLimit(10);
-
+     /*   mPager.setPageMargin(100);*/
        // mPager.setPageTransformer(false, new CustPagerTransformer(getContext()));
-        mPager.setPageTransformer(true, new DefaultTransformer());
-      //  mPager.setPageTransformer(true, new RotateUpTransformer());
+        mPager.setPageTransformer(true, new DepthPageTransformer());
         mPager.setDefaultFocusHighlightEnabled(true);
         mPager.setClipToPadding(false);
-
         mPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {

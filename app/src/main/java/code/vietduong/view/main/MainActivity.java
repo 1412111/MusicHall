@@ -73,12 +73,12 @@ public class MainActivity extends AppCompatActivity implements MainCallbacks{
     private SongAdapter _songAdapter;
    // private RecyclerView.LayoutManager _songLayoutManager;
     private SlidingUpPanelLayout _slidingLayout;
-    private FrameLayout _control_bar, bottom_layout;
-    private LinearLayout _playing_now;
-    private ImageView _img_song, img_bg, img_play;
-    private ImageView _btn_play;
+    private FrameLayout _control_bar;
+    private FrameLayout _playing_now;
+    private ImageView _img_song, img_play, img_previous, img_next;
+    private ImageView _btn_play, img_bg;
 
-    private TextView _txtSongName_control, _txtSinger_control, _txtSinger_main, _txtSongName_main;
+    private TextView _txtSongName_control, _txtSinger_control, txtSongName_main, txtSinger_main;
     private ListView _listView;
 
     private ProgressBar progressbar_control;
@@ -180,15 +180,16 @@ public class MainActivity extends AppCompatActivity implements MainCallbacks{
 
 
     private void initUI() {
+        txtSongName_main  = findViewById(R.id.txtSongName_main);
+        txtSinger_main = findViewById(R.id.txtSingle_main);
 
-        bottom_layout = findViewById(R.id.bottom_layout);
-       // img_bg = findViewById(R.id.img_bg);
+        img_bg = findViewById(R.id.img_bg);
         img_play = findViewById(R.id.img_play);
-       /* img_previous = findViewById(R.id.img_previous);
+        img_previous = findViewById(R.id.img_previous);
         img_next = findViewById(R.id.img_next);
-
+        img_play.setAlpha(0.75f);
         img_previous.setAlpha(0.75f);
-        img_next.setAlpha(0.75f);*/
+        img_next.setAlpha(0.75f);
         _btn_play = findViewById(R.id.btn_play);
 
         progressbar_control = findViewById(R.id.progressBar_Control);
@@ -209,10 +210,6 @@ public class MainActivity extends AppCompatActivity implements MainCallbacks{
         _txtSinger_control = findViewById(R.id.txtSinger_control);
         _txtSinger_control.setSingleLine();
 
-        /*_txtSinger_main = findViewById(R.id.txtSinger_main);
-        _txtSongName_main = findViewById(R.id.txtSongName_main);
-        _txtSongName_main.setSingleLine();
-        _txtSinger_main.setSingleLine();*/
 
         _slidingLayout = findViewById(R.id.sliding_layout);
 
@@ -383,7 +380,7 @@ public class MainActivity extends AppCompatActivity implements MainCallbacks{
 
             }
         });
-       /* img_next.setOnClickListener(new View.OnClickListener() {
+        img_next.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 song_playing_fragment.onMsgFromMainToSlideFragment(SLIDE_NEXT);
@@ -401,7 +398,7 @@ public class MainActivity extends AppCompatActivity implements MainCallbacks{
             public boolean onTouch(View v, MotionEvent event) {
                 return false;
             }
-        });*/
+        });
 
 
         _control_bar.setOnTouchListener(new View.OnTouchListener() {
@@ -587,8 +584,9 @@ public class MainActivity extends AppCompatActivity implements MainCallbacks{
                         _txtSongName_control.setText(s.getTitle());
                         _txtSinger_control.setText(s.getArtist());
 
-                     /*   _txtSongName_main.setText(s.getTitle());
-                        _txtSinger_main.setText(s.getArtist());*/
+                       // txtTitle_main.setText(s.getTitle()+" - "+s.getArtist());
+                        txtSongName_main.setText(s.getTitle());
+                        txtSinger_main.setText(s.getArtist());
 
                         progressbar_control.setProgress(0);
                         seekBar.setProgress(2);
@@ -628,8 +626,6 @@ public class MainActivity extends AppCompatActivity implements MainCallbacks{
         timer = new Timer();
         timer.schedule(timerTask, 0, 100);
 
-        /***************************/
-
         Bitmap bitmap= null;
         try {
             bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), Uri.parse(song.getAlbumArtPath()));
@@ -637,42 +633,69 @@ public class MainActivity extends AppCompatActivity implements MainCallbacks{
             e.printStackTrace();
         }
         if(bitmap == null){
-
-            bottom_layout.setBackgroundResource(R.drawable.gradient_color);
+            img_bg.setBackgroundColor(Color.WHITE);
         }else {
-   /*         Blurry.with(getApplicationContext())
-                    .radius(40)
-                    .sampling(1)
+            Blurry.with(getApplicationContext())
+                    .radius(100)
+                    .sampling(20)
                     .async()
-                    .animate(2000).from(bitmap).into(img_bg);*/
+                    .animate(2000).from(bitmap).into(img_bg);
+        }
+        /***************************/
 
+       /* Bitmap bitmap= null;
+        try {
+            bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), Uri.parse(song.getAlbumArtPath()));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        if(bitmap == null){
+
+        }else {
+*//*
             Palette.from(bitmap).generate(new Palette.PaletteAsyncListener() {
                 @Override
                 public void onGenerated(@NonNull Palette palette) {
-                    Palette.Swatch swatch1 = palette.getDarkMutedSwatch();
-                    Palette.Swatch swatch2 = palette.getLightVibrantSwatch();
-                    if (swatch1 == null) {
-                        swatch1 = palette.getMutedSwatch(); // Sometimes vibrant swatch is not available
+                    Palette.Swatch swatch = palette.getVibrantSwatch();
+                    if (swatch == null) {
+                        swatch = palette.getMutedSwatch(); // Sometimes vibrant swatch is not available
                     }
-                    if (swatch2 == null) {
-                        swatch2 = palette.getMutedSwatch(); // Sometimes vibrant swatch is not available
-                    }
-                    if (swatch1 != null && swatch2 != null) {
+                    if (swatch != null) {
                         // Set the background color of the player bar based on the swatch color
                         //_playing_now.setBackgroundColor(swatch.getRgb());
 
 
-                        GradientDrawable gradient = new GradientDrawable(GradientDrawable.Orientation.BR_TL,
-                                new int[]{swatch2.getRgb(), swatch1.getRgb()});
+                        GradientDrawable gradient = new GradientDrawable(GradientDrawable.Orientation.LEFT_RIGHT,
+                                new int[]{swatch.getRgb(), swatch.getTitleTextColor()});
                         gradient.setShape(GradientDrawable.RECTANGLE);
-                        bottom_layout.setBackground(gradient);
+                        gradient.setCornerRadius(10.f);
+                        seekBar.setProgressDrawable(gradient);
 
                     }
                 }
-            });
+            });*//*
+
+          *//*  Palette.from(bitmap).generate(new Palette.PaletteAsyncListener() {
+                public void onGenerated(Palette palette) {
+                    Palette.Swatch swatch = palette.getVibrantSwatch();
+                    if (swatch == null) {
+                        swatch = palette.getMutedSwatch(); // Sometimes vibrant swatch is not available
+                    }
+                    if (swatch != null) {
+                        // Set the background color of the player bar based on the swatch color
+                        //_playing_now.setBackgroundColor(swatch.getRgb());
 
 
-        }
+                        GradientDrawable gradient = new GradientDrawable(GradientDrawable.Orientation.BOTTOM_TOP,
+                                new int[]{swatch.getRgb(), swatch.getTitleTextColor()});
+                        gradient.setShape(GradientDrawable.RECTANGLE);
+                        gradient.setCornerRadius(10.f);
+                        seekBar.setProgressDrawable(gradient);
+
+                    }
+                }
+            }*//*
+        }*/
     }
 
     @Override
