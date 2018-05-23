@@ -33,6 +33,8 @@ public class List_Fragment extends Fragment {
     // this fragment shows a ListView
     Context context = null;
     String message = "";
+    SongAdapter songAdapter;
+
     // data to fill-up the ListView
     // convenient constructor(accept arguments, copy them to a bundle, binds bundle to fragment)
     public static List_Fragment newInstance() {
@@ -44,6 +46,13 @@ public class List_Fragment extends Fragment {
         super.onCreate(savedInstanceState);
         try {
             context = getActivity(); // use this reference to invoke main callbacks
+            songAdapter = new SongAdapter(context);
+            songAdapter.setOnItemClickListener(new SongAdapter.RecyclerItemClickListener() {
+                @Override
+                public void onItemClick(Song song) {
+                    sendDataToMain(song);
+                }
+            });
         } catch (IllegalStateException e) {
             throw new IllegalStateException(
                     "MainActivity must implement callbacks" );
@@ -57,32 +66,17 @@ public class List_Fragment extends Fragment {
     // plumbing – get a reference to textview and listview
 
         RecyclerView recyclerView = layout.findViewById(R.id.list_song);
-        SongAdapter songAdapter = new SongAdapter(context);
+        /*SongAdapter songAdapter = new SongAdapter(context);*/
 
-        songAdapter.setOnItemClickListener(new SongAdapter.RecyclerItemClickListener() {
+    /*    songAdapter.setOnItemClickListener(new SongAdapter.RecyclerItemClickListener() {
             @Override
             public void onItemClick(Song song) {
                 sendDataToMain(song);
             }
-        });
+        });*/
         /****************/
-       /* RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(context);
-        recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
-            @Override
-            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
-                super.onScrolled(recyclerView, dx, dy);
-                determineScroll(recyclerView, dx, dy);
-            }
-        });
-        recyclerView.setItemAnimator(new DefaultItemAnimator());
-        recyclerView.setHasFixedSize(true);
-        //recyclerView.setLayoutManager(layoutManager);
 
-        ScaleInAnimationAdapter animationAdapter= new ScaleInAnimationAdapter(songAdapter);
-       // animationAdapter.setInterpolator(new OvershootInterpolator());
-        animationAdapter.setDuration(300);
-        recyclerView.setAdapter(animationAdapter);
-*/
+
         /*Scroll fast*/
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(context);
         recyclerView.setLayoutManager(layoutManager);

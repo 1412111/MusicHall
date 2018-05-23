@@ -60,14 +60,21 @@
 
         </FrameLayout>
 
-        <fragment
-            android:id="@+id/song_fragment"
-            android:name="code.vietduong.fragment.Song_Playing_Fragment"
+        <FrameLayout
             android:layout_width="match_parent"
-            android:layout_height="300dp"
-            android:layout_gravity="center"
-            android:layout_marginTop="40dp"
-            android:gravity="center" />
+            android:layout_height="wrap_content"
+            android:layout_marginTop="40dp">
+
+
+            <fragment
+                android:id="@+id/song_fragment"
+                android:name="code.vietduong.fragment.Song_Playing_Fragment"
+                android:layout_width="match_parent"
+                android:layout_height="300dp"
+                android:layout_gravity="center"
+                android:gravity="center" />
+
+        </FrameLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -201,7 +208,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="5dp"></view>-->
                 <ImageView
-                    android:id="@+id/imageView5"
+                    android:id="@+id/img_eq"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"

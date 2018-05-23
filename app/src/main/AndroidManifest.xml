@@ -6,6 +6,7 @@
     <uses-permission android:name="android.permission.MEDIA_CONTENT_CONTROL" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.RECORD_AUDIO" />
 
     <application
         android:allowBackup="true"
@@ -14,11 +15,9 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name="code.vietduong.view.main.MainActivity">
-
-        </activity>
-
-        <activity android:name=".SplashScreenActivity"
+        <activity android:name="code.vietduong.view.main.MainActivity"></activity>
+        <activity
+            android:name=".SplashScreenActivity"
             android:theme="@style/SplashscreenTheme">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -26,6 +25,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
         <service
             android:name="code.vietduong.view.main.MusicService"
             android:enabled="true"
@@ -35,7 +35,7 @@
             android:name="preloaded_fonts"
             android:resource="@array/preloaded_fonts" />
 
-
+        <activity android:name=".EQActivity"></activity>
     </application>
 
 </manifest>

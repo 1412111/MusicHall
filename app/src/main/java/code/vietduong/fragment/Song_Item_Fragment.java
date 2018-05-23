@@ -10,6 +10,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.RotateAnimation;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -58,7 +59,9 @@ public class Song_Item_Fragment extends Fragment {
         // inflate res/layout_blue.xml to make GUI holding a TextView and a ListView
         FrameLayout layout = (FrameLayout) inflater.inflate(R.layout.song_item_fragment, null);
 
+
         ImageView img = layout.findViewById(R.id.img_item_fragment);
+
         //ImageView img = (ImageView) inflater.inflate(R.layout.song_item_fragment, null);
 
         Picasso.with(context).load(Contanst.list_songs.get(position).getAlbumArtPath())
@@ -67,6 +70,7 @@ public class Song_Item_Fragment extends Fragment {
                 .transform(new CircleTransform())
                 .error(R.drawable.noalbum_round)
                 .into(img);
+
         return layout;
     }
 }

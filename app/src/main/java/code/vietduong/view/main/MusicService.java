@@ -76,7 +76,7 @@ public class MusicService extends Service implements
 
     private int duration = 0;
 
-    private MediaPlayer player;
+    public MediaPlayer player;
  /*   private MediaSessionManager mManager;*/
     private MediaSession mSession;
     private MediaControllerCompat.TransportControls mController;
@@ -267,11 +267,21 @@ public class MusicService extends Service implements
     public void seekTo(int progress){
 
         if(!player.isPlaying()){
-            continueSong();
 
-            int mili = (duration*progress)/100;
+            if(duration==0){
+                continueSong();
+                int mili = (duration*progress)/100;
 
-            player.seekTo(mili);
+                player.seekTo(mili, MediaPlayer.SEEK_CLOSEST_SYNC);
+            }else{
+
+                int mili = (duration*progress)/100;
+
+                player.seekTo(mili, MediaPlayer.SEEK_CLOSEST_SYNC);
+                continueSong();
+            }
+
+
         }else{
             int mili = (duration*progress)/100;
             player.seekTo(mili);

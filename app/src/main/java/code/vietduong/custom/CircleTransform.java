@@ -34,12 +34,15 @@ public class CircleTransform implements Transformation {
         BitmapShader shader = new BitmapShader(squaredBitmap,
                 BitmapShader.TileMode.CLAMP, BitmapShader.TileMode.CLAMP);
         paint.setShader(shader);
-        paint.setStyle(Paint.Style.STROKE);
 
         paint.setAntiAlias(true);
 
+        paint.setStyle(Paint.Style.STROKE);
+
         float r = size / 2f;
+
         paint.setStrokeWidth((r-42));
+
         canvas.drawCircle(r, r, r-(r-42)/2, paint);
 
 

@@ -12,6 +12,7 @@ import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.GradientDrawable;
 import android.graphics.drawable.LayerDrawable;
+import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.Handler;
 import android.os.IBinder;
@@ -30,6 +31,8 @@ import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.animation.RotateAnimation;
+import android.view.animation.ScaleAnimation;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -49,18 +52,18 @@ import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.Timer;
 import java.util.TimerTask;
-
 import code.vietduong.adapter.MyPagerAdapter;
 import code.vietduong.data.Contanst;
 import code.vietduong.fragment.Song_Playing_Fragment;
 import code.vietduong.impl.MainCallbacks;
 import code.vietduong.model.entity.Song;
 
+import code.vietduong.oneplayer.EQActivity;
 import code.vietduong.oneplayer.R;
 import code.vietduong.presenter.SongPresenter;
 import code.vietduong.adapter.SongAdapter;
 import jp.wasabeef.blurry.Blurry;
-import rm.com.audiowave.AudioWaveView;
+
 
 
 public class MainActivity extends AppCompatActivity implements MainCallbacks{
@@ -76,7 +79,7 @@ public class MainActivity extends AppCompatActivity implements MainCallbacks{
     private FrameLayout _control_bar;
     private FrameLayout _playing_now;
     private ImageView _img_song, img_play, img_previous, img_next;
-    private ImageView _btn_play, img_bg, img_down_main;
+    private ImageView _btn_play, img_bg, img_down_main, img_eq;
 
     private TextView _txtSongName_control, _txtSinger_control, txtSongName_main, txtSinger_main;
     private TextView txtStart_main, txtEnd_main;
@@ -92,7 +95,7 @@ public class MainActivity extends AppCompatActivity implements MainCallbacks{
     private SeekBar seekBar;
 
     private Intent playIntent = null;
-    private AudioWaveView wave;
+
     public  static String LOAD_SONG_FINISHED = "load data finished";
     public  static String UPDATE_SONG_UI = "update song ui";
     public  static String SLIDE_NEXT = "slide next";
@@ -166,6 +169,7 @@ public class MainActivity extends AppCompatActivity implements MainCallbacks{
             ActivityCompat.requestPermissions(this,
                     new String[]{Manifest.permission.READ_EXTERNAL_STORAGE},
                     MY_PERMISSIONS_REQUEST_READ_MEDIA);
+
         }else{
 
             Thread t = new Thread(new Runnable() {
@@ -182,6 +186,7 @@ public class MainActivity extends AppCompatActivity implements MainCallbacks{
 
     private void initUI() {
 
+        img_eq = findViewById(R.id.img_eq);
         txtStart_main = findViewById(R.id.txtStart_main);
         txtEnd_main = findViewById(R.id.txtEnd_main);
 
@@ -400,6 +405,13 @@ public class MainActivity extends AppCompatActivity implements MainCallbacks{
 
     private boolean dragging_seekbar = false;
     private void addEvents() {
+        img_eq.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent myIntent = new Intent(MainActivity.this, EQActivity.class);
+                MainActivity.this.startActivity(myIntent);
+            }
+        });
 
         seekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
@@ -438,7 +450,6 @@ public class MainActivity extends AppCompatActivity implements MainCallbacks{
         img_play.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
                 if(isPlaying){
 
                     musicService.pauseSong();
@@ -635,14 +646,13 @@ public class MainActivity extends AppCompatActivity implements MainCallbacks{
 
    }
     private TimerTask timerTask = null;
-    private Timer timer = new Timer();
+    private Timer timer = null;
     private void updateUI(Song song) {
 
 
         final Song s = song;
 
         song_playing_fragment.onMsgFromMainToSlideFragment(UPDATE_SONG_UI);
-
 
         Thread t = new Thread(new Runnable() {
             @Override
@@ -669,9 +679,12 @@ public class MainActivity extends AppCompatActivity implements MainCallbacks{
         if(timerTask != null && timer != null){
             timer.cancel();
             timer.purge();
+            timerTask.cancel();
+            timerTask = null;
+            timer = null;
         }
         txtEnd_main.setText(convertTimeToString(musicService.getDur()));
-        TimerTask timerTask = new TimerTask() {
+        timerTask = new TimerTask() {
             @Override
             public void run() {
 
@@ -708,21 +721,29 @@ public class MainActivity extends AppCompatActivity implements MainCallbacks{
         timer = new Timer();
         timer.schedule(timerTask, 0, 100);
 
+
         Bitmap bitmap= null;
+        Log.e("bg","update");
         try {
             bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), Uri.parse(song.getAlbumArtPath()));
+            if(bitmap == null){
+                img_bg.setImageDrawable(null);
+
+            }else {
+
+                Blurry.with(getApplicationContext())
+                        .radius(100)
+                        .sampling(20)
+                        .async()
+                        .animate(2000)
+                        .from(bitmap).into(img_bg);
+            }
         } catch (IOException e) {
+            img_bg.setImageDrawable(null);
             e.printStackTrace();
+
         }
-        if(bitmap == null){
-            img_bg.setBackgroundColor(Color.WHITE);
-        }else {
-            Blurry.with(getApplicationContext())
-                    .radius(100)
-                    .sampling(20)
-                    .async()
-                    .from(bitmap).into(img_bg);
-        }
+
         /***************************/
 
        /* Bitmap bitmap= null;
