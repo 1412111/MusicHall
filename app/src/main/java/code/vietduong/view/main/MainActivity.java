@@ -1,6 +1,7 @@
 package code.vietduong.view.main;
 
 import android.Manifest;
+import android.app.Activity;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
@@ -33,6 +34,7 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.animation.RotateAnimation;
 import android.view.animation.ScaleAnimation;
+import android.widget.ArrayAdapter;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -44,6 +46,9 @@ import android.widget.TextView;
 
 import com.gigamole.navigationtabstrip.NavigationTabStrip;
 
+import com.orhanobut.dialogplus.DialogPlus;
+import com.orhanobut.dialogplus.OnClickListener;
+import com.orhanobut.dialogplus.OnItemClickListener;
 import com.sothree.slidinguppanel.SlidingUpPanelLayout;
 
 
@@ -53,6 +58,7 @@ import java.util.Comparator;
 import java.util.Timer;
 import java.util.TimerTask;
 import code.vietduong.adapter.MyPagerAdapter;
+import code.vietduong.adapter.SongPopUpAdapter;
 import code.vietduong.data.Contanst;
 import code.vietduong.fragment.Song_Playing_Fragment;
 import code.vietduong.impl.MainCallbacks;
@@ -79,7 +85,7 @@ public class MainActivity extends AppCompatActivity implements MainCallbacks{
     private FrameLayout _control_bar;
     private FrameLayout _playing_now;
     private ImageView _img_song, img_play, img_previous, img_next;
-    private ImageView _btn_play, img_bg, img_down_main, img_eq;
+    private ImageView _btn_play, img_bg, img_down_main, img_eq, img_random, img_repeat, img_list;
 
     private TextView _txtSongName_control, _txtSinger_control, txtSongName_main, txtSinger_main;
     private TextView txtStart_main, txtEnd_main;
@@ -183,9 +189,71 @@ public class MainActivity extends AppCompatActivity implements MainCallbacks{
         }
     }
 
-
+    DialogPlus dialog;
     private void initUI() {
 
+        SongPopUpAdapter popUpAdapter = new SongPopUpAdapter(this, R.layout.song_item);
+
+        popUpAdapter.setData(Contanst.list_songs);
+        View header = this.getLayoutInflater().inflate(R.layout.popupheader, null);
+
+        dialog = DialogPlus.newDialog(this)
+                .setAdapter(popUpAdapter)
+                .setOnItemClickListener(new OnItemClickListener() {
+                    @Override
+                    public void onItemClick(DialogPlus dialog, Object item, View view, int position) {
+                        playSongMain(Contanst.list_songs.get(position));
+                        dialog.dismiss();
+                    }
+                })
+                .setHeader(header)
+                .setExpanded(true)
+                .setOnClickListener(new OnClickListener() {
+                    @Override
+                    public void onClick(DialogPlus dialog, View view) {
+                        dialog.dismiss();
+                    }
+                })// This will enable the expand feature, (similar to android L share dialog)
+                .create();
+
+
+
+        img_random = findViewById(R.id.img_radom);
+        img_random.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(musicService.isRandom()){
+                    img_random.setImageResource(R.drawable.random_main);
+                    musicService.setRandom(false);
+                    song_playing_fragment.setRandom(false);
+
+                }else{
+                    img_random.setImageResource(R.drawable.random_main_selected);
+                    musicService.setRandom(true);
+                    song_playing_fragment.setRandom(true);
+                }
+            }
+        });
+        img_repeat = findViewById(R.id.img_repeat);
+        img_repeat.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(musicService.isRepeat()){
+                    img_repeat.setImageResource(R.drawable.repeat_main);
+                    musicService.setRepeat(false);
+                }else{
+                    img_repeat.setImageResource(R.drawable.repeat_main_selected);
+                    musicService.setRepeat(true);
+                }
+            }
+        });
+        img_list = findViewById(R.id.img_list);
+        img_list.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                popupListSong();
+            }
+        });
         img_eq = findViewById(R.id.img_eq);
         txtStart_main = findViewById(R.id.txtStart_main);
         txtEnd_main = findViewById(R.id.txtEnd_main);
@@ -353,7 +421,11 @@ public class MainActivity extends AppCompatActivity implements MainCallbacks{
 
     }
 
+    private void popupListSong() {
 
+
+        dialog.show();
+    }
 
 
     @Override
@@ -614,22 +686,6 @@ public class MainActivity extends AppCompatActivity implements MainCallbacks{
 
 
     }
-   /* public Bitmap blur(Bitmap image) {
-        if (null == image) return null;
-
-        Bitmap outputBitmap = Bitmap.createScaledBitmap(image,200,300,true);
-        final RenderScript renderScript = RenderScript.create(this);
-        Allocation tmpIn = Allocation.createFromBitmap(renderScript, image);
-        Allocation tmpOut = Allocation.createFromBitmap(renderScript, outputBitmap);
-
-        //Intrinsic Gausian blur filter
-        ScriptIntrinsicBlur theIntrinsic = ScriptIntrinsicBlur.create(renderScript, Element.U8_4(renderScript));
-        theIntrinsic.setRadius(25f);
-        theIntrinsic.setInput(tmpIn);
-        theIntrinsic.forEach(tmpOut);
-        tmpOut.copyTo(outputBitmap);
-        return outputBitmap;
-    }*/
 
    private String convertTimeToString(int mili){
        String rs = "";
@@ -803,10 +859,7 @@ public class MainActivity extends AppCompatActivity implements MainCallbacks{
 
     @Override
     public void onMsgFromListFragToMain(Song song) {
-
         playSongMain(song);
-
-
     }
 
     @Override
@@ -846,50 +899,5 @@ public class MainActivity extends AppCompatActivity implements MainCallbacks{
     }
 
 
-   /* public void showNotification() {
-        Intent activityIntent = new Intent(this,MainActivity.class);
-        PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, activityIntent, 0);
-        Notification notification;
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            notification = new Notification.Builder(this)
-                    .setVisibility(Notification.VISIBILITY_PUBLIC)
-                    .setSmallIcon(Icon.createWithResource(this,R.mipmap.ic_launcher))
-                    .addAction(new Notification.Action
-                            .Builder(Icon.createWithResource(this, android.R.drawable.ic_media_previous),
-                            "Previous", pendingIntent).build())
-
-                    .addAction(new Notification.Action
-                            .Builder(Icon.createWithResource(this,android.R.drawable.ic_media_pause),
-                            "Pause", pendingIntent).build())
-
-                    .addAction(new Notification.Action
-                            .Builder( Icon.createWithResource(this, android.R.drawable.ic_media_next),
-                            "Next", pendingIntent).build())
-                    .setContentTitle("Music")
-                    .setContentText("Now playing...")
-                    .setLargeIcon(Icon.createWithResource(this, R.mipmap.ic_launcher))
-                    .setStyle(new Notification.MediaStyle().setShowActionsInCompactView(1)).build();
-        } else {
-            notification = new Notification.Builder(this)
-                    .setVisibility(Notification.VISIBILITY_PUBLIC)
-                    .setSmallIcon(R.mipmap.ic_launcher)
-
-                    .addAction(new Notification.Action.Builder(android.R.drawable.ic_media_previous,
-                            "Previous", pendingIntent).build())
-
-                    .addAction(new Notification.Action.Builder(android.R.drawable.ic_media_pause,
-                            "Pause",pendingIntent).build())
-
-                    .addAction(new Notification.Action.Builder(android.R.drawable.ic_media_next,
-                            "Next",pendingIntent).build())
-                    .setContentTitle("Music")
-                    .setContentText("Now playing...")
-                    .setLargeIcon(BitmapFactory.decodeResource(getResources(), R.mipmap.ic_launcher))
-                    .setStyle(new Notification.MediaStyle().setShowActionsInCompactView(1)).build();
-        }
-        NotificationManager notificationManager =
-                (NotificationManager) this.getSystemService( Context.NOTIFICATION_SERVICE);
-        notificationManager.notify(0, notification);
-    }*/
 
 }

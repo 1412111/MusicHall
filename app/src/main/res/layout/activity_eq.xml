@@ -19,7 +19,7 @@
         android:orientation="horizontal">
 
         <ImageView
-            android:id="@+id/imageView3"
+            android:id="@+id/img_back"
             android:layout_width="wrap_content"
             android:layout_height="20dp"
             android:layout_weight="1"
@@ -38,7 +38,7 @@
             android:textStyle="bold" />
 
         <Switch
-            android:id="@+id/switch1"
+            android:id="@+id/mySwitch"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_marginRight="10dp"
@@ -75,7 +75,7 @@
             android:layout_weight="1">
 
             <com.h6ah4i.android.widget.verticalseekbar.VerticalSeekBar
-                android:id="@+id/mySeekBar1"
+                android:id="@+id/seekBar1"
                 android:layout_width="0dp"
                 android:layout_height="0dp"
 
@@ -95,7 +95,7 @@
             android:layout_weight="1">
 
             <com.h6ah4i.android.widget.verticalseekbar.VerticalSeekBar
-                android:id="@+id/mySeekBar2"
+                android:id="@+id/seekBar2"
                 android:layout_width="0dp"
                 android:layout_height="0dp"
                 android:paddingEnd="15dp"
@@ -113,7 +113,7 @@
             android:layout_weight="1">
 
             <com.h6ah4i.android.widget.verticalseekbar.VerticalSeekBar
-                android:id="@+id/mySeekBar3"
+                android:id="@+id/seekBar3"
                 android:layout_width="0dp"
                 android:layout_height="0dp"
                 android:paddingEnd="15dp"
@@ -131,7 +131,7 @@
             android:layout_weight="1">
 
             <com.h6ah4i.android.widget.verticalseekbar.VerticalSeekBar
-                android:id="@+id/mySeekBar4"
+                android:id="@+id/seekBar4"
                 android:layout_width="0dp"
                 android:layout_height="0dp"
                 android:paddingEnd="15dp"
@@ -149,7 +149,7 @@
             android:layout_weight="1">
 
             <com.h6ah4i.android.widget.verticalseekbar.VerticalSeekBar
-                android:id="@+id/mySeekBar5"
+                android:id="@+id/seekBar5"
                 android:layout_width="0dp"
                 android:layout_height="0dp"
                 android:paddingEnd="15dp"

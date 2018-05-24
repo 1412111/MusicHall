@@ -27,6 +27,8 @@ import com.ToxicBakery.viewpager.transforms.TabletTransformer;
 import com.ToxicBakery.viewpager.transforms.ZoomOutSlideTransformer;
 import com.squareup.picasso.Picasso;
 
+import java.util.Random;
+
 import code.vietduong.adapter.Song_Playing_Adapter;
 import code.vietduong.data.Contanst;
 import code.vietduong.impl.FragmentCallbacks;
@@ -43,6 +45,9 @@ public class Song_Playing_Fragment extends Fragment implements FragmentCallbacks
     ViewPager mPager;
     private Song_Playing_Adapter adaper = null;
     boolean first_launch_already = false;
+
+    private boolean random = false;
+
 
     int position;
     // data to fill-up the ListView
@@ -118,6 +123,14 @@ public class Song_Playing_Fragment extends Fragment implements FragmentCallbacks
         return layout;
     }
 
+    public boolean isRandom() {
+        return random;
+    }
+
+    public void setRandom(boolean random) {
+        this.random = random;
+    }
+
     @Override
     public void onMsgFromMainToSlideFragment(String msg) {
         if(msg.equals(MainActivity.LOAD_SONG_FINISHED)){
@@ -132,22 +145,37 @@ public class Song_Playing_Fragment extends Fragment implements FragmentCallbacks
             mPager.setCurrentItem(Contanst.position);
 
         }else if(msg.equals(MainActivity.SLIDE_NEXT)){
-            if(Contanst.position == Contanst.list_songs.size()-1){
-                mPager.setCurrentItem(0);
-            }else{
-                mPager.setCurrentItem(Contanst.position + 1);
-            }
 
+            if(random){
+
+                Random rand = new Random();
+                int  n = rand.nextInt(Contanst.list_songs.size());
+                mPager.setCurrentItem(n);
+
+            }else{
+
+                if(Contanst.position == Contanst.list_songs.size()-1){
+                    mPager.setCurrentItem(0);
+                }else{
+                    mPager.setCurrentItem(Contanst.position + 1);
+                }
+            }
 
         }else if(msg.equals(MainActivity.SLIDE_PREVIOUS)){
-            if(Contanst.position - 1 < 0){
-                mPager.setCurrentItem(Contanst.list_songs.size()-1);
+
+            if(random){
+
+                Random rand = new Random();
+                int  n = rand.nextInt(Contanst.list_songs.size());
+                mPager.setCurrentItem(n);
             }else{
-                mPager.setCurrentItem(Contanst.position - 1);
+
+                if(Contanst.position - 1 < 0){
+                    mPager.setCurrentItem(Contanst.list_songs.size()-1);
+                }else{
+                    mPager.setCurrentItem(Contanst.position - 1);
+                }
             }
-
         }
-
-
     }
 }

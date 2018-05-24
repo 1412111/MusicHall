@@ -39,6 +39,7 @@ import android.widget.Toast;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Random;
 
 import code.vietduong.data.Contanst;
 import code.vietduong.impl.MainCallbacks;
@@ -84,6 +85,25 @@ public class MusicService extends Service implements
     private MainCallbacks mainCallbacks;
     private boolean isPlaying = true;
 
+    /*shuffle and random*/
+
+    private boolean random = false, repeat = false;
+
+    public boolean isRandom() {
+        return random;
+    }
+
+    public void setRandom(boolean random) {
+        this.random = random;
+    }
+
+    public boolean isRepeat() {
+        return repeat;
+    }
+
+    public void setRepeat(boolean repeat) {
+        this.repeat = repeat;
+    }
 
     @Override
     public IBinder onBind(Intent intent) {
@@ -234,22 +254,36 @@ public class MusicService extends Service implements
 
     }
     public void playNext() {
-        if(position ==  Contanst.list_songs.size()-1){
-            position = -1;
+        if(random){
+            mainCallbacks.onControlFromServiceToMain(ACTION_NEXT);
+            Random rand = new Random();
+            int  n = rand.nextInt(Contanst.list_songs.size());
+            playSong(Contanst.list_songs.get(n));
+
+        }else{
+            if(position ==  Contanst.list_songs.size()-1){
+                position = -1;
+            }
+            mainCallbacks.onControlFromServiceToMain(ACTION_NEXT);
+            playSong(Contanst.list_songs.get(position+1));
+            // buildNotification(ACTION_NEXT);
         }
-        mainCallbacks.onControlFromServiceToMain(ACTION_NEXT);
-        playSong(Contanst.list_songs.get(position+1));
-       // buildNotification(ACTION_NEXT);
+
 
     }
     public void playPrevious(){
-        if(position == 0){
-            position = Contanst.list_songs.size();
+        if(random){
+            mainCallbacks.onControlFromServiceToMain(ACTION_NEXT);
+            Random rand = new Random();
+            int  n = rand.nextInt(Contanst.list_songs.size());
+            playSong(Contanst.list_songs.get(n));
+        }else{
+            if(position == 0){
+                position = Contanst.list_songs.size();
+            }
+            mainCallbacks.onControlFromServiceToMain(ACTION_PREVIOUS);
+            playSong(Contanst.list_songs.get(position-1));
         }
-        mainCallbacks.onControlFromServiceToMain(ACTION_PREVIOUS);
-        playSong(Contanst.list_songs.get(position-1));
-
-        //buildNotification(ACTION_PREVIOUS);
     }
 
     private int currentPosition = 0;
@@ -289,7 +323,11 @@ public class MusicService extends Service implements
     }
     @Override
     public void onCompletion(MediaPlayer mp) {
-
+        if(repeat){
+            playSong(Contanst.list_songs.get(position));
+        }else{
+            playNext();
+        }
     }
 
     @Override
