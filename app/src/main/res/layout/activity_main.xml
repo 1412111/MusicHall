@@ -1,12 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <com.sothree.slidinguppanel.SlidingUpPanelLayout
-        xmlns:android="http://schemas.android.com/apk/res/android"
+    <com.sothree.slidinguppanel.SlidingUpPanelLayout xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
         android:id="@+id/sliding_layout"
         android:layout_width="match_parent"
@@ -20,18 +18,15 @@
             xmlns:app="http://schemas.android.com/apk/res-auto"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="@color/white"
-
             android:orientation="vertical">
             <!--android:fitsSystemWindows="true"-->
             <android.support.design.widget.AppBarLayout
                 android:id="@+id/appbar_layout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@color/white"
-              >
+                android:background="@drawable/control_bar_bg">
 
-               <!-- android:fitsSystemWindows="true"-->
+                <!-- android:fitsSystemWindows="true"-->
                 <android.support.design.widget.CollapsingToolbarLayout
                     android:id="@+id/htab_collapse_toolbar"
                     android:layout_width="match_parent"
@@ -56,7 +51,7 @@
                             android:fontFamily="@font/roboto_medium"
                             android:paddingLeft="14dp"
                             android:text="Music Hall"
-                            android:textColor="@color/black"
+                            android:textColor="#ffffff"
                             android:textSize="20sp" />
 
                         <ImageView
@@ -79,13 +74,35 @@
                 </android.support.design.widget.CollapsingToolbarLayout>
 
 
-                <com.gigamole.navigationtabstrip.NavigationTabStrip
-                    android:id="@+id/nts_center"
+                <com.ogaclejapan.smarttablayout.SmartTabLayout
+                    android:id="@+id/viewpagertab"
                     android:layout_width="match_parent"
                     android:layout_height="50dp"
-                    android:layout_weight="1"
-                    app:nts_size="10dp"
-                    app:nts_titles="@array/media_names" />
+                    app:stl_clickable="true"
+                    app:stl_defaultTabBackground="?attr/selectableItemBackground"
+                    app:stl_defaultTabTextAllCaps="false"
+                    app:stl_defaultTabTextColor="#000000"
+                    app:stl_defaultTabTextHorizontalPadding="16dp"
+                    app:stl_defaultTabTextMinWidth="105dp"
+                    app:stl_defaultTabTextSize="15sp"
+                    app:stl_distributeEvenly="false"
+                    app:stl_dividerColor="#4D000000"
+                    app:stl_dividerThickness="0dp"
+                    app:stl_drawDecorationAfterTab="false"
+                    app:stl_indicatorAlwaysInCenter="true"
+                    app:stl_indicatorColor="#f74e76"
+                    app:stl_indicatorCornerRadius="2dp"
+                    app:stl_indicatorGravity="bottom"
+                    app:stl_indicatorInFront="true"
+                    app:stl_indicatorInterpolation="smart"
+                    app:stl_indicatorThickness="3dp"
+                    app:stl_indicatorWidth="auto"
+                    app:stl_indicatorWithoutPadding="false"
+                    app:stl_overlineColor="#000000"
+                    app:stl_overlineThickness="0dp"
+                    app:stl_titleOffset="24dp"
+                    app:stl_underlineColor="#00000000"
+                    app:stl_underlineThickness="3dp" />
             </android.support.design.widget.AppBarLayout>
 
             <android.support.v4.view.ViewPager

@@ -68,7 +68,7 @@ public class Song_Item_Fragment extends Fragment {
                 .resize(350, 350)
                 .centerCrop()
                 .transform(new CircleTransform())
-                .error(R.drawable.noalbum_round)
+                .error(R.drawable.noalbum_round_256)
                 .into(img);
 
         return layout;

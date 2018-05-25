@@ -7,6 +7,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.ServiceConnection;
 import android.content.pm.PackageManager;
+import android.content.res.ColorStateList;
+import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
@@ -23,6 +25,7 @@ import android.support.annotation.NonNull;
 import android.support.design.widget.AppBarLayout;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
+import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -30,8 +33,10 @@ import android.support.v7.graphics.Palette;
 import android.text.TextUtils;
 import android.util.DisplayMetrics;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.animation.RotateAnimation;
 import android.view.animation.ScaleAnimation;
 import android.widget.ArrayAdapter;
@@ -46,6 +51,9 @@ import android.widget.TextView;
 
 import com.gigamole.navigationtabstrip.NavigationTabStrip;
 
+import com.ogaclejapan.smarttablayout.SmartTabLayout;
+import com.ogaclejapan.smarttablayout.utils.v4.FragmentPagerItemAdapter;
+import com.ogaclejapan.smarttablayout.utils.v4.FragmentPagerItems;
 import com.orhanobut.dialogplus.DialogPlus;
 import com.orhanobut.dialogplus.OnClickListener;
 import com.orhanobut.dialogplus.OnItemClickListener;
@@ -60,6 +68,11 @@ import java.util.TimerTask;
 import code.vietduong.adapter.MyPagerAdapter;
 import code.vietduong.adapter.SongPopUpAdapter;
 import code.vietduong.data.Contanst;
+import code.vietduong.fragment.Album_Fragment;
+import code.vietduong.fragment.Artist_Fragment;
+import code.vietduong.fragment.Home_Fragment;
+import code.vietduong.fragment.List_Fragment;
+import code.vietduong.fragment.Playlist_Fragment;
 import code.vietduong.fragment.Song_Playing_Fragment;
 import code.vietduong.impl.MainCallbacks;
 import code.vietduong.model.entity.Song;
@@ -92,15 +105,15 @@ public class MainActivity extends AppCompatActivity implements MainCallbacks{
     private ListView _listView;
 
     private ProgressBar progressbar_control;
-    private AppBarLayout appBarLayout;
     /************************************/
     private ViewPager _mViewPager, _mViewPagerSong;
 
-    private NavigationTabStrip mNavigationTabStrip;
+   /* private NavigationTabStrip mNavigationTabStrip;*/
     private Song_Playing_Fragment song_playing_fragment;
     private SeekBar seekBar;
 
     private Intent playIntent = null;
+    private  SmartTabLayout viewPagerTab;
 
     public  static String LOAD_SONG_FINISHED = "load data finished";
     public  static String UPDATE_SONG_UI = "update song ui";
@@ -112,6 +125,8 @@ public class MainActivity extends AppCompatActivity implements MainCallbacks{
     public static MusicService musicService;
 
     private static boolean musicBound = false;
+
+    private int current_tab = 0, previous_tab = 0, current_pixel = 0;
 
     private ServiceConnection musicConnection = new ServiceConnection(){
 
@@ -309,26 +324,79 @@ public class MainActivity extends AppCompatActivity implements MainCallbacks{
         _songAdapter = new SongAdapter(this, R.layout.song_item);*/
 
        // _listView.setAdapter(_songAdapter);
-
+      /*  return Home_Fragment.newInstance();
+        case 1: // Fragment # 0 - This will show FirstFragment different title
+        return List_Fragment.newInstance();
+        case 2: // Fragment # 1 - This will show SecondFragment
+        return Artist_Fragment.newInstance();
+        case 3: // Fragment # 1 - This will show SecondFragment
+        return Album_Fragment.newInstance();
+        case 4: // Fragment # 1 - This will show SecondFragment
+        return Playlist_Fragment.newInstance();
+        default:*/
         _mViewPager = findViewById(R.id.vp);
 
-        _mViewPager.setAdapter(new MyPagerAdapter(getSupportFragmentManager()));
-        mNavigationTabStrip = findViewById(R.id.nts_center);
-        mNavigationTabStrip.setViewPager(_mViewPager, 1);
-        mNavigationTabStrip.setTabIndex(0);
-        mNavigationTabStrip.setTitleSize(45);
-        mNavigationTabStrip.setStripFactor(2);
-        mNavigationTabStrip.setStripColor(Color.parseColor("#f74e76"));
-        mNavigationTabStrip.setStripGravity(NavigationTabStrip.StripGravity.BOTTOM);
-        mNavigationTabStrip.setStripType(NavigationTabStrip.StripType.LINE);
-        mNavigationTabStrip.setCornersRadius(4);
-        mNavigationTabStrip.setAnimationDuration(300);
-        mNavigationTabStrip.setInactiveColor(Color.parseColor("#CDC8C5"));
-        mNavigationTabStrip.setActiveColor(Color.parseColor("#282828"));
+        FragmentPagerItemAdapter adapter = new FragmentPagerItemAdapter(
+                getSupportFragmentManager(), FragmentPagerItems.with(this)
+                .add("Home", Home_Fragment.class)
+                .add("Songs", List_Fragment.class)
+                .add("Artists", Home_Fragment.class)
+                .add("Albums", Home_Fragment.class)
+                .add("Genres", Home_Fragment.class)
+                .create());
 
-        mNavigationTabStrip.setTypeface("fonts/roboto_medium.ttf");
+        _mViewPager.setAdapter(adapter);
 
-        appBarLayout = findViewById(R.id.appbar_layout);
+
+        viewPagerTab = (SmartTabLayout) findViewById(R.id.viewpagertab);
+
+
+        int[][] states = new int[][] {
+                new int[] { android.R.attr.state_selected}, // enabled
+                new int[] {-android.R.attr.state_selected}
+        };
+
+        int[] colors = new int[] {
+                Color.parseColor("#ffffff"),
+                Color.parseColor("#35ffffff")
+        };
+
+        ColorStateList myList = new ColorStateList(states, colors);
+        viewPagerTab.setDefaultTabTextColor(myList);
+
+        viewPagerTab.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+
+
+
+            }
+
+            @Override
+            public void onPageSelected(int position) {
+              /* for(int i = 0 ; i < viewPagerTab.getChildCount(); i++){
+                   viewPagerTab.getTabAt(i).setScaleX(1.5f);
+                   viewPagerTab.getTabAt(i).setScaleY(1.5f);
+               }*/
+                  previous_tab = current_tab;
+                  current_tab = position;
+
+                  viewPagerTab.getTabAt(current_tab).setScaleX(1.5f);
+                  viewPagerTab.getTabAt(current_tab).setScaleY(1.5f);
+                  viewPagerTab.getTabAt(previous_tab).setScaleX(1f);
+                  viewPagerTab.getTabAt(previous_tab).setScaleY(1f);
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int state) {
+
+            }
+        });
+        viewPagerTab.setViewPager(_mViewPager);
+        viewPagerTab.getTabAt(current_tab).setScaleX(1.5f);
+        viewPagerTab.getTabAt(current_tab).setScaleY(1.5f);
+
+
         _mViewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
@@ -582,6 +650,7 @@ public class MainActivity extends AppCompatActivity implements MainCallbacks{
                 _control_bar.setAlpha(1.0f - slideOffset*2);
 
                 img_down_main.setAlpha(1.0f - _control_bar.getAlpha());
+
 
             }
 
