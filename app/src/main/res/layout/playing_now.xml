@@ -163,6 +163,7 @@
                     android:layout_width="50dp"
                     android:layout_height="50dp"
                     android:padding="12dp"
+                    android:background="@drawable/image_bg_state"
                     app:srcCompat="@drawable/previous_main" />
 
                 <ImageView
@@ -172,6 +173,7 @@
                     android:layout_marginLeft="35dp"
                     android:layout_marginRight="35dp"
                     android:padding="18dp"
+                    android:background="@drawable/image_bg_state"
                     app:srcCompat="@drawable/play_main" />
 
                 <ImageView
@@ -179,6 +181,7 @@
                     android:layout_width="50dp"
                     android:layout_height="50dp"
                     android:padding="12dp"
+                    android:background="@drawable/image_bg_state"
                     app:srcCompat="@drawable/next_main" />
 
             </LinearLayout>

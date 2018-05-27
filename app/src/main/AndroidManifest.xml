@@ -15,7 +15,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name="code.vietduong.view.main.MainActivity"></activity>
+        <activity android:name="code.vietduong.view.main.MainActivity" />
         <activity
             android:name=".SplashScreenActivity"
             android:theme="@style/SplashscreenTheme">
@@ -35,7 +35,8 @@
             android:name="preloaded_fonts"
             android:resource="@array/preloaded_fonts" />
 
-        <activity android:name=".EQActivity"></activity>
+        <activity android:name=".EQActivity" />
+        <activity android:name=".AlbumActivity"></activity>
     </application>
 
 </manifest>

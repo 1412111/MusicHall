@@ -1,6 +1,8 @@
 package code.vietduong.view.main;
 
 import android.Manifest;
+import android.animation.ArgbEvaluator;
+import android.animation.ValueAnimator;
 import android.app.Activity;
 import android.content.ComponentName;
 import android.content.Context;
@@ -30,6 +32,8 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.graphics.Palette;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.util.DisplayMetrics;
 import android.util.Log;
@@ -37,6 +41,8 @@ import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
+import android.view.WindowManager;
 import android.view.animation.RotateAnimation;
 import android.view.animation.ScaleAnimation;
 import android.widget.ArrayAdapter;
@@ -49,8 +55,12 @@ import android.widget.SeekBar;
 import android.widget.Switch;
 import android.widget.TextView;
 
+import com.futuremind.recyclerviewfastscroll.FastScroller;
 import com.gigamole.navigationtabstrip.NavigationTabStrip;
 
+import com.mingle.entity.MenuEntity;
+import com.mingle.sweetpick.CustomDelegate;
+import com.mingle.sweetpick.SweetSheet;
 import com.ogaclejapan.smarttablayout.SmartTabLayout;
 import com.ogaclejapan.smarttablayout.utils.v4.FragmentPagerItemAdapter;
 import com.ogaclejapan.smarttablayout.utils.v4.FragmentPagerItems;
@@ -61,6 +71,7 @@ import com.sothree.slidinguppanel.SlidingUpPanelLayout;
 
 
 import java.io.IOException;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.Timer;
@@ -150,6 +161,7 @@ public class MainActivity extends AppCompatActivity implements MainCallbacks{
         }
     };
 
+    private Window window;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -165,6 +177,11 @@ public class MainActivity extends AppCompatActivity implements MainCallbacks{
         getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
         Contanst.height = displayMetrics.heightPixels;
         Contanst.width = displayMetrics.widthPixels;
+
+        window = MainActivity.this.getWindow();
+        window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
+        window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+        window.setStatusBarColor(Color.parseColor("#9092FC"));
 
 
     }
@@ -205,31 +222,41 @@ public class MainActivity extends AppCompatActivity implements MainCallbacks{
     }
 
     DialogPlus dialog;
+    private SweetSheet popup_listsong;
     private void initUI() {
+        _playing_now = findViewById(R.id.playing_now);
 
-        SongPopUpAdapter popUpAdapter = new SongPopUpAdapter(this, R.layout.song_item);
+        popup_listsong = new SweetSheet(_playing_now);
+        CustomDelegate customDelegate = new CustomDelegate(true,
+                CustomDelegate.AnimationType.AlphaAnimation);
 
-        popUpAdapter.setData(Contanst.list_songs);
-        View header = this.getLayoutInflater().inflate(R.layout.popupheader, null);
 
-        dialog = DialogPlus.newDialog(this)
-                .setAdapter(popUpAdapter)
-                .setOnItemClickListener(new OnItemClickListener() {
-                    @Override
-                    public void onItemClick(DialogPlus dialog, Object item, View view, int position) {
-                        playSongMain(Contanst.list_songs.get(position));
-                        dialog.dismiss();
-                    }
-                })
-                .setHeader(header)
-                .setExpanded(true)
-                .setOnClickListener(new OnClickListener() {
-                    @Override
-                    public void onClick(DialogPlus dialog, View view) {
-                        dialog.dismiss();
-                    }
-                })// This will enable the expand feature, (similar to android L share dialog)
-                .create();
+        customDelegate.setContentHeight(1500);
+        View view = LayoutInflater.from(this).inflate(R.layout.popup_listsong, null, false);
+
+
+        customDelegate.setCustomView(view);
+        popup_listsong.setDelegate(customDelegate);
+        SongPopUpAdapter popUpAdapter = new SongPopUpAdapter(this);
+        popUpAdapter.setOnItemClickListener(new SongPopUpAdapter.RecyclerItemClickListener() {
+            @Override
+            public void onItemClick(Song song) {
+                playSongMain(song);
+                _slidingLayout.setTouchEnabled(true);
+                popup_listsong.dismiss();
+            }
+        });
+
+        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this);
+        RecyclerView pop_list = view.findViewById(R.id.popup_list);
+
+        pop_list.setLayoutManager(layoutManager);
+        pop_list.setAdapter(popUpAdapter);
+        FastScroller fastScroller = view.findViewById(R.id.fastscrollpopup);
+        //has to be called AFTER RecyclerView.setAdapter()
+        fastScroller.setRecyclerView(pop_list);
+
+
 
 
 
@@ -293,7 +320,7 @@ public class MainActivity extends AppCompatActivity implements MainCallbacks{
         progressbar_control.setProgress(0);
         progressbar_control.setMax(100);
         _control_bar = findViewById(R.id.control_bar);
-        _playing_now = findViewById(R.id.playing_now);
+
 
         _txtSongName_control = findViewById(R.id.txtSongName_control);
         _txtSongName_control.setSingleLine();
@@ -315,7 +342,6 @@ public class MainActivity extends AppCompatActivity implements MainCallbacks{
 
 
         _slidingLayout = findViewById(R.id.sliding_layout);
-
 
        // _txtSinger_control.setText(Contanst.list_songs.get());
 
@@ -340,11 +366,10 @@ public class MainActivity extends AppCompatActivity implements MainCallbacks{
                 getSupportFragmentManager(), FragmentPagerItems.with(this)
                 .add("Home", Home_Fragment.class)
                 .add("Songs", List_Fragment.class)
-                .add("Artists", Home_Fragment.class)
-                .add("Albums", Home_Fragment.class)
-                .add("Genres", Home_Fragment.class)
+                .add("Artists", Artist_Fragment.class)
+                .add("Albums", Album_Fragment.class)
+                .add("Genres", Album_Fragment.class)
                 .create());
-
         _mViewPager.setAdapter(adapter);
 
 
@@ -492,7 +517,8 @@ public class MainActivity extends AppCompatActivity implements MainCallbacks{
     private void popupListSong() {
 
 
-        dialog.show();
+       popup_listsong.show();
+       _slidingLayout.setTouchEnabled(false);
     }
 
 
@@ -580,6 +606,7 @@ public class MainActivity extends AppCompatActivity implements MainCallbacks{
        img_down_main.setOnTouchListener(new View.OnTouchListener() {
            @Override
            public boolean onTouch(View v, MotionEvent event) {
+               _slidingLayout.setTouchEnabled(true);
                if(event.getAction() == MotionEvent.ACTION_UP){
                    _slidingLayout.setPanelState(SlidingUpPanelLayout.PanelState.COLLAPSED);
                }
@@ -626,6 +653,7 @@ public class MainActivity extends AppCompatActivity implements MainCallbacks{
             public boolean onTouch(View v, MotionEvent event) {
                 if(event.getAction() == MotionEvent.ACTION_UP){
                     _slidingLayout.setPanelState(SlidingUpPanelLayout.PanelState.EXPANDED);
+
                 }
 
                 return true;
@@ -635,6 +663,7 @@ public class MainActivity extends AppCompatActivity implements MainCallbacks{
             @Override
             public boolean onTouch(View v, MotionEvent event) {
                 _slidingLayout.setPanelState(SlidingUpPanelLayout.PanelState.EXPANDED);
+
                 return true;
             }
         });
@@ -651,6 +680,12 @@ public class MainActivity extends AppCompatActivity implements MainCallbacks{
 
                 img_down_main.setAlpha(1.0f - _control_bar.getAlpha());
 
+              /*  float percent = slideOffset*100;
+                int p = (int)percent;
+
+
+                window.setStatusBarColor(Color.argb(slideOffset,144, 146, 252));*/
+
 
             }
 
@@ -665,12 +700,18 @@ public class MainActivity extends AppCompatActivity implements MainCallbacks{
                     _control_bar.setEnabled(false);
                     img_down_main.setEnabled(true);
 
+                    window.setStatusBarColor(Color.WHITE);
 
 
                 }else if(newState.equals(SlidingUpPanelLayout.PanelState.COLLAPSED)){
                     _control_bar.setEnabled(true);
                     img_down_main.setEnabled(false);
+
+                    window.setStatusBarColor(Color.parseColor("#9092FC"));
+                }else if(newState.equals(SlidingUpPanelLayout.PanelState.DRAGGING)){
+
                 }
+
 
             }
         });

@@ -1,14 +1,29 @@
 package code.vietduong.fragment;
 
 
+import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v7.recyclerview.extensions.ListAdapter;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.BaseAdapter;
+import android.widget.GridView;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ListView;
+import android.widget.TextView;
 
+
+import com.squareup.picasso.Picasso;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import code.vietduong.adapter.AlbumAdapter;
+import code.vietduong.data.Contanst;
 import code.vietduong.oneplayer.R;
 
 /**
@@ -38,8 +53,14 @@ public class Album_Fragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // inflate res/layout_blue.xml to make GUI holding a TextView and a ListView
-        LinearLayout layout = (LinearLayout) inflater.inflate(R.layout.artist_pager, null);
+        LinearLayout layout = (LinearLayout) inflater.inflate(R.layout.album_pager, null);
         // plumbing – get a reference to textview and listview
+
+        GridView gridview = (GridView) layout.findViewById(R.id.gridview);
+        gridview.setAdapter(new AlbumAdapter(context));
+
         return layout;
     }// onCreateView
+
+
 }

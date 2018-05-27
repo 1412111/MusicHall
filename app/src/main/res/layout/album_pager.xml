@@ -5,9 +5,16 @@
     android:gravity="center"
     android:orientation="vertical">
 
-    <CheckBox
-        android:id="@+id/checkBox"
+    <GridView xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/gridview"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="CheckBox" />
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:horizontalSpacing="10dp"
+        android:numColumns="2"
+        android:paddingBottom="20dp"
+        android:paddingLeft="20dp"
+        android:paddingTop="20dp"
+        android:stretchMode="columnWidth"
+        android:verticalSpacing="20dp" />
 </LinearLayout>
