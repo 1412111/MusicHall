@@ -15,6 +15,7 @@ public class Song implements Serializable {
     private String albumname;
     private String albumArtPath;
     private String pathSong;
+    private String genres;
     private int size;
     private int position;
 
@@ -34,7 +35,27 @@ public class Song implements Serializable {
         this.pathSong = pathSong;
         this.size = size;
     }
+    public Song(long id, String title, String artist,
+                String duration, String albumname, String albumArtPath,
+                String pathSong, int size, String genres) {
+        this.id = id;
+        this.title = title;
+        this.artist = artist;
+        this.duration = duration;
+        this.albumname = albumname;
+        this.albumArtPath = albumArtPath;
+        this.pathSong = pathSong;
+        this.size = size;
+        this.genres = genres;
+    }
 
+    public String getGenres() {
+        return genres;
+    }
+
+    public void setGenres(String genres) {
+        this.genres = genres;
+    }
 
     public long getId() {
         return id;

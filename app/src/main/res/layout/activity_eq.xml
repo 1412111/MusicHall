@@ -8,7 +8,7 @@
     android:layout_height="match_parent"
     android:background="#FFFFFF"
     android:orientation="vertical"
-    tools:context=".EQActivity">
+    tools:context="code.vietduong.view.main.EQActivity">
 
 
     <LinearLayout

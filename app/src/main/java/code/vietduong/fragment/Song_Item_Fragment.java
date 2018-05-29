@@ -67,7 +67,7 @@ public class Song_Item_Fragment extends Fragment {
         Picasso.with(context).load(Contanst.list_songs.get(position).getAlbumArtPath())
                 .resize(350, 350)
                 .centerCrop()
-                .transform(new CircleTransform())
+                .transform(new CircleTransform(42))
                 .error(R.drawable.noalbum_round_256)
                 .into(img);
 

@@ -159,7 +159,7 @@ public class SongAdapter extends RecyclerView.Adapter<SongAdapter.ViewHolder> im
         Picasso.with(mContext).load(Contanst.list_songs.get(position).getAlbumArtPath())
                 .placeholder(R.drawable.noalbum_round_256)
                 .resize(100, 100)
-                .transform(this.new CircleTransform())
+                .transform(new CircleTransform(13))
                 .centerCrop()
                 .error(R.drawable.noalbum_round_256)
                 .into(holder.imgAlbum);
@@ -168,7 +168,7 @@ public class SongAdapter extends RecyclerView.Adapter<SongAdapter.ViewHolder> im
 
     }
 
-     class CircleTransform implements Transformation {
+    /* class CircleTransform implements Transformation {
         @Override
         public Bitmap transform(Bitmap source) {
             int size = Math.min(source.getWidth(), source.getHeight());
@@ -209,7 +209,7 @@ public class SongAdapter extends RecyclerView.Adapter<SongAdapter.ViewHolder> im
         public String key() {
             return "circle";
         }
-    }
+    }*/
 
 
     public static class ViewHolder extends RecyclerView.ViewHolder{

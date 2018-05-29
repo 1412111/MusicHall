@@ -14,6 +14,12 @@ import com.squareup.picasso.Transformation;
  */
 
 public class CircleTransform implements Transformation {
+
+    private int r2 = 0;
+    public CircleTransform(int r2) {
+        this.r2 = r2;
+    }
+
     @Override
     public Bitmap transform(Bitmap source) {
         int size = Math.min(source.getWidth(), source.getHeight());
@@ -41,9 +47,9 @@ public class CircleTransform implements Transformation {
 
         float r = size / 2f;
 
-        paint.setStrokeWidth((r-42));
+        paint.setStrokeWidth((r-r2));
 
-        canvas.drawCircle(r, r, r-(r-42)/2, paint);
+        canvas.drawCircle(r, r, r-(r-r2)/2, paint);
 
 
         squaredBitmap.recycle();

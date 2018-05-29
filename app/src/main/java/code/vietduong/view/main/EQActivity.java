@@ -1,4 +1,4 @@
-package code.vietduong.oneplayer;
+package code.vietduong.view.main;
 
 import android.graphics.Color;
 import android.media.AudioManager;
@@ -23,6 +23,7 @@ import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
 
+import code.vietduong.oneplayer.R;
 import code.vietduong.view.main.MainActivity;
 
 public class EQActivity extends AppCompatActivity {

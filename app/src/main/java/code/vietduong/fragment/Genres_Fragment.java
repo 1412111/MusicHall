@@ -5,28 +5,40 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
 import android.widget.LinearLayout;
+
+import android.widget.ListView;
+
+
+import com.felipecsl.asymmetricgridview.library.Utils;
+import com.felipecsl.asymmetricgridview.library.model.AsymmetricItem;
+import com.felipecsl.asymmetricgridview.library.widget.AsymmetricGridView;
+import com.felipecsl.asymmetricgridview.library.widget.AsymmetricGridViewAdapter;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import code.vietduong.adapter.AlbumAdapter;
 import code.vietduong.adapter.ArtistAdapter;
+import code.vietduong.adapter.GenresAdapter;
+import code.vietduong.data.Contanst;
 import code.vietduong.model.entity.Album;
-import code.vietduong.model.entity.Artist;
+import code.vietduong.model.entity.Genres;
 import code.vietduong.oneplayer.R;
 
-/**
- * Created by codev on 4/15/2018.
- */
-public class Artist_Fragment extends Fragment {
-    // this fragment shows a ListView
+public class Genres_Fragment extends Fragment {
     Context context = null;
     String message = "";
+    private AsymmetricGridView listView;
     // data to fill-up the ListView
     // convenient constructor(accept arguments, copy them to a bundle, binds bundle to fragment)
-    public static Artist_Fragment newInstance() {
-        Artist_Fragment fragment = new Artist_Fragment();
+    public static Genres_Fragment newInstance() {
+        Genres_Fragment fragment = new Genres_Fragment();
         return fragment;
     }
     @Override
@@ -43,21 +55,12 @@ public class Artist_Fragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // inflate res/layout_blue.xml to make GUI holding a TextView and a ListView
-        LinearLayout layout = (LinearLayout) inflater.inflate(R.layout.artist_pager, null);
+        LinearLayout layout = (LinearLayout) inflater.inflate(R.layout.genres_pager, null);
         // plumbing – get a reference to textview and listview
 
-        RecyclerView artistListview = layout.findViewById(R.id.artistListview);
-        artistListview.setLayoutManager(new GridLayoutManager(context, 3));
-        artistListview.setPadding(100,70,0,50);
-        ArtistAdapter adapter = new ArtistAdapter(context);
-        adapter.setOnArtistItemClickListener(new ArtistAdapter.RecyclerArtistItemClickListener() {
-            @Override
-            public void onItemClick(Artist artist) {
-
-            }
-        });
-        artistListview.setAdapter(adapter);
 
         return layout;
     }// onCreateView
+
+
 }

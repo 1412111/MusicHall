@@ -1,4 +1,4 @@
-package code.vietduong.oneplayer;
+package code.vietduong.view.main;
 
 import android.app.Activity;
 import android.content.Context;
@@ -21,6 +21,7 @@ import code.vietduong.adapter.AlbumAdapter;
 import code.vietduong.adapter.SongAdapter;
 import code.vietduong.data.Contanst;
 import code.vietduong.model.entity.Song;
+import code.vietduong.oneplayer.R;
 
 public class AlbumActivity extends AppCompatActivity {
 

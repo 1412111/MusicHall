@@ -13,8 +13,8 @@ import com.squareup.picasso.Picasso;
 import code.vietduong.data.Contanst;
 import code.vietduong.oneplayer.R;
 
-public class AlbumSongAdapter extends BaseAdapter {
-    private Context mContext;
+public class AlbumSongAdapter{
+  /*  private Context mContext;
 
     public AlbumSongAdapter(Context c) {
         mContext = c;
@@ -69,6 +69,6 @@ public class AlbumSongAdapter extends BaseAdapter {
         return item;
 
     }
-
+*/
 
 }

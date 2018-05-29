@@ -17,7 +17,7 @@
         android:theme="@style/AppTheme">
         <activity android:name="code.vietduong.view.main.MainActivity" />
         <activity
-            android:name=".SplashScreenActivity"
+            android:name="code.vietduong.view.main.SplashScreenActivity"
             android:theme="@style/SplashscreenTheme">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -35,8 +35,8 @@
             android:name="preloaded_fonts"
             android:resource="@array/preloaded_fonts" />
 
-        <activity android:name=".EQActivity" />
-        <activity android:name=".AlbumActivity"></activity>
+        <activity android:name="code.vietduong.view.main.EQActivity" />
+        <activity android:name="code.vietduong.view.main.AlbumActivity"></activity>
     </application>
 
 </manifest>

@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".AlbumActivity">
+    tools:context="code.vietduong.view.main.AlbumActivity">
 
     <ImageView
         android:id="@+id/image_album"

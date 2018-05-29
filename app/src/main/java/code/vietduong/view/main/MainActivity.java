@@ -1,37 +1,25 @@
 package code.vietduong.view.main;
 
 import android.Manifest;
-import android.animation.ArgbEvaluator;
-import android.animation.ValueAnimator;
-import android.app.Activity;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.ServiceConnection;
 import android.content.pm.PackageManager;
 import android.content.res.ColorStateList;
-import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.Color;
-import android.graphics.PorterDuff;
-import android.graphics.drawable.Drawable;
-import android.graphics.drawable.GradientDrawable;
-import android.graphics.drawable.LayerDrawable;
-import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.Handler;
 import android.os.IBinder;
 import android.os.Message;
 import android.provider.MediaStore;
 import android.support.annotation.NonNull;
-import android.support.design.widget.AppBarLayout;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
-import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.support.v7.graphics.Palette;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
@@ -40,55 +28,44 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
-import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
-import android.view.animation.RotateAnimation;
-import android.view.animation.ScaleAnimation;
-import android.widget.ArrayAdapter;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.SeekBar;
-import android.widget.Switch;
 import android.widget.TextView;
 
 import com.futuremind.recyclerviewfastscroll.FastScroller;
-import com.gigamole.navigationtabstrip.NavigationTabStrip;
 
-import com.mingle.entity.MenuEntity;
 import com.mingle.sweetpick.CustomDelegate;
 import com.mingle.sweetpick.SweetSheet;
 import com.ogaclejapan.smarttablayout.SmartTabLayout;
 import com.ogaclejapan.smarttablayout.utils.v4.FragmentPagerItemAdapter;
 import com.ogaclejapan.smarttablayout.utils.v4.FragmentPagerItems;
 import com.orhanobut.dialogplus.DialogPlus;
-import com.orhanobut.dialogplus.OnClickListener;
-import com.orhanobut.dialogplus.OnItemClickListener;
 import com.sothree.slidinguppanel.SlidingUpPanelLayout;
 
 
 import java.io.IOException;
-import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.Timer;
 import java.util.TimerTask;
-import code.vietduong.adapter.MyPagerAdapter;
+
 import code.vietduong.adapter.SongPopUpAdapter;
 import code.vietduong.data.Contanst;
 import code.vietduong.fragment.Album_Fragment;
 import code.vietduong.fragment.Artist_Fragment;
+import code.vietduong.fragment.Genres_Fragment;
 import code.vietduong.fragment.Home_Fragment;
 import code.vietduong.fragment.List_Fragment;
-import code.vietduong.fragment.Playlist_Fragment;
 import code.vietduong.fragment.Song_Playing_Fragment;
 import code.vietduong.impl.MainCallbacks;
+import code.vietduong.model.entity.Genres;
 import code.vietduong.model.entity.Song;
 
-import code.vietduong.oneplayer.EQActivity;
 import code.vietduong.oneplayer.R;
 import code.vietduong.presenter.SongPresenter;
 import code.vietduong.adapter.SongAdapter;
@@ -364,11 +341,11 @@ public class MainActivity extends AppCompatActivity implements MainCallbacks{
 
         FragmentPagerItemAdapter adapter = new FragmentPagerItemAdapter(
                 getSupportFragmentManager(), FragmentPagerItems.with(this)
-                .add("Home", Home_Fragment.class)
+                .add("Home", Genres_Fragment.class)
                 .add("Songs", List_Fragment.class)
                 .add("Artists", Artist_Fragment.class)
                 .add("Albums", Album_Fragment.class)
-                .add("Genres", Album_Fragment.class)
+            /*    .add("Genres", Album_Fragment.class)*/
                 .create());
         _mViewPager.setAdapter(adapter);
 

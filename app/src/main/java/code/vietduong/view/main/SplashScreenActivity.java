@@ -1,4 +1,4 @@
-package code.vietduong.oneplayer;
+package code.vietduong.view.main;
 
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;

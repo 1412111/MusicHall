@@ -31,73 +31,93 @@ public class SongInterator {
 
 
     public void loadSongList() {
-
         ContentResolver musicResolver = context.getContentResolver();
+
+        Uri genresUri = MediaStore.Audio.Genres.EXTERNAL_CONTENT_URI;
+        Cursor genresCursor = musicResolver.query(genresUri, null, null, null, null);
+
         Uri musicUri = android.provider.MediaStore.Audio.Media.EXTERNAL_CONTENT_URI;
-        Cursor musicCursor = musicResolver.query(musicUri, null, null, null, null);
+       /* Cursor musicCursor = musicResolver.query(musicUri, null, null, null, null);*/
 
-        if(musicCursor!=null && musicCursor.moveToFirst()){
-            //get columns
-            int idColumn = musicCursor.getColumnIndex
-                    (MediaStore.Audio.Media._ID);
+        if(genresCursor!=null && genresCursor.moveToFirst()){
 
-            int titleColumn = musicCursor.getColumnIndex
-                    (MediaStore.Audio.Media.TITLE);
+            do{
+                int genresColumn = genresCursor.getColumnIndex(MediaStore.Audio.Genres._ID);
+                int genresNameColumn = genresCursor.getColumnIndex(MediaStore.Audio.Genres.NAME);
 
-            int artistColumn = musicCursor.getColumnIndex
-                    (MediaStore.Audio.Media.ARTIST);
+                long genreId = genresCursor.getLong(genresColumn);
+                String genresName = genresCursor.getString(genresNameColumn);
 
-            int durationColumn = musicCursor.getColumnIndex
-                    (MediaStore.Audio.Media.DURATION);
+                Uri uri = MediaStore.Audio.Genres.Members.getContentUri("external", genreId);
 
-            int albumColumn = musicCursor.getColumnIndex
-                    (MediaStore.Audio.Media.ALBUM);
+                Cursor musicCursor = musicResolver.query(uri, null, null, null, null);
 
-            int albumIdColumn = musicCursor.getColumnIndex
-                    (MediaStore.Audio.Media.ALBUM_ID);
+                if(musicCursor!=null && musicCursor.moveToFirst())
+                {
+                    //get columns
+                    int idColumn = musicCursor.getColumnIndex
+                            (MediaStore.Audio.Media._ID);
 
-            int pathColumn = musicCursor.getColumnIndex
-                    (MediaStore.Audio.Media.DATA);
+                    int titleColumn = musicCursor.getColumnIndex
+                            (MediaStore.Audio.Media.TITLE);
 
-            int isMusicColumn = musicCursor.getColumnIndex
-                    (MediaStore.Audio.Media.IS_MUSIC);
+                    int artistColumn = musicCursor.getColumnIndex
+                            (MediaStore.Audio.Media.ARTIST);
 
-            int sizeIdColumn =  musicCursor.getColumnIndex
-                    (MediaStore.Audio.Media.SIZE);
+                    int durationColumn = musicCursor.getColumnIndex
+                            (MediaStore.Audio.Media.DURATION);
+
+                    int albumColumn = musicCursor.getColumnIndex
+                            (MediaStore.Audio.Media.ALBUM);
+
+                    int albumIdColumn = musicCursor.getColumnIndex
+                            (MediaStore.Audio.Media.ALBUM_ID);
+
+                    int pathColumn = musicCursor.getColumnIndex
+                            (MediaStore.Audio.Media.DATA);
+
+                    int isMusicColumn = musicCursor.getColumnIndex
+                            (MediaStore.Audio.Media.IS_MUSIC);
+
+                    int sizeIdColumn = musicCursor.getColumnIndex
+                            (MediaStore.Audio.Media.SIZE);
 
 
-            //add songs to list
-            do {
-                long thisId = musicCursor.getLong(idColumn);
-                String thisTitle = musicCursor.getString(titleColumn);
-                String thisArtist = musicCursor.getString(artistColumn);
-                String thisDuration = musicCursor.getString(durationColumn);
-                String thisAlbum = musicCursor.getString(albumColumn);
-                long thisAlbumId = musicCursor.getLong(albumIdColumn);
-                String path = musicCursor.getString(pathColumn);
-                int isMusic = musicCursor.getInt(isMusicColumn);
-                int thisSize = musicCursor.getInt(sizeIdColumn);
-                Uri sArtworkUri = Uri.parse("content://media/external/audio/albumart");
-                Uri albumArtUri = ContentUris.withAppendedId(sArtworkUri, thisAlbumId);
+                    int mineType = musicCursor.getColumnIndex
+                            (MediaStore.Audio.GenresColumns.NAME);
 
-                thisTitle = thisTitle.substring(0,1).toUpperCase()+thisTitle.substring(1).toLowerCase();
 
-               if(isMusic != 0 && thisSize > 0) {
-                   this.listSong.add(new Song(thisId, thisTitle, thisArtist
-                           , thisDuration, thisAlbum, albumArtUri.toString(), path, thisSize));
-               }
-            }
-            while (musicCursor.moveToNext());
+                    //add songs to list
+                    do {
+                        long thisId = musicCursor.getLong(idColumn);
+                        String thisTitle = musicCursor.getString(titleColumn);
+                        String thisArtist = musicCursor.getString(artistColumn);
+                        String thisDuration = musicCursor.getString(durationColumn);
+                        String thisAlbum = musicCursor.getString(albumColumn);
+                        long thisAlbumId = musicCursor.getLong(albumIdColumn);
+                        String path = musicCursor.getString(pathColumn);
+                        int isMusic = musicCursor.getInt(isMusicColumn);
+                        int thisSize = musicCursor.getInt(sizeIdColumn);
+                        Uri sArtworkUri = Uri.parse("content://media/external/audio/albumart");
+                        Uri albumArtUri = ContentUris.withAppendedId(sArtworkUri, thisAlbumId);
 
-           /* listSong.sort(new Comparator<Song>() {
-                public int compare(Song left, Song right) {
-                    return left.getTitle().compareTo(right.getTitle());
+                        thisTitle = thisTitle.substring(0, 1).toUpperCase() + thisTitle.substring(1).toLowerCase();
+
+                        if (isMusic != 0 && thisSize > 0) {
+                            this.listSong.add(new Song(thisId, thisTitle, thisArtist
+                                    , thisDuration, thisAlbum, albumArtUri.toString(), path, thisSize, genresName));
+                        }
+                    }
+                    while (musicCursor.moveToNext());
                 }
-            });*/
+                musicCursor.close();
+
+            }while (genresCursor.moveToNext());
+
         }
 
-        musicCursor.close();
 
+        genresCursor.close();
         songListener.onLoadSongSuccess(this.listSong);
     }
 
