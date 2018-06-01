@@ -42,7 +42,7 @@ public class GenresAdapter extends ArrayAdapter<Genres> {
     }
     static class ViewHolder{
 
-        TextView txtTitle;
+        TextView txtSong1, txtSong2, txtSong3, txtGenresName;
         ImageView imgGenres;
     }
     @NonNull
@@ -57,7 +57,10 @@ public class GenresAdapter extends ArrayAdapter<Genres> {
             viewHolder = new ViewHolder();
             item = ((Activity)context).getLayoutInflater().inflate(R.layout.genres_item, null);
 
-            viewHolder.txtTitle = item.findViewById(R.id.txt_name_genres_item);
+            viewHolder.txtSong1 = item.findViewById(R.id.txtSong1);
+            viewHolder.txtSong2 = item.findViewById(R.id.txtSong2);
+            viewHolder.txtSong3 = item.findViewById(R.id.txtSong3);
+            viewHolder.txtGenresName = item.findViewById(R.id.txtGenresName);
             viewHolder.imgGenres = item.findViewById(R.id.img_genres_item);
 
             item.setTag(viewHolder);
@@ -66,9 +69,39 @@ public class GenresAdapter extends ArrayAdapter<Genres> {
             viewHolder = (ViewHolder) item.getTag();
         }
 
+        Genres g = getItem(position);
         // set data
-        viewHolder.txtTitle.setText(getItem(position).getName());
+        Song s1 = null, s2 = null, s3 = null;
+        if(g.getSongs().size() >= 1){
+            s1 = g.getSongs().get(0);
+        }
+        if(g.getSongs().size() >= 2){
+            s2 = g.getSongs().get(1);
+        }
+        if(g.getSongs().size() >= 3){
+            s3 = g.getSongs().get(2);
+        }
 
+        if(s1!=null){
+            viewHolder.txtSong1.setText("1  "+s1.getTitle());
+        }
+        else{
+            viewHolder.txtSong1.setText("");
+        }
+
+        if(s2!=null){
+            viewHolder.txtSong2.setText("2  "+s2.getTitle());
+        }else{
+            viewHolder.txtSong2.setText("");
+        }
+
+        if(s3!=null){
+            viewHolder.txtSong3.setText("3  "+s3.getTitle());
+        }else{
+            viewHolder.txtSong3.setText("");
+        }
+
+        viewHolder.txtGenresName.setText(g.getName());
 
         Picasso.with(context).load(getItem(position).getPicture())
                 .placeholder(R.drawable.noalbum)

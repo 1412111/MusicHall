@@ -7,9 +7,11 @@ import android.support.v4.app.FragmentStatePagerAdapter;
 
 import code.vietduong.fragment.Album_Fragment;
 import code.vietduong.fragment.Artist_Fragment;
+
 import code.vietduong.fragment.Home_Fragment;
 import code.vietduong.fragment.List_Fragment;
 import code.vietduong.fragment.Playlist_Fragment;
+
 
 /**
  * Created by codev on 4/15/2018.

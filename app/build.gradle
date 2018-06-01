@@ -52,7 +52,7 @@ dependencies {
 
     compile 'com.github.zzz40500:AndroidSweetSheet:1.1.0'
 
-
+    compile 'com.miguelcatalan:materialsearchview:1.4.0'
 
     testImplementation 'junit:junit:4.12'
 }

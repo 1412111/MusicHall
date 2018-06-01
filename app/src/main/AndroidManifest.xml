@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     package="code.vietduong.oneplayer">
 
     <uses-permission android:name="android.permission.WAKE_LOCK" />
@@ -36,7 +37,8 @@
             android:resource="@array/preloaded_fonts" />
 
         <activity android:name="code.vietduong.view.main.EQActivity" />
-        <activity android:name="code.vietduong.view.main.AlbumActivity"></activity>
+        <activity android:name="code.vietduong.view.main.AlbumActivity" />
+        <activity android:name=".SearchActivity"></activity>
     </application>
 
 </manifest>

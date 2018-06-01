@@ -48,7 +48,7 @@ public class Artist_Fragment extends Fragment {
 
         RecyclerView artistListview = layout.findViewById(R.id.artistListview);
         artistListview.setLayoutManager(new GridLayoutManager(context, 3));
-        artistListview.setPadding(100,70,0,50);
+        artistListview.setPadding(100,0,0,0);
         ArtistAdapter adapter = new ArtistAdapter(context);
         adapter.setOnArtistItemClickListener(new ArtistAdapter.RecyclerArtistItemClickListener() {
             @Override

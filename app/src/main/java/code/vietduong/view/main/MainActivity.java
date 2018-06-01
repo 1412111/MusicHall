@@ -138,7 +138,7 @@ public class MainActivity extends AppCompatActivity implements MainCallbacks{
         }
     };
 
-    private Window window;
+   // private Window window;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -155,10 +155,10 @@ public class MainActivity extends AppCompatActivity implements MainCallbacks{
         Contanst.height = displayMetrics.heightPixels;
         Contanst.width = displayMetrics.widthPixels;
 
-        window = MainActivity.this.getWindow();
+        /*window = MainActivity.this.getWindow();
         window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
         window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
-        window.setStatusBarColor(Color.parseColor("#9092FC"));
+        window.setStatusBarColor(Color.parseColor("#9092FC"));*/
 
 
     }
@@ -341,11 +341,11 @@ public class MainActivity extends AppCompatActivity implements MainCallbacks{
 
         FragmentPagerItemAdapter adapter = new FragmentPagerItemAdapter(
                 getSupportFragmentManager(), FragmentPagerItems.with(this)
-                .add("Home", Genres_Fragment.class)
+               /* .add("Home", Home_Fragment.class)*/
                 .add("Songs", List_Fragment.class)
                 .add("Artists", Artist_Fragment.class)
                 .add("Albums", Album_Fragment.class)
-            /*    .add("Genres", Album_Fragment.class)*/
+                .add("Genres", Genres_Fragment.class)
                 .create());
         _mViewPager.setAdapter(adapter);
 
@@ -677,14 +677,14 @@ public class MainActivity extends AppCompatActivity implements MainCallbacks{
                     _control_bar.setEnabled(false);
                     img_down_main.setEnabled(true);
 
-                    window.setStatusBarColor(Color.WHITE);
+                    //window.setStatusBarColor(Color.WHITE);
 
 
                 }else if(newState.equals(SlidingUpPanelLayout.PanelState.COLLAPSED)){
                     _control_bar.setEnabled(true);
                     img_down_main.setEnabled(false);
 
-                    window.setStatusBarColor(Color.parseColor("#9092FC"));
+                   // window.setStatusBarColor(Color.parseColor("#9092FC"));
                 }else if(newState.equals(SlidingUpPanelLayout.PanelState.DRAGGING)){
 
                 }

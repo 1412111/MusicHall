@@ -4,8 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <com.sothree.slidinguppanel.SlidingUpPanelLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
+    <com.sothree.slidinguppanel.SlidingUpPanelLayout
         android:id="@+id/sliding_layout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -24,7 +23,8 @@
                 android:id="@+id/appbar_layout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@drawable/control_bar_bg">
+                android:background="@drawable/control_bar_bg"
+                android:paddingTop="20dp">
 
                 <!-- android:fitsSystemWindows="true"-->
                 <android.support.design.widget.CollapsingToolbarLayout
@@ -34,11 +34,12 @@
                     android:paddingLeft="5dp"
                     android:paddingRight="5dp"
                     android:paddingTop="25dp"
-                    app:layout_scrollFlags="scroll|enterAlways"
+                    app:layout_scrollFlags="enterAlwaysCollapsed"
                     app:titleEnabled="false">
+                    <!--   app:layout_scrollFlags="scroll|enterAlways"-->
                     <!--android:fitsSystemWindows="true"-->
 
-                    <LinearLayout
+                    <FrameLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:orientation="horizontal">
@@ -46,29 +47,28 @@
                         <TextView
                             android:id="@+id/textView"
                             android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="7"
+                            android:layout_height="match_parent"
                             android:fontFamily="@font/roboto_medium"
+                            android:gravity="center"
                             android:paddingLeft="14dp"
                             android:text="Music Hall"
                             android:textColor="#ffffff"
                             android:textSize="20sp" />
 
-                        <ImageView
+                        <!-- <ImageView
                             android:id="@+id/imageView2"
                             android:layout_width="20dp"
                             android:layout_height="20dp"
                             android:layout_marginRight="30dp"
-                            app:srcCompat="@drawable/search" />
+                            app:srcCompat="@drawable/search" />-->
 
-                        <ImageView
-                            android:id="@+id/imageView"
-                            android:layout_width="20dp"
-                            android:layout_height="17dp"
-                            android:layout_marginRight="15dp"
-                            app:srcCompat="@drawable/menu" />
+                        <com.miguelcatalan.materialsearchview.MaterialSearchView
+                            android:id="@+id/search_view"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_horizontal" />
 
-                    </LinearLayout>
+                    </FrameLayout>
 
 
                 </android.support.design.widget.CollapsingToolbarLayout>
@@ -100,7 +100,7 @@
                     app:stl_indicatorWithoutPadding="false"
                     app:stl_overlineColor="#000000"
                     app:stl_overlineThickness="0dp"
-                    app:stl_titleOffset="24dp"
+                    app:stl_titleOffset="40dp"
                     app:stl_underlineColor="#00000000"
                     app:stl_underlineThickness="3dp" />
             </android.support.design.widget.AppBarLayout>

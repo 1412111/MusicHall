@@ -76,10 +76,10 @@ public class SongPresenter implements LoadSongListener{
     }
 
     private void createListGenres(ArrayList<Song> listSong) {
-        ArrayList<Genres> genres = new ArrayList<>();
+       // ArrayList<Genres> genres = new ArrayList<>();
         for(Song s : listSong){
             boolean flag = false;
-            for(Genres g:genres){
+            for(Genres g: Contanst.list_genres){
 
                 if(s.getGenres().toUpperCase().equals(g.getName().toUpperCase())||
                         g.getName().toUpperCase().equals(s.getArtist().toUpperCase())) {
@@ -94,19 +94,19 @@ public class SongPresenter implements LoadSongListener{
                 newGenres.setName(s.getGenres());
                 newGenres.setPicture(s.getAlbumArtPath());
                 newGenres.addSong(s);
-                genres.add(newGenres);
+                Contanst.list_genres.add(newGenres);
             }
 
         }
 
-        Contanst.list_genres = genres;
+        //Contanst.list_genres = genres;
     }
 
     private void createListArtist(ArrayList<Song> listSong) {
-        ArrayList<Artist> artists = new ArrayList<>();
+
         for(Song s : listSong){
             boolean flag = false;
-            for(Artist a:artists){
+            for(Artist a:Contanst.list_artists){
 
                 if(s.getArtist().toUpperCase().equals(a.getName().toUpperCase())||
                         a.getName().toUpperCase().equals(s.getArtist().toUpperCase())) {
@@ -121,20 +121,20 @@ public class SongPresenter implements LoadSongListener{
                 newArtist.setName(s.getArtist());
                 newArtist.setPicture(s.getAlbumArtPath());
                 newArtist.addSong(s);
-                artists.add(newArtist);
+                Contanst.list_artists.add(newArtist);
             }
 
         }
-        Contanst.list_artists = artists;
+
     }
 
     private void createListAlbum(ArrayList<Song> listSong) {
 
 
-        ArrayList<Album> albums = new ArrayList<>();
+      //  ArrayList<Album> albums = new ArrayList<>();
         for(Song s : listSong){
             boolean flag = false;
-            for(Album a:albums){
+            for(Album a: Contanst.list_albums){
 
                 if(s.getAlbumname().toUpperCase().equals(a.getName().toUpperCase())||
                         a.getName().toUpperCase().equals(s.getAlbumname().toUpperCase())) {
@@ -149,11 +149,11 @@ public class SongPresenter implements LoadSongListener{
                 newAlbum.setName(s.getAlbumname());
                 newAlbum.setPicture(s.getAlbumArtPath());
                 newAlbum.addSong(s);
-                albums.add(newAlbum);
+                Contanst.list_albums.add(newAlbum);
             }
 
         }
-        Contanst.list_albums = albums;
+       // Contanst.list_albums = albums;
     }
 
     @Override
