@@ -2,6 +2,7 @@ package code.vietduong.impl;
 
 import java.util.ArrayList;
 
+import code.vietduong.model.entity.Album;
 import code.vietduong.model.entity.Song;
 
 /**
@@ -12,8 +13,7 @@ public interface MainCallbacks {
     public void onDisplaySongList(ArrayList<Song> listSong);
     public void onMsgFromListFragToMain (Song song);
     public void onMsgFromServiceToMain(Song Song);
-
     public void onControlFromServiceToMain(String msg);
 
-
+    public void onMsgFromAlbumFragTOMain(Album album);
 }

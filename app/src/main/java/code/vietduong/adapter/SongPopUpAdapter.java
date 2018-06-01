@@ -77,6 +77,7 @@ public class SongPopUpAdapter extends RecyclerView.Adapter<SongPopUpAdapter.View
         Song song = Contanst.list_songs.get(position);
         holder.txtTitle.setText(song.getTitle());
         holder.txtPosition.setText(position+1+"");
+
         long duration = Integer.parseInt(song.getDuration());
         duration/=1000;
 

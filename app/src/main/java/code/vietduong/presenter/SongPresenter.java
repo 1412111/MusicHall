@@ -145,7 +145,8 @@ public class SongPresenter implements LoadSongListener{
             }
 
             if (!flag){
-                Album newAlbum = new Album();
+                Album newAlbum = new Album(Contanst.list_albums.size());
+                newAlbum.setSinger(s.getArtist());
                 newAlbum.setName(s.getAlbumname());
                 newAlbum.setPicture(s.getAlbumArtPath());
                 newAlbum.addSong(s);

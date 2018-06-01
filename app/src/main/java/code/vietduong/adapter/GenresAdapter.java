@@ -112,5 +112,7 @@ public class GenresAdapter extends ArrayAdapter<Genres> {
         return item;
 
     }
+
+
 }
 

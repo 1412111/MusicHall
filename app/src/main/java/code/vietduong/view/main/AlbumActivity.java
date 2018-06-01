@@ -2,10 +2,12 @@ package code.vietduong.view.main;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
@@ -19,7 +21,10 @@ import com.squareup.picasso.Picasso;
 
 import code.vietduong.adapter.AlbumAdapter;
 import code.vietduong.adapter.SongAdapter;
+import code.vietduong.adapter.SongAlbumAdapter;
+import code.vietduong.adapter.SongPopUpAdapter;
 import code.vietduong.data.Contanst;
+import code.vietduong.model.entity.Album;
 import code.vietduong.model.entity.Song;
 import code.vietduong.oneplayer.R;
 
@@ -30,12 +35,44 @@ public class AlbumActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_album);
 
-        initControls();
+        Intent intent = getIntent();
+        String message = intent.getStringExtra(Contanst.MSG_MAIN_ALBUM_ACTIVITY);
+
+        Album album = Contanst.list_albums.get(Integer.parseInt(message));
+
+        ListView listView = findViewById(R.id.list_song_album);
+
+        listView.setAdapter(new SongAlbumAdapter(this, R.layout.song_album_item, album.getSongs()));
+
+
+        TextView txtAlbumName = findViewById(R.id.txtAlbumName);
+        txtAlbumName.setLines(2);
+        TextView txtAlbumSinger = findViewById(R.id.txtAlbumSinger);
+
+        txtAlbumSinger.setLines(2);
+        TextView txtCount = findViewById(R.id.txtCountSong);
+
+        ImageView imgAlbum = findViewById(R.id.imgAlbum);
+
+        txtCount.setText("PLAY ALL "+album.getSongs().size()+" SONGS");
+        txtAlbumName.setText(album.getName());
+        txtAlbumSinger.setText(album.getSinger());
+
+        Picasso.with(this).load(album.getPicture())
+                .placeholder(R.drawable.noalbum)
+                .resize(180, 180)
+                .centerCrop()
+                .error(R.drawable.noalbum)
+                .into(imgAlbum);
+
+        Log.e("album id", message);
     }
 
     private void initControls() {
 
-        ListView listView = findViewById(R.id.list_song_album);
+
+
+
 
 
     }

@@ -20,4 +20,6 @@ public class Contanst {
     public static int height = 0;
     public static int position=-1;
 
+    public static String MSG_MAIN_ALBUM_ACTIVITY;
+
 }

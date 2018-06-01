@@ -28,6 +28,7 @@ import code.vietduong.adapter.AlbumAdapter;
 import code.vietduong.data.Contanst;
 import code.vietduong.model.entity.Album;
 import code.vietduong.oneplayer.R;
+import code.vietduong.view.main.MainActivity;
 
 /**
  * Created by codev on 4/16/2018.
@@ -62,11 +63,11 @@ public class Album_Fragment extends Fragment {
         RecyclerView albumListview = layout.findViewById(R.id.albumListview);
         albumListview.setLayoutManager(new GridLayoutManager(context, 2));
         albumListview.setPadding(75,70,0,50);
-        AlbumAdapter adapter = new AlbumAdapter(context);
+        final AlbumAdapter adapter = new AlbumAdapter(context);
         adapter.setOnAlbumItemClickListener(new AlbumAdapter.RecyclerAlbumItemClickListener() {
             @Override
             public void onItemClick(Album album) {
-
+                ((MainActivity)context).onMsgFromAlbumFragTOMain(album);
             }
         });
         albumListview.setAdapter(adapter);

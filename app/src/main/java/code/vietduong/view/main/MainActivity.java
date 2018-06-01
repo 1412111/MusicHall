@@ -30,6 +30,7 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.ListView;
@@ -63,6 +64,7 @@ import code.vietduong.fragment.Home_Fragment;
 import code.vietduong.fragment.List_Fragment;
 import code.vietduong.fragment.Song_Playing_Fragment;
 import code.vietduong.impl.MainCallbacks;
+import code.vietduong.model.entity.Album;
 import code.vietduong.model.entity.Genres;
 import code.vietduong.model.entity.Song;
 
@@ -944,10 +946,6 @@ public class MainActivity extends AppCompatActivity implements MainCallbacks{
         }*/
     }
 
-    @Override
-    public void onMsgFromListFragToMain(Song song) {
-        playSongMain(song);
-    }
 
     @Override
     public void onMsgFromServiceToMain(Song song) {
@@ -984,7 +982,20 @@ public class MainActivity extends AppCompatActivity implements MainCallbacks{
         }
 
     }
+    @Override
+    public void onMsgFromListFragToMain(Song song) {
+        playSongMain(song);
+    }
 
+
+    @Override
+    public void onMsgFromAlbumFragTOMain(Album album) {
+        Intent intent = new Intent(this, AlbumActivity.class);
+
+        intent.putExtra(Contanst.MSG_MAIN_ALBUM_ACTIVITY, album.getId()+"");
+        startActivity(intent);
+
+    }
 
 
 }
