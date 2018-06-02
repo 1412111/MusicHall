@@ -66,16 +66,6 @@ public class List_Fragment extends Fragment {
     // plumbing – get a reference to textview and listview
 
         RecyclerView recyclerView = layout.findViewById(R.id.list_song);
-        /*SongAdapter songAdapter = new SongAdapter(context);*/
-
-    /*    songAdapter.setOnItemClickListener(new SongAdapter.RecyclerItemClickListener() {
-            @Override
-            public void onItemClick(Song song) {
-                sendDataToMain(song);
-            }
-        });*/
-        /****************/
-
 
         /*Scroll fast*/
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(context);

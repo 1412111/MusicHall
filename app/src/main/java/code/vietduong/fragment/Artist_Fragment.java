@@ -15,6 +15,7 @@ import code.vietduong.adapter.ArtistAdapter;
 import code.vietduong.model.entity.Album;
 import code.vietduong.model.entity.Artist;
 import code.vietduong.oneplayer.R;
+import code.vietduong.view.main.MainActivity;
 
 /**
  * Created by codev on 4/15/2018.
@@ -53,7 +54,7 @@ public class Artist_Fragment extends Fragment {
         adapter.setOnArtistItemClickListener(new ArtistAdapter.RecyclerArtistItemClickListener() {
             @Override
             public void onItemClick(Artist artist) {
-
+                ((MainActivity)context).onMsgFromArtistFragTOMain(artist);
             }
         });
         artistListview.setAdapter(adapter);

@@ -3,6 +3,7 @@ package code.vietduong.impl;
 import java.util.ArrayList;
 
 import code.vietduong.model.entity.Album;
+import code.vietduong.model.entity.Artist;
 import code.vietduong.model.entity.Song;
 
 /**
@@ -16,4 +17,5 @@ public interface MainCallbacks {
     public void onControlFromServiceToMain(String msg);
 
     public void onMsgFromAlbumFragTOMain(Album album);
+    public void onMsgFromArtistFragTOMain(Artist artist);
 }

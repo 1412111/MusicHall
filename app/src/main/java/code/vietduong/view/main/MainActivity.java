@@ -28,9 +28,6 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
-import android.view.Window;
-import android.view.WindowManager;
-import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.ListView;
@@ -60,12 +57,11 @@ import code.vietduong.data.Contanst;
 import code.vietduong.fragment.Album_Fragment;
 import code.vietduong.fragment.Artist_Fragment;
 import code.vietduong.fragment.Genres_Fragment;
-import code.vietduong.fragment.Home_Fragment;
 import code.vietduong.fragment.List_Fragment;
 import code.vietduong.fragment.Song_Playing_Fragment;
 import code.vietduong.impl.MainCallbacks;
 import code.vietduong.model.entity.Album;
-import code.vietduong.model.entity.Genres;
+import code.vietduong.model.entity.Artist;
 import code.vietduong.model.entity.Song;
 
 import code.vietduong.oneplayer.R;
@@ -79,7 +75,7 @@ public class MainActivity extends AppCompatActivity implements MainCallbacks{
     private SongPresenter mainPresenter;
     private final int MY_PERMISSIONS_REQUEST_READ_MEDIA = 123;
 
-    private boolean isPlaying = false;
+    private static boolean isPlaying = false;
     /*Components*/
    // private RecyclerView _songRecyclerView;
     private SongAdapter _songAdapter;
@@ -87,8 +83,14 @@ public class MainActivity extends AppCompatActivity implements MainCallbacks{
     private SlidingUpPanelLayout _slidingLayout;
     private FrameLayout _control_bar;
     private FrameLayout _playing_now;
-    private ImageView _img_song, img_play, img_previous, img_next;
-    private ImageView _btn_play, img_bg, img_down_main, img_eq, img_random, img_repeat, img_list;
+    private static ImageView _img_song, img_play, img_previous, img_next;
+    private static ImageView btnPlayControl;
+    private ImageView img_bg;
+    private ImageView img_down_main;
+    private ImageView img_eq;
+    private ImageView img_random;
+    private ImageView img_repeat;
+    private ImageView img_list;
 
     private TextView _txtSongName_control, _txtSinger_control, txtSongName_main, txtSinger_main;
     private TextView txtStart_main, txtEnd_main;
@@ -161,6 +163,7 @@ public class MainActivity extends AppCompatActivity implements MainCallbacks{
         window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
         window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
         window.setStatusBarColor(Color.parseColor("#9092FC"));*/
+
 
 
     }
@@ -236,9 +239,6 @@ public class MainActivity extends AppCompatActivity implements MainCallbacks{
         fastScroller.setRecyclerView(pop_list);
 
 
-
-
-
         img_random = findViewById(R.id.img_radom);
         img_random.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -293,7 +293,20 @@ public class MainActivity extends AppCompatActivity implements MainCallbacks{
         img_play.setAlpha(0.75f);
         img_previous.setAlpha(0.75f);
         img_next.setAlpha(0.75f);
-        _btn_play = findViewById(R.id.btn_play);
+        btnPlayControl = findViewById(R.id.btnPlayControl);
+
+        btnPlayControl.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(isPlaying){
+
+                    musicService.pauseSong();
+                }else{
+
+                    musicService.continueSong();
+                }
+            }
+        });
 
         progressbar_control = findViewById(R.id.progressBar_Control);
         progressbar_control.setProgress(0);
@@ -767,10 +780,11 @@ public class MainActivity extends AppCompatActivity implements MainCallbacks{
     }
 
 
-    private void playSongMain(Song song)
+    public static void playSongMain(Song song)
     {
         musicService.playSong(song);
         img_play.setImageResource(R.drawable.pause_main);
+        btnPlayControl.setImageResource(R.drawable.pause_control);
         isPlaying = true;
 
 
@@ -888,62 +902,6 @@ public class MainActivity extends AppCompatActivity implements MainCallbacks{
             e.printStackTrace();
 
         }
-
-        /***************************/
-
-       /* Bitmap bitmap= null;
-        try {
-            bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), Uri.parse(song.getAlbumArtPath()));
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        if(bitmap == null){
-
-        }else {
-*//*
-            Palette.from(bitmap).generate(new Palette.PaletteAsyncListener() {
-                @Override
-                public void onGenerated(@NonNull Palette palette) {
-                    Palette.Swatch swatch = palette.getVibrantSwatch();
-                    if (swatch == null) {
-                        swatch = palette.getMutedSwatch(); // Sometimes vibrant swatch is not available
-                    }
-                    if (swatch != null) {
-                        // Set the background color of the player bar based on the swatch color
-                        //_playing_now.setBackgroundColor(swatch.getRgb());
-
-
-                        GradientDrawable gradient = new GradientDrawable(GradientDrawable.Orientation.LEFT_RIGHT,
-                                new int[]{swatch.getRgb(), swatch.getTitleTextColor()});
-                        gradient.setShape(GradientDrawable.RECTANGLE);
-                        gradient.setCornerRadius(10.f);
-                        seekBar.setProgressDrawable(gradient);
-
-                    }
-                }
-            });*//*
-
-          *//*  Palette.from(bitmap).generate(new Palette.PaletteAsyncListener() {
-                public void onGenerated(Palette palette) {
-                    Palette.Swatch swatch = palette.getVibrantSwatch();
-                    if (swatch == null) {
-                        swatch = palette.getMutedSwatch(); // Sometimes vibrant swatch is not available
-                    }
-                    if (swatch != null) {
-                        // Set the background color of the player bar based on the swatch color
-                        //_playing_now.setBackgroundColor(swatch.getRgb());
-
-
-                        GradientDrawable gradient = new GradientDrawable(GradientDrawable.Orientation.BOTTOM_TOP,
-                                new int[]{swatch.getRgb(), swatch.getTitleTextColor()});
-                        gradient.setShape(GradientDrawable.RECTANGLE);
-                        gradient.setCornerRadius(10.f);
-                        seekBar.setProgressDrawable(gradient);
-
-                    }
-                }
-            }*//*
-        }*/
     }
 
 
@@ -958,21 +916,25 @@ public class MainActivity extends AppCompatActivity implements MainCallbacks{
         switch (msg){
             case MusicService.ACTION_PLAY:
                 img_play.setImageResource(R.drawable.pause_main);
+                btnPlayControl.setImageResource(R.drawable.pause_control);
                 isPlaying = true;
                 break;
 
             case MusicService.ACTION_PAUSE:
                 img_play.setImageResource(R.drawable.play_main);
+                btnPlayControl.setImageResource(R.drawable.play_cotrol);
                 isPlaying = false;
                 break;
 
             case MusicService.ACTION_NEXT:
                 img_play.setImageResource(R.drawable.pause_main);
+                btnPlayControl.setImageResource(R.drawable.pause_control);
                 isPlaying = true;
                 break;
 
             case MusicService.ACTION_PREVIOUS:
                 img_play.setImageResource(R.drawable.pause_main);
+                btnPlayControl.setImageResource(R.drawable.pause_control);
                 isPlaying = true;
                 break;
 
@@ -992,10 +954,22 @@ public class MainActivity extends AppCompatActivity implements MainCallbacks{
     public void onMsgFromAlbumFragTOMain(Album album) {
         Intent intent = new Intent(this, AlbumActivity.class);
 
-        intent.putExtra(Contanst.MSG_MAIN_ALBUM_ACTIVITY, album.getId()+"");
+        intent.putExtra(Contanst.MSG_MAIN_ALBUM_ACTIVITY, album.getId() + "");
         startActivity(intent);
 
     }
 
+    @Override
+    public void onMsgFromArtistFragTOMain(Artist artist) {
+        Intent intent = new Intent(this, ArtistActivity.class);
 
+        intent.putExtra(Contanst.MSG_MAIN_ARTIST_ACTIVITY, artist.getId() + "");
+        startActivity(intent);
+    }
+
+
+    @Override
+    public void onBackPressed() {
+        moveTaskToBack(true);
+    }
 }

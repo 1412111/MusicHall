@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <array name="icons">
+    <!--<array name="icons">
         <item>@drawable/play</item>
         <item>@drawable/play</item>
         <item>@drawable/play</item>
         <item>@drawable/play</item>
         <item>@drawable/play</item>
-    </array>
+    </array>-->
     <array name="colors">
         <item>@android:color/holo_blue_light</item>
         <item>@android:color/holo_green_dark</item>

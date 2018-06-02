@@ -53,23 +53,25 @@ public class SongPresenter implements LoadSongListener{
             @Override
             public void run() {
                 createListAlbum(listSong);
+
             }
         }).start();
         new Thread(new Runnable() {
             @Override
             public void run() {
                 createListArtist(listSong);
+
+
             }
         }).start();
+
         new Thread(new Runnable() {
             @Override
             public void run() {
                 createListGenres(listSong);
+
             }
         }).start();
-
-
-
 
 
 
@@ -117,14 +119,30 @@ public class SongPresenter implements LoadSongListener{
             }
 
             if (!flag){
-                Artist newArtist = new Artist();
+                Artist newArtist = new Artist(Contanst.list_artists.size());
                 newArtist.setName(s.getArtist());
                 newArtist.setPicture(s.getAlbumArtPath());
                 newArtist.addSong(s);
+
+                /*for(Album al : Contanst.list_albums){
+                    if(al.getSinger().toUpperCase().contains(newArtist.getName().toUpperCase())){
+                        newArtist.addAlbum(al);
+                    }
+                }*/
                 Contanst.list_artists.add(newArtist);
             }
 
         }
+
+       /* for(Artist a: Contanst.list_artists){
+
+            for(Album al : Contanst.list_albums){
+                if(al.getSinger().toUpperCase().contains(a.getName().toUpperCase())){
+                    a.addAlbum(al);
+                }
+            }
+        }*/
+
 
     }
 
