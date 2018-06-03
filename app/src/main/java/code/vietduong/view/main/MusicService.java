@@ -87,6 +87,8 @@ public class MusicService extends Service implements
 
     /*shuffle and random*/
 
+    private  NotificationManager notificationManager;
+
     private boolean random = false, repeat = false;
 
     public boolean isRandom() {
@@ -113,8 +115,12 @@ public class MusicService extends Service implements
     public boolean onUnbind(Intent intent) {
         player.stop();
         player.release();
+
+
         return false;
     }
+
+
     public class MusicBinder extends Binder{
         MusicService getService() {
             return MusicService.this;
@@ -171,23 +177,6 @@ public class MusicService extends Service implements
 
 
 
-    /*
-        private void updateMetaData() {
-            Bitmap albumArt = BitmapFactory.decodeResource(getResources(),
-                    R.drawable.bg); //replace with medias albumArt
-            // Update the current metadata
-            mSession.setMetadata(new MediaMetadata.Builder()
-                    .putBitmap(MediaMetadata.METADATA_KEY_ALBUM_ART, albumArt)
-                    .putString(MediaMetadata.METADATA_KEY_ARTIST, currentSong.getArtist())
-                    .putString(MediaMetadata.METADATA_KEY_TITLE, currentSong.getTitle())
-                    .build());
-        }*/
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
-      //  stopForeground(true);
-    }
-
     public void initMusicPlayer(){
         player = new MediaPlayer();
         //set player properties
@@ -242,12 +231,6 @@ public class MusicService extends Service implements
     public void pauseSong(){
         player.pause();
 
-        /*if(isPlaying){
-            player.pause();
-
-        }else{
-            player.start();
-        }*/
         isPlaying = true;
         buildNotification(ACTION_PAUSE);
         mainCallbacks.onControlFromServiceToMain(ACTION_PAUSE);
@@ -355,7 +338,7 @@ public class MusicService extends Service implements
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
         handleIncomingActions(intent);
-        return super.onStartCommand(intent, flags, startId);
+        return START_STICKY;
     }
 
     private void handleIncomingActions(Intent intent) {
@@ -389,8 +372,10 @@ public class MusicService extends Service implements
         PendingIntent pendingIntent = PendingIntent.getService(getApplicationContext(), 1, intent, 0);
         return new Notification.Action.Builder( icon, title, pendingIntent ).build();
     }
+
     public void buildNotification(String action) {
 
+        boolean onGoing = true;
         Bitmap bitmap= null;
         try {
             bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), Uri.parse(currentSong.getAlbumArtPath()));
@@ -404,6 +389,7 @@ public class MusicService extends Service implements
         if(action.equals(ACTION_PAUSE)){
             icon = android.R.drawable.ic_media_play;
             action = ACTION_PLAY;
+            onGoing = false;
         }else{
             icon = android.R.drawable.ic_media_pause;
             action = ACTION_PAUSE;
@@ -420,21 +406,11 @@ public class MusicService extends Service implements
                     .addAction(generateAction(android.R.drawable.ic_media_previous,"Previous", ACTION_PREVIOUS))
                     .addAction(generateAction(icon,"", action))
                     .addAction(generateAction(android.R.drawable.ic_media_next,"Next", ACTION_NEXT))
-               /*     .addAction(new Notification.Action
-                            .Builder(Icon.createWithResource(this, android.R.drawable.ic_media_previous),
-                            "Previous", pendingIntent).build())
-
-                    .addAction(new Notification.Action
-                            .Builder(Icon.createWithResource(this, android.R.drawable.ic_media_pause),
-                            "Pause", pendingIntent).build())
-
-                    .addAction(new Notification.Action
-                            .Builder(Icon.createWithResource(this, android.R.drawable.ic_media_next),
-                            "Next", pendingIntent).build())*/
                     .setContentTitle(currentSong.getTitle())
                     .setContentText(currentSong.getArtist())
                     .setLargeIcon(bitmap)
                     .setPriority(Notification.PRIORITY_MAX)
+                    .setOngoing(onGoing)
                     .setStyle(new Notification.MediaStyle().setShowActionsInCompactView(0, 1, 2).setMediaSession(mSession.getSessionToken())).build();
         }else{
             notification = new Notification.Builder(this)
@@ -453,10 +429,10 @@ public class MusicService extends Service implements
                     .setContentText("Now playing...")
                     .setLargeIcon(BitmapFactory.decodeResource(getResources(), R.mipmap.ic_launcher))
                     .setStyle(new Notification.MediaStyle().setShowActionsInCompactView(1))
-                   /* .setOngoing(true)*/.build();
+                    .setOngoing(onGoing).build();
         }
 
-        NotificationManager notificationManager =
+        notificationManager =
                 (NotificationManager) this.getSystemService(Context.NOTIFICATION_SERVICE);
         NotificationChannel channel = null;
 
@@ -470,7 +446,21 @@ public class MusicService extends Service implements
             notificationManager.createNotificationChannel(channel);
         }
 
-
         notificationManager.notify(0, notification);
+
+    }
+
+    @Override
+    public void onDestroy() {
+
+        super.onDestroy();
+        mSession.release();
+        notificationManager.cancel(0);
+    }
+
+    @Override
+    public void onTaskRemoved(Intent rootIntent) {
+        mSession.release();
+        notificationManager.cancel(0);
     }
 }

@@ -34,6 +34,7 @@ import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.SeekBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.futuremind.recyclerviewfastscroll.FastScroller;
 
@@ -150,22 +151,16 @@ public class MainActivity extends AppCompatActivity implements MainCallbacks{
         setContentView(R.layout.activity_main);
         if(playIntent == null){
             playIntent = new Intent(this, MusicService.class);
+
+            /*start and bind de taskremoved dc goi*/
+            startService(new Intent(this, MusicService.class));
             bindService(playIntent, musicConnection, Context.BIND_AUTO_CREATE);
         }
         loadSongs();
-
         DisplayMetrics displayMetrics = new DisplayMetrics();
         getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
         Contanst.height = displayMetrics.heightPixels;
         Contanst.width = displayMetrics.widthPixels;
-
-        /*window = MainActivity.this.getWindow();
-        window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
-        window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
-        window.setStatusBarColor(Color.parseColor("#9092FC"));*/
-
-
-
     }
 
 /*
@@ -335,23 +330,7 @@ public class MainActivity extends AppCompatActivity implements MainCallbacks{
 
         _slidingLayout = findViewById(R.id.sliding_layout);
 
-       // _txtSinger_control.setText(Contanst.list_songs.get());
 
-        /*_listView = findViewById(R.id.list_song);
-
-        _songAdapter = new SongAdapter(this, R.layout.song_item);*/
-
-       // _listView.setAdapter(_songAdapter);
-      /*  return Home_Fragment.newInstance();
-        case 1: // Fragment # 0 - This will show FirstFragment different title
-        return List_Fragment.newInstance();
-        case 2: // Fragment # 1 - This will show SecondFragment
-        return Artist_Fragment.newInstance();
-        case 3: // Fragment # 1 - This will show SecondFragment
-        return Album_Fragment.newInstance();
-        case 4: // Fragment # 1 - This will show SecondFragment
-        return Playlist_Fragment.newInstance();
-        default:*/
         _mViewPager = findViewById(R.id.vp);
 
         FragmentPagerItemAdapter adapter = new FragmentPagerItemAdapter(
@@ -532,13 +511,17 @@ public class MainActivity extends AppCompatActivity implements MainCallbacks{
 
     @Override
     protected void onDestroy() {
-        if(playIntent != null){
-           // stopService(playIntent);
-           // musicService = null;
-        }
-
         super.onDestroy();
 
+        if(musicBound){
+            unbindService(musicConnection);
+            musicBound = false;
+            timerTask.cancel();
+            timer.cancel();
+            finish();
+            Log.e("onDestroy","123");
+
+        }
     }
 
     @Override
@@ -555,8 +538,8 @@ public class MainActivity extends AppCompatActivity implements MainCallbacks{
     @Override
     protected void onStop() {
         super.onStop();
-        //unbindService(musicConnection);
-       // musicBound = false;
+       /* unbindService(musicConnection);
+        musicBound = false;*/
 
     }
 
@@ -972,4 +955,5 @@ public class MainActivity extends AppCompatActivity implements MainCallbacks{
     public void onBackPressed() {
         moveTaskToBack(true);
     }
+
 }
