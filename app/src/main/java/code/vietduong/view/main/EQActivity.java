@@ -166,7 +166,7 @@ public class EQActivity extends AppCompatActivity {
         /*pre-set*/
 
         ArrayList<String> equalizerPresetNames = new ArrayList<>();
-        equalizerPresetNames.add("Flat");
+      /*  equalizerPresetNames.add("Flat");*/
 
         for(short i=0 ; i<mEqualizer.getNumberOfPresets(); i++){
             equalizerPresetNames.add(mEqualizer.getPresetName(i));
@@ -177,16 +177,10 @@ public class EQActivity extends AppCompatActivity {
         niceSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                if(position == 0){
-                    for (short i = 0; i < 5; i++) {
-                        listSeekBar[i].setProgress(listSeekBar[i].getMax()/2);
-                    }
-                }else {
-                    position = position - 1;
-                    mEqualizer.usePreset((short) position);
-                    for (short i = 0; i < 5; i++) {
-                        listSeekBar[i].setProgress(mEqualizer.getBandLevel(i) - minEQLevel);
-                    }
+
+                mEqualizer.usePreset((short) position);
+                for (short i = 0; i < 5; i++) {
+                    listSeekBar[i].setProgress(mEqualizer.getBandLevel(i) - minEQLevel);
                 }
 
             }
