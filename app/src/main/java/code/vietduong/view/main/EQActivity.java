@@ -8,6 +8,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.CompoundButton;
 import android.widget.ImageView;
 import android.widget.SeekBar;
@@ -19,6 +20,7 @@ import com.sdsmdg.harjot.crollerTest.Croller;
 
 import org.angmarch.views.NiceSpinner;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
@@ -74,8 +76,8 @@ public class EQActivity extends AppCompatActivity {
         listSeekBar[4] = seekBar5;
 
         niceSpinner = (NiceSpinner) findViewById(R.id.nice_spinner);
-        List<String> dataset = new LinkedList<>(Arrays.asList("One", "Two", "Three", "Four", "Five"));
-        niceSpinner.attachDataSource(dataset);
+       /* List<String> dataset = new LinkedList<>(Arrays.asList("One", "Two", "Three", "Four", "Five"));
+        niceSpinner.attachDataSource(dataset);*/
         niceSpinner.setBackgroundColor(Color.parseColor("#F8F8F8"));
 
         bassCroller = (Croller) findViewById(R.id.croller);
@@ -116,7 +118,6 @@ public class EQActivity extends AppCompatActivity {
         setVolumeControlStream(AudioManager.STREAM_MUSIC);
         mEqualizer = new Equalizer(0, MainActivity.musicService.player.getAudioSessionId());
         mEqualizer.setEnabled(false);
-
 
 
      /*   final BassBoost bassBoost = new BassBoost(0, MainActivity.musicService.player.getAudioSessionId());
@@ -162,6 +163,39 @@ public class EQActivity extends AppCompatActivity {
             });
         }
 
+        /*pre-set*/
+
+        ArrayList<String> equalizerPresetNames = new ArrayList<>();
+        equalizerPresetNames.add("Flat");
+
+        for(short i=0 ; i<mEqualizer.getNumberOfPresets(); i++){
+            equalizerPresetNames.add(mEqualizer.getPresetName(i));
+        }
+
+       /* List<String> dataset = new LinkedList<>(Arrays.asList("One", "Two", "Three", "Four", "Five"));*/
+        niceSpinner.attachDataSource(equalizerPresetNames);
+        niceSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                if(position == 0){
+                    for (short i = 0; i < 5; i++) {
+                        listSeekBar[i].setProgress(listSeekBar[i].getMax()/2);
+                    }
+                }else {
+                    position = position - 1;
+                    mEqualizer.usePreset((short) position);
+                    for (short i = 0; i < 5; i++) {
+                        listSeekBar[i].setProgress(mEqualizer.getBandLevel(i) - minEQLevel);
+                    }
+                }
+
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
 
         /*if (bassBoost.getStrengthSupported())
         {
