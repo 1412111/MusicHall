@@ -1,5 +1,9 @@
 package code.vietduong.data;
 
+import android.media.audiofx.BassBoost;
+import android.media.audiofx.Equalizer;
+import android.media.audiofx.Virtualizer;
+
 import java.util.ArrayList;
 
 import code.vietduong.model.entity.Album;
@@ -12,6 +16,11 @@ import code.vietduong.model.entity.Song;
  */
 
 public class Contanst {
+    public static int[] listPreset = new int[]{1500, 1500, 1500, 1500, 1500};
+    public static int positionPreset = -1;
+    public static Equalizer mEqualizer = null;
+    public static BassBoost bassBoost = null;
+    public static Virtualizer virtualizer = null;
     public static ArrayList<Song> list_songs = new ArrayList<>();
     public static ArrayList<Album> list_albums = new ArrayList<>();
     public static ArrayList<Artist> list_artists = new ArrayList<>();

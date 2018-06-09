@@ -21,9 +21,11 @@
 
         <ImageView
             android:id="@+id/img_back"
-            android:layout_width="wrap_content"
-            android:layout_height="20dp"
-            android:layout_weight="1"
+            android:layout_width="38dp"
+            android:layout_height="38dp"
+            android:layout_marginLeft="10dp"
+            android:background="@drawable/image_bg_state"
+            android:padding="10dp"
             slideswitch:srcCompat="@drawable/arrow_back" />
 
         <TextView
@@ -42,7 +44,7 @@
             android:id="@+id/mySwitch"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:layout_marginRight="10dp"
+            android:layout_marginRight="20dp"
             android:layout_weight="1"
             android:fontFamily="@font/roboto"
             android:textOff="Off"
@@ -241,7 +243,7 @@
         android:paddingTop="15dp">
 
         <com.sdsmdg.harjot.crollerTest.Croller
-            android:id="@+id/croller"
+            android:id="@+id/crollerBass"
             android:layout_width="170dp"
             android:layout_height="170dp"
             android:layout_centerInParent="true"
@@ -257,7 +259,7 @@
             app:start_offset="45" />
 
         <com.sdsmdg.harjot.crollerTest.Croller
-            android:id="@+id/croller1"
+            android:id="@+id/crollerVirtualizer"
             android:layout_width="170dp"
             android:layout_height="170dp"
             android:layout_centerInParent="true"

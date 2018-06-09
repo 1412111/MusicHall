@@ -1,6 +1,7 @@
 package code.vietduong.view.main;
 
 import android.Manifest;
+import android.app.ActivityManager;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
@@ -50,6 +51,7 @@ import com.sothree.slidinguppanel.SlidingUpPanelLayout;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Comparator;
+import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -161,6 +163,15 @@ public class MainActivity extends AppCompatActivity implements MainCallbacks{
         getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
         Contanst.height = displayMetrics.heightPixels;
         Contanst.width = displayMetrics.widthPixels;
+
+
+
+        ActivityManager mngr = (ActivityManager) getSystemService( ACTIVITY_SERVICE );
+
+        List<ActivityManager.RunningTaskInfo> taskList = mngr.getRunningTasks(10);
+        for(ActivityManager.RunningTaskInfo taskInfo: taskList){
+            Log.e("stack main"+taskInfo.id,taskInfo.toString());
+        }
     }
 
 /*
@@ -516,8 +527,12 @@ public class MainActivity extends AppCompatActivity implements MainCallbacks{
         if(musicBound){
             unbindService(musicConnection);
             musicBound = false;
-            timerTask.cancel();
-            timer.cancel();
+
+            if(timerTask != null && timer != null){
+                timerTask.cancel();
+                timer.cancel();
+            }
+
             finish();
             Log.e("onDestroy","123");
 
@@ -953,7 +968,12 @@ public class MainActivity extends AppCompatActivity implements MainCallbacks{
 
     @Override
     public void onBackPressed() {
-        moveTaskToBack(true);
+        if(_slidingLayout.getPanelState().equals(SlidingUpPanelLayout.PanelState.EXPANDED)){
+            _slidingLayout.setPanelState(SlidingUpPanelLayout.PanelState.COLLAPSED);
+        }else{
+            moveTaskToBack(true);
+        }
+
     }
 
 }

@@ -410,7 +410,7 @@ public class MusicService extends Service implements
                     .setContentText(currentSong.getArtist())
                     .setLargeIcon(bitmap)
                     .setPriority(Notification.PRIORITY_MAX)
-                    .setOngoing(onGoing)
+                    .setOngoing(true)
                     .setStyle(new Notification.MediaStyle().setShowActionsInCompactView(0, 1, 2).setMediaSession(mSession.getSessionToken())).build();
         }else{
             notification = new Notification.Builder(this)
@@ -429,7 +429,7 @@ public class MusicService extends Service implements
                     .setContentText("Now playing...")
                     .setLargeIcon(BitmapFactory.decodeResource(getResources(), R.mipmap.ic_launcher))
                     .setStyle(new Notification.MediaStyle().setShowActionsInCompactView(1))
-                    .setOngoing(onGoing).build();
+                    .setOngoing(true).build();
         }
 
         notificationManager =
@@ -452,15 +452,20 @@ public class MusicService extends Service implements
 
     @Override
     public void onDestroy() {
-
+/*
         super.onDestroy();
         mSession.release();
-        notificationManager.cancel(0);
+        notificationManager.cancel(0);*/
     }
 
     @Override
     public void onTaskRemoved(Intent rootIntent) {
         mSession.release();
-        notificationManager.cancel(0);
+        if(notificationManager != null){
+            notificationManager.cancel(0);
+            Contanst.mEqualizer.release();
+            Contanst.bassBoost.release();
+        }
+
     }
 }
