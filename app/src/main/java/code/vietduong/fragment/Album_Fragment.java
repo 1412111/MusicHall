@@ -62,12 +62,12 @@ public class Album_Fragment extends Fragment {
 
         RecyclerView albumListview = layout.findViewById(R.id.albumListview);
         albumListview.setLayoutManager(new GridLayoutManager(context, 2));
-        albumListview.setPadding(75,70,0,50);
+        albumListview.setPadding(0,0,0,50);
         final AlbumAdapter adapter = new AlbumAdapter(context);
         adapter.setOnAlbumItemClickListener(new AlbumAdapter.RecyclerAlbumItemClickListener() {
             @Override
             public void onItemClick(Album album) {
-                ((MainActivity)context).onMsgFromAlbumFragTOMain(album);
+                ((MainActivity)context).onMsgFromAlbumFragToMain(album);
             }
         });
         albumListview.setAdapter(adapter);

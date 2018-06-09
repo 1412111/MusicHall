@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context="code.vietduong.view.main.GenresActivity">
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/control_bar_bg"
+        android:paddingBottom="20dp"
+        android:paddingTop="50dp">
+
+        <ImageView
+            android:id="@+id/imageButton3"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:src="@drawable/arrow_back" />
+
+        <ImageView
+            android:id="@+id/imgGenres"
+            android:layout_width="250dp"
+            android:layout_height="250dp"
+            android:layout_gravity="right"
+            android:scaleType="centerCrop"
+            android:src="@drawable/singer" />
+
+        <TextView
+            android:layout_width="250dp"
+            android:layout_height="250dp"
+            android:layout_gravity="right"
+            android:background="#64000000" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="40dp"
+            android:layout_marginTop="60dp"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/txtGenres"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_marginBottom="20dp"
+                android:fontFamily="@font/roboto_medium"
+
+                android:text="Nhạc Trẻ"
+                android:textColor="#ffffff"
+                android:textSize="50sp"
+
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/txtCount"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_marginLeft="10dp"
+                android:fontFamily="@font/roboto_medium"
+
+                android:text="Nhạc Trẻ"
+                android:textColor="#ffffff"
+                android:textSize="20sp" />
+
+            <TextView
+                android:id="@+id/textView102"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_marginLeft="10dp"
+                android:fontFamily="@font/roboto_medium"
+
+                android:text="Songs"
+                android:textColor="#000000"
+                android:textSize="18sp" />
+        </LinearLayout>
+
+    </FrameLayout>
+
+    <ListView
+        android:id="@+id/lvGenres"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:divider="@null"
+        android:dividerHeight="0dp"
+        android:scrollbars="none"/>
+
+
+</LinearLayout>

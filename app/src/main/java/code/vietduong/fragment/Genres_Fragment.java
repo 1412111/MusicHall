@@ -6,6 +6,7 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 
@@ -13,6 +14,7 @@ import android.widget.ListView;
 import code.vietduong.adapter.GenresAdapter;
 import code.vietduong.data.Contanst;
 import code.vietduong.oneplayer.R;
+import code.vietduong.view.main.MainActivity;
 
 public class Genres_Fragment extends Fragment {
     Context context = null;
@@ -42,7 +44,12 @@ public class Genres_Fragment extends Fragment {
         ListView lvGenres = layout.findViewById(R.id.listGenres);
 
         lvGenres.setAdapter(new GenresAdapter(context, R.layout.genres_item, Contanst.list_genres));
-
+        lvGenres.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                ((MainActivity)context).onMsgFromGenresFragToMain(position);
+            }
+        });
         return layout;
     }
 

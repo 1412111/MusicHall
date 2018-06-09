@@ -86,7 +86,7 @@ public class Song_Playing_Fragment extends Fragment implements FragmentCallbacks
         adaper =  new Song_Playing_Adapter(mainActivity.getSupportFragmentManager());
         mPager.setAdapter(adaper);
        // mPager.setPageTransformer(false, new CustPagerTransformer(getContext()));
-        mPager.setPageTransformer(true, new DepthPageTransformer());
+        mPager.setPageTransformer(false, new DepthPageTransformer());
         mPager.setDefaultFocusHighlightEnabled(true);
         mPager.setClipToPadding(false);
         mPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {

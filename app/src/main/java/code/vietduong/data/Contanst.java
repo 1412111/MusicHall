@@ -33,4 +33,6 @@ public class Contanst {
 
     public static String MSG_MAIN_ARTIST_ACTIVITY = "MSG_MAIN_ARTIST_ACTIVITY";
 
+    public static String MSG_MAIN_GENRES_ACTIVITY = "MSG_MAIN_GENRES_ACTIVITY";
+
 }

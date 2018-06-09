@@ -40,7 +40,8 @@
         <activity android:name="code.vietduong.view.main.EQActivity" />
         <activity android:name="code.vietduong.view.main.AlbumActivity" />
         <activity android:name="code.vietduong.view.SearchActivity" />
-        <activity android:name="code.vietduong.view.main.ArtistActivity"></activity>
+        <activity android:name="code.vietduong.view.main.ArtistActivity" />
+        <activity android:name="code.vietduong.view.main.GenresActivity"></activity>
     </application>
 
 </manifest>

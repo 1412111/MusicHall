@@ -21,12 +21,16 @@ import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.graphics.Palette;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.FrameLayout;
@@ -39,6 +43,7 @@ import android.widget.Toast;
 
 import com.futuremind.recyclerviewfastscroll.FastScroller;
 
+import com.miguelcatalan.materialsearchview.MaterialSearchView;
 import com.mingle.sweetpick.CustomDelegate;
 import com.mingle.sweetpick.SweetSheet;
 import com.ogaclejapan.smarttablayout.SmartTabLayout;
@@ -65,6 +70,7 @@ import code.vietduong.fragment.Song_Playing_Fragment;
 import code.vietduong.impl.MainCallbacks;
 import code.vietduong.model.entity.Album;
 import code.vietduong.model.entity.Artist;
+import code.vietduong.model.entity.Genres;
 import code.vietduong.model.entity.Song;
 
 import code.vietduong.oneplayer.R;
@@ -87,7 +93,7 @@ public class MainActivity extends AppCompatActivity implements MainCallbacks{
     private FrameLayout _control_bar;
     private FrameLayout _playing_now;
     private static ImageView _img_song, img_play, img_previous, img_next;
-    private static ImageView btnPlayControl;
+    private static ImageView btnPlayControl, imgSearch;
     private ImageView img_bg;
     private ImageView img_down_main;
     private ImageView img_eq;
@@ -212,6 +218,14 @@ public class MainActivity extends AppCompatActivity implements MainCallbacks{
     DialogPlus dialog;
     private SweetSheet popup_listsong;
     private void initUI() {
+
+        imgSearch = findViewById(R.id.imgSearch);
+        imgSearch.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+              
+            }
+        });
         _playing_now = findViewById(R.id.playing_now);
 
         popup_listsong = new SweetSheet(_playing_now);
@@ -497,7 +511,6 @@ public class MainActivity extends AppCompatActivity implements MainCallbacks{
     }
 
     private void popupListSong() {
-
 
        popup_listsong.show();
        _slidingLayout.setTouchEnabled(false);
@@ -885,18 +898,38 @@ public class MainActivity extends AppCompatActivity implements MainCallbacks{
             bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), Uri.parse(song.getAlbumArtPath()));
             if(bitmap == null){
                 img_bg.setImageDrawable(null);
-
+                img_bg.setBackgroundColor(Color.parseColor("#90000000"));
             }else {
 
-                Blurry.with(getApplicationContext())
-                        .radius(100)
+            /*    Blurry.with(getApplicationContext())
+                        .radius(25)
                         .sampling(20)
                         .async()
                         .animate(2000)
+                        .from(bitmap).into(img_bg);*/
+                Blurry.with(getApplicationContext())
+                        .radius(3)
+                        .sampling(3)
+                        .async()
+                        .animate(2000)
                         .from(bitmap).into(img_bg);
+
+               /* Palette.from(bitmap).generate(new Palette.PaletteAsyncListener() {
+                    public void onGenerated(Palette palette) {
+                        Palette.Swatch swatch = palette.getVibrantSwatch();
+                        if (swatch == null) {
+                            swatch = palette.getMutedSwatch(); // Sometimes vibrant swatch is not available
+                        }
+                        if (swatch != null) {
+                            img_bg.setBackgroundColor(swatch.getRgb());
+                        }
+                    }
+                });*/
+
             }
         } catch (IOException e) {
             img_bg.setImageDrawable(null);
+            img_bg.setBackgroundColor(Color.parseColor("#90000000"));
             e.printStackTrace();
 
         }
@@ -945,11 +978,14 @@ public class MainActivity extends AppCompatActivity implements MainCallbacks{
     @Override
     public void onMsgFromListFragToMain(Song song) {
         playSongMain(song);
+        _slidingLayout.setPanelState(SlidingUpPanelLayout.PanelState.EXPANDED);
+
+
     }
 
 
     @Override
-    public void onMsgFromAlbumFragTOMain(Album album) {
+    public void onMsgFromAlbumFragToMain(Album album) {
         Intent intent = new Intent(this, AlbumActivity.class);
 
         intent.putExtra(Contanst.MSG_MAIN_ALBUM_ACTIVITY, album.getId() + "");
@@ -958,12 +994,22 @@ public class MainActivity extends AppCompatActivity implements MainCallbacks{
     }
 
     @Override
-    public void onMsgFromArtistFragTOMain(Artist artist) {
+    public void onMsgFromArtistFragToMain(Artist artist) {
         Intent intent = new Intent(this, ArtistActivity.class);
 
         intent.putExtra(Contanst.MSG_MAIN_ARTIST_ACTIVITY, artist.getId() + "");
         startActivity(intent);
     }
+
+    @Override
+    public void onMsgFromGenresFragToMain(int position) {
+        Intent intent = new Intent(this, GenresActivity.class);
+
+        intent.putExtra(Contanst.MSG_MAIN_GENRES_ACTIVITY, position + "");
+        startActivity(intent);
+
+    }
+
 
 
     @Override

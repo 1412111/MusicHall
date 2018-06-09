@@ -49,12 +49,12 @@ public class Artist_Fragment extends Fragment {
 
         RecyclerView artistListview = layout.findViewById(R.id.artistListview);
         artistListview.setLayoutManager(new GridLayoutManager(context, 3));
-        artistListview.setPadding(100,0,0,0);
+       /* artistListview.setPadding(100,0,0,0);*/
         ArtistAdapter adapter = new ArtistAdapter(context);
         adapter.setOnArtistItemClickListener(new ArtistAdapter.RecyclerArtistItemClickListener() {
             @Override
             public void onItemClick(Artist artist) {
-                ((MainActivity)context).onMsgFromArtistFragTOMain(artist);
+                ((MainActivity)context).onMsgFromArtistFragToMain(artist);
             }
         });
         artistListview.setAdapter(adapter);

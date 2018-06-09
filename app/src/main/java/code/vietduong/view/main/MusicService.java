@@ -192,6 +192,11 @@ public class MusicService extends Service implements
 
     public void playSong(Song song)
     {
+        if(currentSong != null){
+            if(song.getId() == currentSong.getId()){
+                return;
+            }
+        }
 
         currentSong = song;
         position = Contanst.list_songs.indexOf(currentSong);
@@ -463,8 +468,11 @@ public class MusicService extends Service implements
         mSession.release();
         if(notificationManager != null){
             notificationManager.cancel(0);
-            Contanst.mEqualizer.release();
-            Contanst.bassBoost.release();
+            if(Contanst.mEqualizer != null){
+                Contanst.mEqualizer.release();
+                Contanst.bassBoost.release();
+            }
+
         }
 
     }

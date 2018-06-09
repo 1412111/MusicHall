@@ -103,6 +103,10 @@ public class SongInterator {
 
                         thisTitle = thisTitle.substring(0, 1).toUpperCase() + thisTitle.substring(1).toLowerCase();
 
+                        if (Integer.parseInt(thisDuration) <= 30) {
+                            continue;
+                        }
+
                         if (isMusic != 0 && thisSize > 0) {
                             this.listSong.add(new Song(thisId, thisTitle, thisArtist
                                     , thisDuration, thisAlbum, albumArtUri.toString(), path, thisSize, genresName));

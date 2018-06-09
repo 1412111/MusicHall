@@ -5,88 +5,106 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:paddingTop="45dp"
     tools:context="code.vietduong.view.main.AlbumActivity">
-
-    <ImageView
-        android:id="@+id/imageView2"
-        android:layout_width="25dp"
-        android:layout_height="25dp"
-        android:layout_marginBottom="30dp"
-        android:layout_marginLeft="20dp"
-        android:layout_marginRight="20dp"
-        android:layout_marginTop="10dp"
-        app:srcCompat="@drawable/back32" />
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="20dp"
-
-        android:orientation="horizontal">
-
-        <ImageView
-            android:id="@+id/imgAlbum"
-            android:layout_width="180dp"
-            android:layout_height="180dp"
-            android:background="#000000"
-            app:srcCompat="@drawable/noalbum" />
+        android:background="@drawable/gradient_color"
+        android:orientation="vertical"
+        android:paddingBottom="20dp"
+        android:paddingTop="30dp">
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:background="@drawable/gradient_color"
-            android:orientation="vertical"
-            android:paddingLeft="20dp"
-            android:paddingRight="10dp"
-            android:paddingTop="10dp">
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="20dp"
 
-            <TextView
-                android:id="@+id/txtAlbumName"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:fontFamily="@font/roboto_medium"
-                android:letterSpacing="0.1"
-                android:text="NO SOUND WITHOUT SILENCE"
-                android:textColor="#ffffff"
-                android:textSize="20sp"
-                android:textStyle="bold" />
+            android:layout_marginTop="20dp"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
 
-            <TextView
-                android:id="@+id/txtAlbumSinger"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="20dp"
-                android:layout_marginTop="10dp"
-                android:fontFamily="@font/roboto_medium"
-                android:letterSpacing="0.1"
-                android:text="THE SCRIPT"
-                android:textColor="#d7d7d7"
-                android:textSize="16sp" />
+            <ImageView
+                android:id="@+id/imageView2"
+                android:layout_width="25dp"
+                android:layout_height="25dp"
+
+                android:layout_marginLeft="20dp"
+                android:padding="3dp"
+                app:srcCompat="@drawable/arrow_back" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+
+            android:orientation="horizontal"
+            android:paddingLeft="20dp">
+
+            <ImageView
+                android:id="@+id/imgAlbum"
+                android:layout_width="180dp"
+                android:layout_height="180dp"
+                android:background="#000000"
+                app:srcCompat="@drawable/noalbum" />
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_marginBottom="10dp"
-                android:gravity="bottom"
-                android:orientation="horizontal">
 
-                <ImageView
-                    android:id="@+id/imageView4"
-                    android:layout_width="23dp"
-                    android:layout_height="23dp"
-                    app:srcCompat="@drawable/repeat_main" />
+                android:orientation="vertical"
+                android:paddingLeft="20dp"
+                android:paddingRight="10dp"
+                android:paddingTop="10dp">
 
-                <ImageView
-                    android:id="@+id/imageView5"
-                    android:layout_width="23dp"
-                    android:layout_height="23dp"
-                    android:layout_marginLeft="20dp"
-                    app:srcCompat="@drawable/random_main" />
+                <TextView
+                    android:id="@+id/txtAlbumName"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/roboto_medium"
+                    android:letterSpacing="0.1"
+                    android:text="NO SOUND WITHOUT SILENCE"
+                    android:textColor="#585858"
+                    android:textSize="20sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/txtAlbumSinger"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="20dp"
+                    android:layout_marginTop="10dp"
+                    android:fontFamily="@font/roboto_medium"
+                    android:letterSpacing="0.1"
+                    android:text="THE SCRIPT"
+                    android:textColor="#d7d7d7"
+                    android:textSize="16sp" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginBottom="10dp"
+                    android:gravity="bottom"
+                    android:orientation="horizontal">
+
+                    <ImageView
+                        android:id="@+id/imageView4"
+                        android:layout_width="23dp"
+                        android:layout_height="23dp"
+                        app:srcCompat="@drawable/repeat_main" />
+
+                    <ImageView
+                        android:id="@+id/imageView5"
+                        android:layout_width="23dp"
+                        android:layout_height="23dp"
+                        android:layout_marginLeft="20dp"
+                        app:srcCompat="@drawable/random_main" />
+
+                </LinearLayout>
 
             </LinearLayout>
-
         </LinearLayout>
+
     </LinearLayout>
 
     <TextView
