@@ -861,12 +861,26 @@ public class MainActivity extends AppCompatActivity implements MainCallbacks{
             public void run() {
 
                 int mCurrentPosition = 0;
-                int currentDuration = 0;
+                /*final int currentDuration = 0;*/
                // int totalDuration = musicService.getDur();
                 if (totalDuration <= 0) {
                     mCurrentPosition = 0;
                 } else {
-                    currentDuration = musicService.getPosn();
+                    int currentDuration = musicService.getPosn();
+
+                    Log.e("seek", currentDuration+"/"+totalDuration);
+                   if(currentDuration<=totalDuration){
+
+                       runOnUiThread(new Runnable() {
+                           @Override
+                           public void run() {
+                               txtStart_main.setText(convertTimeToString(musicService.getPosn()));
+                           }
+                       });
+
+                   }else{
+                       musicService.completeSong();
+                   }
 
                     // Updating progress bar
                     mCurrentPosition = ((currentDuration * 100) / totalDuration);
@@ -879,12 +893,13 @@ public class MainActivity extends AppCompatActivity implements MainCallbacks{
                 progressbar_control.setProgress(mCurrentPosition);
                 if(!dragging_seekbar){
                     seekBar.setProgress(mCurrentPosition);
-                    runOnUiThread(new Runnable() {
+
+                  /*  runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
-                            txtStart_main.setText(convertTimeToString(musicService.getPosn()));
+                            txtStart_main.setText(convertTimeToString(cu));
                         }
-                    });
+                    });*/
                 }
 
             }

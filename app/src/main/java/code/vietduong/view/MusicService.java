@@ -268,7 +268,7 @@ public class MusicService extends Service implements
     public int getPosn(){
         if(player.isPlaying()){
             currentPosition = player.getCurrentPosition();
-            return currentPosition;
+            //return currentPosition;
         }
         return currentPosition;
     }
@@ -312,6 +312,15 @@ public class MusicService extends Service implements
             buildNotification(ACTION_PLAY);
         } catch (IOException e) {
             e.printStackTrace();
+
+        }
+    }
+
+    public void completeSong(){
+        if(repeat){
+            rePlay(Contanst.list_songs.get(position));
+        }else{
+            playNext();
         }
     }
     @Override
