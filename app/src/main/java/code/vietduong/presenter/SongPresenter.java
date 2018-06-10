@@ -49,6 +49,8 @@ public class SongPresenter implements LoadSongListener{
     public void onLoadSongSuccess(final ArrayList<Song> listSong) {
         main.onDisplaySongList(listSong);
 
+        Contanst.list_Search.addAll(listSong);
+
         new Thread(new Runnable() {
             @Override
             public void run() {

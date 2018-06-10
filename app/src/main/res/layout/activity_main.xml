@@ -23,7 +23,7 @@
                 android:id="@+id/htab_collapse_toolbar"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@drawable/control_bar_bg"
+                android:background="@drawable/gradient_color"
                 android:orientation="vertical"
                 android:paddingLeft="5dp"
                 android:paddingRight="5dp"

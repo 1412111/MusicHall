@@ -9,7 +9,7 @@
     android:background="#FFFFFF"
     android:orientation="vertical"
     android:paddingTop="25dp"
-    tools:context="code.vietduong.view.main.EQActivity">
+    tools:context="code.vietduong.view.EQActivity">
 
 
     <LinearLayout

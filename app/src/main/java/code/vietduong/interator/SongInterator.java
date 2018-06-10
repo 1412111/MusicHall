@@ -9,6 +9,7 @@ import android.provider.MediaStore;
 
 import java.util.ArrayList;
 
+import code.vietduong.data.Contanst;
 import code.vietduong.impl.LoadSongListener;
 import code.vietduong.model.entity.Song;
 
@@ -108,8 +109,10 @@ public class SongInterator {
                         }
 
                         if (isMusic != 0 && thisSize > 0) {
-                            this.listSong.add(new Song(thisId, thisTitle, thisArtist
-                                    , thisDuration, thisAlbum, albumArtUri.toString(), path, thisSize, genresName));
+                            Song song = new Song(thisId, thisTitle, thisArtist
+                                    , thisDuration, thisAlbum, albumArtUri.toString(), path, thisSize, genresName);
+                            this.listSong.add(song);
+
                         }
                     }
                     while (musicCursor.moveToNext());

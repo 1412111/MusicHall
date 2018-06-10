@@ -1,6 +1,5 @@
-package code.vietduong.view.main;
+package code.vietduong.view;
 
-import android.app.ActivityManager;
 import android.content.Intent;
 import android.graphics.Color;
 import android.media.AudioManager;
@@ -25,13 +24,9 @@ import com.sdsmdg.harjot.crollerTest.Croller;
 import org.angmarch.views.NiceSpinner;
 
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.LinkedList;
-import java.util.List;
 
 import code.vietduong.data.Contanst;
 import code.vietduong.oneplayer.R;
-import code.vietduong.view.main.MainActivity;
 
 public class EQActivity extends AppCompatActivity {
 

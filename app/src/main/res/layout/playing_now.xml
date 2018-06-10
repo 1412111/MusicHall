@@ -135,7 +135,7 @@
                 android:paddingTop="9dp"
                 android:progress="0"
                 android:progressDrawable="@drawable/custom_progressbar"
-                android:thumb="@color/transparent" />
+                android:thumb="@drawable/custom_seekbar_thumb" />
 
             <TextView
                 android:id="@+id/txtEnd_main"

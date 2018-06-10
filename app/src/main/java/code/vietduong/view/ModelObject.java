@@ -1,4 +1,4 @@
-package code.vietduong.view.main;
+package code.vietduong.view;
 
 import code.vietduong.oneplayer.R;
 

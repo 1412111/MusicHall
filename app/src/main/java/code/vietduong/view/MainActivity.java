@@ -1,4 +1,4 @@
-package code.vietduong.view.main;
+package code.vietduong.view;
 
 import android.Manifest;
 import android.app.ActivityManager;
@@ -21,16 +21,12 @@ import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.support.v7.graphics.Palette;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.FrameLayout;
@@ -39,11 +35,9 @@ import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.SeekBar;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.futuremind.recyclerviewfastscroll.FastScroller;
 
-import com.miguelcatalan.materialsearchview.MaterialSearchView;
 import com.mingle.sweetpick.CustomDelegate;
 import com.mingle.sweetpick.SweetSheet;
 import com.ogaclejapan.smarttablayout.SmartTabLayout;
@@ -70,7 +64,6 @@ import code.vietduong.fragment.Song_Playing_Fragment;
 import code.vietduong.impl.MainCallbacks;
 import code.vietduong.model.entity.Album;
 import code.vietduong.model.entity.Artist;
-import code.vietduong.model.entity.Genres;
 import code.vietduong.model.entity.Song;
 
 import code.vietduong.oneplayer.R;
@@ -223,7 +216,8 @@ public class MainActivity extends AppCompatActivity implements MainCallbacks{
         imgSearch.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-              
+              actionClickSearch();
+
             }
         });
         _playing_now = findViewById(R.id.playing_now);
@@ -508,6 +502,11 @@ public class MainActivity extends AppCompatActivity implements MainCallbacks{
             }
         });*/
 
+    }
+
+    private void actionClickSearch() {
+        Intent intent = new Intent(this, SearchActivity.class);
+        startActivity(intent);
     }
 
     private void popupListSong() {
@@ -853,14 +852,17 @@ public class MainActivity extends AppCompatActivity implements MainCallbacks{
             timerTask = null;
             timer = null;
         }
+
+        final int totalDuration = musicService.getDur();
         txtEnd_main.setText(convertTimeToString(musicService.getDur()));
+
         timerTask = new TimerTask() {
             @Override
             public void run() {
 
                 int mCurrentPosition = 0;
                 int currentDuration = 0;
-                int totalDuration = musicService.getDur();
+               // int totalDuration = musicService.getDur();
                 if (totalDuration <= 0) {
                     mCurrentPosition = 0;
                 } else {
@@ -873,7 +875,6 @@ public class MainActivity extends AppCompatActivity implements MainCallbacks{
                 if(mCurrentPosition >= 100){
                     mCurrentPosition = 100;
                 }
-
 
                 progressbar_control.setProgress(mCurrentPosition);
                 if(!dragging_seekbar){
@@ -889,7 +890,7 @@ public class MainActivity extends AppCompatActivity implements MainCallbacks{
             }
         };
         timer = new Timer();
-        timer.schedule(timerTask, 0, 100);
+        timer.schedule(timerTask, 0, 10);
 
 
         Bitmap bitmap= null;

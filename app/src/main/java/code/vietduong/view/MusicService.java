@@ -1,8 +1,7 @@
-package code.vietduong.view.main;
+package code.vietduong.view;
 
 
 
-import android.annotation.SuppressLint;
 import android.app.Notification;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
@@ -14,15 +13,9 @@ import android.content.Intent;
 
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.graphics.Color;
-import android.graphics.drawable.BitmapDrawable;
-import android.graphics.drawable.Icon;
 import android.media.AudioManager;
-import android.media.MediaMetadata;
 import android.media.MediaPlayer;
-import android.media.session.MediaController;
 import android.media.session.MediaSession;
-import android.media.session.MediaSessionManager;
 import android.net.Uri;
 import android.os.Binder;
 
@@ -33,12 +26,9 @@ import android.os.PowerManager;
 import android.provider.MediaStore;
 import android.support.v4.media.session.MediaControllerCompat;
 import android.util.Log;
-import android.widget.RemoteViews;
-import android.widget.Toast;
 
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.Random;
 
 import code.vietduong.data.Contanst;
@@ -213,7 +203,7 @@ public class MusicService extends Service implements
         } catch (IOException e) {
             e.printStackTrace();
         }
-        buildNotification(ACTION_PLAY);
+      //  buildNotification(ACTION_PLAY);
 
 
     }
@@ -309,10 +299,26 @@ public class MusicService extends Service implements
             player.seekTo(mili);
         }
     }
+
+    public void rePlay(Song song){
+        player.reset();
+        Uri trackUri = ContentUris.withAppendedId(
+                android.provider.MediaStore.Audio.Media.EXTERNAL_CONTENT_URI,
+                song.getId());
+
+        try {
+            player.setDataSource(getApplicationContext(), trackUri);
+            player.prepareAsync();
+            buildNotification(ACTION_PLAY);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
     @Override
     public void onCompletion(MediaPlayer mp) {
         if(repeat){
-            playSong(Contanst.list_songs.get(position));
+
+            rePlay(Contanst.list_songs.get(position));
         }else{
             playNext();
         }

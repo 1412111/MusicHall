@@ -2,18 +2,13 @@ package code.vietduong.fragment;
 
 
 import android.content.Context;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.animation.OvershootInterpolator;
-import android.widget.FrameLayout;
-import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 
 import com.futuremind.recyclerviewfastscroll.FastScroller;
@@ -21,8 +16,7 @@ import com.futuremind.recyclerviewfastscroll.FastScroller;
 import code.vietduong.adapter.SongAdapter;
 import code.vietduong.model.entity.Song;
 import code.vietduong.oneplayer.R;
-import code.vietduong.view.main.MainActivity;
-import jp.wasabeef.recyclerview.adapters.ScaleInAnimationAdapter;
+import code.vietduong.view.MainActivity;
 
 
 /**

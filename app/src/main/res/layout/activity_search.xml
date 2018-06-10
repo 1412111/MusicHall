@@ -1,9 +1,103 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#ffffff"
+    android:orientation="vertical"
     tools:context="code.vietduong.view.SearchActivity">
 
-</android.support.constraint.ConstraintLayout>
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="70dp"
+        android:layout_marginTop="17dp">
+
+        <FrameLayout
+            android:id="@+id/scaleBack"
+            android:layout_width="400dp"
+            android:layout_height="40dp"
+            android:layout_gravity="center"
+            android:background="@drawable/search_bg"
+            android:visibility="visible">
+
+
+        </FrameLayout>
+
+        <FrameLayout
+            android:id="@+id/scaleFront"
+            android:layout_width="400dp"
+            android:layout_height="40dp"
+            android:layout_gravity="center"
+            android:background="@android:color/transparent"
+            android:visibility="visible">
+
+            <ImageView
+                android:id="@+id/imgBack"
+                android:layout_width="35dp"
+                android:layout_height="35dp"
+                android:layout_gravity="center_vertical"
+                android:background="@drawable/image_bg_state"
+                android:padding="8dp"
+                android:visibility="invisible"
+                app:srcCompat="@drawable/test1" />
+
+            <EditText
+                android:id="@+id/editText"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="40dp"
+                android:layout_marginRight="20dp"
+                android:background="@android:color/transparent"
+                android:ems="10"
+                android:fontFamily="@font/roboto"
+                android:inputType="textPersonName"
+                android:text=""
+                android:textColor="#ffffff"
+                android:visibility="invisible" />
+
+            <ImageView
+                android:id="@+id/imgDelete"
+                android:layout_width="35dp"
+                android:layout_height="35dp"
+                android:layout_gravity="right|center_vertical"
+                android:background="@drawable/image_bg_state"
+                android:padding="11dp"
+                android:visibility="invisible"
+                app:srcCompat="@drawable/delete_32px" />
+
+            <TextView
+                android:id="@+id/txtSeach"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:fontFamily="@font/roboto_medium"
+                android:text="Search"
+                android:textColor="#ffffff"
+                android:textStyle="bold" />
+
+        </FrameLayout>
+    </FrameLayout>
+
+    <TextView
+        android:id="@+id/textView11"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/roboto"
+        android:text="Results"
+        android:textAlignment="center"
+        android:textColor="#4B4C4F"
+        android:textSize="25sp" />
+
+    <ListView
+        android:id="@+id/lvSearch"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:divider="@null"
+        android:dividerHeight="0dp"
+        android:scrollbars="none"
+        android:layout_marginTop="30dp" />
+
+</LinearLayout>

@@ -1,4 +1,4 @@
-package code.vietduong.view.main;
+package code.vietduong.view;
 
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
@@ -46,6 +46,15 @@ public class GenresActivity extends AppCompatActivity {
 
         Log.e("album id", message);
 
+
+        ImageView imgBG = findViewById(R.id.imgGenresBG);
+
+        Picasso.with(this).load(g.getPicture())
+                .placeholder(R.drawable.noalbum)
+                .resize(350, 400)
+                .centerCrop()
+                .error(R.drawable.noalbum)
+                .into(imgBG);
 
         ListView lv = findViewById(R.id.lvGenres);
 

@@ -1,30 +1,18 @@
-package code.vietduong.view.main;
+package code.vietduong.view;
 
-import android.app.Activity;
-import android.content.BroadcastReceiver;
-import android.content.Context;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.ListView;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.futuremind.recyclerviewfastscroll.FastScroller;
 import com.squareup.picasso.Picasso;
 
-import code.vietduong.adapter.AlbumAdapter;
-import code.vietduong.adapter.SongAdapter;
 import code.vietduong.adapter.SongAlbumAdapter;
-import code.vietduong.adapter.SongPopUpAdapter;
 import code.vietduong.data.Contanst;
 import code.vietduong.model.entity.Album;
 import code.vietduong.model.entity.Song;
@@ -42,6 +30,8 @@ public class AlbumActivity extends AppCompatActivity{
         String message = intent.getStringExtra(Contanst.MSG_MAIN_ALBUM_ACTIVITY);
 
         album = Contanst.list_albums.get(Integer.parseInt(message));
+
+        ImageView imgAlbumBG = findViewById(R.id.imgAlbumBg);
 
         ListView listView = findViewById(R.id.list_song_album);
 
@@ -74,6 +64,13 @@ public class AlbumActivity extends AppCompatActivity{
                 .centerCrop()
                 .error(R.drawable.noalbum)
                 .into(imgAlbum);
+
+        Picasso.with(this).load(album.getPicture())
+                .placeholder(R.drawable.noalbum)
+                .resize(350, 300)
+                .centerCrop()
+                .error(R.drawable.noalbum)
+                .into(imgAlbumBG);
 
         Log.e("album id", message);
     }

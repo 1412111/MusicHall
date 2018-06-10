@@ -10,12 +10,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 
-import code.vietduong.adapter.AlbumAdapter;
 import code.vietduong.adapter.ArtistAdapter;
-import code.vietduong.model.entity.Album;
 import code.vietduong.model.entity.Artist;
 import code.vietduong.oneplayer.R;
-import code.vietduong.view.main.MainActivity;
+import code.vietduong.view.MainActivity;
 
 /**
  * Created by codev on 4/15/2018.

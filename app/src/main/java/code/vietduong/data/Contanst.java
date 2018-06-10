@@ -5,6 +5,7 @@ import android.media.audiofx.Equalizer;
 import android.media.audiofx.Virtualizer;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 
 import code.vietduong.model.entity.Album;
 import code.vietduong.model.entity.Artist;
@@ -25,6 +26,8 @@ public class Contanst {
     public static ArrayList<Album> list_albums = new ArrayList<>();
     public static ArrayList<Artist> list_artists = new ArrayList<>();
     public static ArrayList<Genres> list_genres = new ArrayList<>();
+    public static HashSet<Song> list_Search = new HashSet<>();
+
     public static int width = 0;
     public static int height = 0;
     public static int position=-1;

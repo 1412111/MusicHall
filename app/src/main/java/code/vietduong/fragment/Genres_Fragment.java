@@ -14,7 +14,7 @@ import android.widget.ListView;
 import code.vietduong.adapter.GenresAdapter;
 import code.vietduong.data.Contanst;
 import code.vietduong.oneplayer.R;
-import code.vietduong.view.main.MainActivity;
+import code.vietduong.view.MainActivity;
 
 public class Genres_Fragment extends Fragment {
     Context context = null;

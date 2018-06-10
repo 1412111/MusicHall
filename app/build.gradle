@@ -56,5 +56,10 @@ dependencies {
 
     compile 'com.mikhaellopez:circularimageview:3.0.2'
 
+
+
+    compile 'com.daimajia.easing:library:2.0@aar'
+    compile 'com.daimajia.androidanimations:library:2.3@aar'
+
     testImplementation 'junit:junit:4.12'
 }

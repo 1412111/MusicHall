@@ -16,11 +16,11 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name="code.vietduong.view.main.MainActivity" />
+        <activity android:name="code.vietduong.view.MainActivity" />
         <activity
-            android:name="code.vietduong.view.main.SplashScreenActivity"
+            android:name="code.vietduong.view.SplashScreenActivity"
             android:theme="@style/SplashscreenTheme">
-            <intent-filter>
+          <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
@@ -28,7 +28,7 @@
         </activity>
 
         <service
-            android:name="code.vietduong.view.main.MusicService"
+            android:name="code.vietduong.view.MusicService"
             android:enabled="true"
             android:exported="false"
             android:stopWithTask="false" />
@@ -37,11 +37,14 @@
             android:name="preloaded_fonts"
             android:resource="@array/preloaded_fonts" />
 
-        <activity android:name="code.vietduong.view.main.EQActivity" />
-        <activity android:name="code.vietduong.view.main.AlbumActivity" />
-        <activity android:name="code.vietduong.view.SearchActivity" />
-        <activity android:name="code.vietduong.view.main.ArtistActivity" />
-        <activity android:name="code.vietduong.view.main.GenresActivity"></activity>
+        <activity android:name="code.vietduong.view.EQActivity" />
+        <activity android:name="code.vietduong.view.AlbumActivity" />
+        <activity android:name="code.vietduong.view.SearchActivity" >
+
+
+        </activity>
+        <activity android:name="code.vietduong.view.ArtistActivity" />
+        <activity android:name="code.vietduong.view.GenresActivity"></activity>
     </application>
 
 </manifest>
