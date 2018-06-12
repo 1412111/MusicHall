@@ -82,7 +82,15 @@ public class SearchActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-                edit.setText("");
+                if(edit.getText().length() > 0){
+
+                    edit.setText("");
+
+                }else{
+                    hideKeyBoard();
+                }
+
+               // Toast.makeText(getApplicationContext(),edit.getTextSize()+"",Toast.LENGTH_SHORT).show();
             }
         });
 
@@ -127,9 +135,9 @@ public class SearchActivity extends AppCompatActivity {
 
        final ArrayList<Song> rs = new ArrayList<>();
        for(Song s : Contanst.list_songs){
-           if(s.getTitle().toUpperCase().startsWith(str.toUpperCase())){
 
-            rs.add(s);
+           if(s.getTitleSearch().toLowerCase().startsWith(str.toLowerCase())){
+               rs.add(s);
            }
        }
 
@@ -137,6 +145,7 @@ public class SearchActivity extends AppCompatActivity {
            rs.clear();
         }
         SongAlbumAdapter adapter = new SongAlbumAdapter(this, R.layout.song_album_item,rs);
+        adapter.setAllCap(false);
         lvSearch.setAdapter(adapter);
         lvSearch.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override

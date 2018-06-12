@@ -18,6 +18,7 @@ public class Song implements Serializable {
     private String genres;
     private int size;
     private int position;
+    private String titleSearch;
 
     public Song() {
        super();
@@ -37,7 +38,7 @@ public class Song implements Serializable {
     }
     public Song(long id, String title, String artist,
                 String duration, String albumname, String albumArtPath,
-                String pathSong, int size, String genres) {
+                String pathSong, int size, String genres, String titleSearch) {
         this.id = id;
         this.title = title;
         this.artist = artist;
@@ -47,6 +48,15 @@ public class Song implements Serializable {
         this.pathSong = pathSong;
         this.size = size;
         this.genres = genres;
+        this.titleSearch = titleSearch;
+    }
+
+    public String getTitleSearch() {
+        return titleSearch;
+    }
+
+    public void setTitleSearch(String titleSearch) {
+        this.titleSearch = titleSearch;
     }
 
     public String getGenres() {

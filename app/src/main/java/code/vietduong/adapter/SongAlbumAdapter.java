@@ -20,6 +20,7 @@ public class SongAlbumAdapter extends ArrayAdapter<Song>
 {
 
         private Context context;
+        private boolean allCap = true;
 
 
         public SongAlbumAdapter(@NonNull Context context,int resource,ArrayList<Song> data){
@@ -36,6 +37,14 @@ public class SongAlbumAdapter extends ArrayAdapter<Song>
             TextView txtTime;
             TextView txtPosition;
         }
+
+    public boolean isAllCap() {
+        return allCap;
+    }
+
+    public void setAllCap(boolean allCap) {
+        this.allCap = allCap;
+    }
 
     @NonNull
     @Override
@@ -59,6 +68,7 @@ public class SongAlbumAdapter extends ArrayAdapter<Song>
         }
 
         Song s = getItem(position);
+        viewHolder.txtTitle.setAllCaps(allCap);
         viewHolder.txtTitle.setText(s.getTitle());
         viewHolder.txtTime.setText(s.getDuration());
 

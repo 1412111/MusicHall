@@ -77,6 +77,8 @@ public class MainActivity extends AppCompatActivity implements MainCallbacks{
     private SongPresenter mainPresenter;
     private final int MY_PERMISSIONS_REQUEST_READ_MEDIA = 123;
 
+    private final int MY_PERMISSIONS_REQUEST_RECORD_AUDIO = 321;
+
     private static boolean isPlaying = false;
     /*Components*/
    // private RecyclerView _songRecyclerView;
@@ -165,12 +167,12 @@ public class MainActivity extends AppCompatActivity implements MainCallbacks{
 
 
 
-        ActivityManager mngr = (ActivityManager) getSystemService( ACTIVITY_SERVICE );
+       /* ActivityManager mngr = (ActivityManager) getSystemService( ACTIVITY_SERVICE );
 
         List<ActivityManager.RunningTaskInfo> taskList = mngr.getRunningTasks(10);
         for(ActivityManager.RunningTaskInfo taskInfo: taskList){
             Log.e("stack main"+taskInfo.id,taskInfo.toString());
-        }
+        }*/
     }
 
 /*
@@ -184,6 +186,7 @@ public class MainActivity extends AppCompatActivity implements MainCallbacks{
 
     private void loadSongs() {
         mainPresenter = new SongPresenter(this,this);
+
         if (ContextCompat.checkSelfPermission(this,
                 Manifest.permission.READ_EXTERNAL_STORAGE)
                 != PackageManager.PERMISSION_GRANTED)
@@ -206,6 +209,17 @@ public class MainActivity extends AppCompatActivity implements MainCallbacks{
             t.start();
 
         }
+
+       /* if(ContextCompat.checkSelfPermission(this,
+                Manifest.permission.RECORD_AUDIO)!= PackageManager.PERMISSION_GRANTED){
+            ActivityCompat.requestPermissions(this,
+                    new String[]{Manifest.permission.RECORD_AUDIO},
+                    MY_PERMISSIONS_REQUEST_RECORD_AUDIO);
+        }else{
+
+        }*/
+
+
     }
 
     DialogPlus dialog;

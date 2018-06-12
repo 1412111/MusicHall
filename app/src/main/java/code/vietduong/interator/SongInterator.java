@@ -7,7 +7,9 @@ import android.database.Cursor;
 import android.net.Uri;
 import android.provider.MediaStore;
 
+import java.text.Normalizer;
 import java.util.ArrayList;
+import java.util.regex.Pattern;
 
 import code.vietduong.data.Contanst;
 import code.vietduong.impl.LoadSongListener;
@@ -109,8 +111,10 @@ public class SongInterator {
                         }
 
                         if (isMusic != 0 && thisSize > 0) {
+
+                            String titleSearch = deAccent(thisTitle);
                             Song song = new Song(thisId, thisTitle, thisArtist
-                                    , thisDuration, thisAlbum, albumArtUri.toString(), path, thisSize, genresName);
+                                    , thisDuration, thisAlbum, albumArtUri.toString(), path, thisSize, genresName, titleSearch);
                             this.listSong.add(song);
 
                         }
@@ -126,6 +130,12 @@ public class SongInterator {
 
         genresCursor.close();
         songListener.onLoadSongSuccess(this.listSong);
+    }
+
+    public static String deAccent(String str) {
+        String nfdNormalizedString = Normalizer.normalize(str, Normalizer.Form.NFD);
+        Pattern pattern = Pattern.compile("\\p{InCombiningDiacriticalMarks}+");
+        return pattern.matcher(nfdNormalizedString).replaceAll("");
     }
 
 }
