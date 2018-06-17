@@ -11,11 +11,16 @@ import android.content.res.ColorStateList;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Handler;
 import android.os.IBinder;
 import android.os.Message;
+import android.os.SystemClock;
 import android.provider.MediaStore;
 import android.support.annotation.NonNull;
+import android.support.annotation.RequiresApi;
+import android.support.design.widget.BottomSheetBehavior;
+import android.support.design.widget.CoordinatorLayout;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewPager;
@@ -29,6 +34,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.ListView;
@@ -38,6 +44,7 @@ import android.widget.TextView;
 
 import com.futuremind.recyclerviewfastscroll.FastScroller;
 
+import com.mingle.entity.MenuEntity;
 import com.mingle.sweetpick.CustomDelegate;
 import com.mingle.sweetpick.SweetSheet;
 import com.ogaclejapan.smarttablayout.SmartTabLayout;
@@ -117,7 +124,7 @@ public class MainActivity extends AppCompatActivity implements MainCallbacks{
     public  static String SLIDE_PREVIOUS = "slide previous";
     /*Service*/
 
-
+    private BottomSheetBehavior mBottomSheetBehavior;
     public static MusicService musicService;
 
     private static boolean musicBound = false;
@@ -222,6 +229,8 @@ public class MainActivity extends AppCompatActivity implements MainCallbacks{
 
     }
 
+    private long mLastClickTime = 0;
+
     DialogPlus dialog;
     private SweetSheet popup_listsong;
     private void initUI() {
@@ -237,6 +246,7 @@ public class MainActivity extends AppCompatActivity implements MainCallbacks{
         _playing_now = findViewById(R.id.playing_now);
 
         popup_listsong = new SweetSheet(_playing_now);
+
         CustomDelegate customDelegate = new CustomDelegate(true,
                 CustomDelegate.AnimationType.AlphaAnimation);
 
@@ -246,14 +256,18 @@ public class MainActivity extends AppCompatActivity implements MainCallbacks{
 
 
         customDelegate.setCustomView(view);
+
         popup_listsong.setDelegate(customDelegate);
+
         SongPopUpAdapter popUpAdapter = new SongPopUpAdapter(this);
+
         popUpAdapter.setOnItemClickListener(new SongPopUpAdapter.RecyclerItemClickListener() {
             @Override
             public void onItemClick(Song song) {
                 playSongMain(song);
                 _slidingLayout.setTouchEnabled(true);
                 popup_listsong.dismiss();
+
             }
         });
 
@@ -296,11 +310,21 @@ public class MainActivity extends AppCompatActivity implements MainCallbacks{
                 }
             }
         });
-        img_list = findViewById(R.id.img_list);
+
+
+                img_list = findViewById(R.id.img_list);
         img_list.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                popupListSong();
+
+                if (SystemClock.elapsedRealtime() - mLastClickTime < 2000) {
+                    return;
+                }
+                mLastClickTime = SystemClock.elapsedRealtime();
+                    popupListSong();
+
+
+
             }
         });
         img_eq = findViewById(R.id.img_eq);
@@ -467,55 +491,6 @@ public class MainActivity extends AppCompatActivity implements MainCallbacks{
                     .async()
                     .from(bitmap).into(img_bg);
         }
-        ///seekBar.getThumb().mutate().setAlpha(0);
-
-        /*wave = findViewById(R.id.wave);
-
-        final byte[] data = {1, 3, 37, 117, 69, 0, 0, 58};
-
-
-        wave.setScaledData(data);*/
-       /* FragmentTransaction ft = getFragmentManager(). beginTransaction();
-        song_fragment = Song_List_Fragment.newInstance();
-        ft.replace(R.id.song_fragment, song_fragment);
-        ft.commit();*/
-
-        /*ViewPager of playing*/
-        /*_mViewPagerSong = findViewById(R.id.mPager);
-        _mViewPagerSong.setOffscreenPageLimit(Contanst.list_songs.size());
-        _mViewPagerSong.setAdapter(new MyPagerAdaperSong(getSupportFragmentManager()));
-        _mViewPagerSong.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
-            @Override
-            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-               // playSong(Contanst.list_songs.get(position));
-                Log.e("Scroll",position+"");
-            }
-
-            @Override
-            public void onPageSelected(int position) {
-               playSong(Contanst.list_songs.get(position));
-               // playSong(Contanst.list_songs.get(position));
-            }
-
-            @Override
-            public void onPageScrollStateChanged(int state) {
-
-            }
-        });
-*/
-        //_mViewPagerSong.setPageTransformer(false, new ParallaxPagerTransformer(R.id.img_song));
-        /*_mViewPagerSong.setAdapter(new PagerAdapter() {
-            @Override
-            public int getCount() {
-                return 3;
-            }
-
-            @Override
-            public boolean isViewFromObject(View view, Object object) {
-                return false;
-            }
-        });*/
-
     }
 
     private void actionClickSearch() {
@@ -525,8 +500,8 @@ public class MainActivity extends AppCompatActivity implements MainCallbacks{
 
     private void popupListSong() {
 
-       popup_listsong.show();
-       _slidingLayout.setTouchEnabled(false);
+        popup_listsong.show();
+        _slidingLayout.setTouchEnabled(false);
     }
 
 
@@ -775,11 +750,13 @@ public class MainActivity extends AppCompatActivity implements MainCallbacks{
         }
     });
     /*Song song;*/
+    @RequiresApi(api = Build.VERSION_CODES.N)
     @Override
     public void onDisplaySongList(final ArrayList<Song> listSong) {
        // controlAudio = ControlAudio.getInstance(getApplicationContext(), listSong);
         //listener when service
         //controlAudio.setMusicService(this);
+
 
         listSong.sort(new Comparator<Song>() {
             public int compare(Song left, Song right) {
@@ -1044,11 +1021,19 @@ public class MainActivity extends AppCompatActivity implements MainCallbacks{
 
     @Override
     public void onBackPressed() {
-        if(_slidingLayout.getPanelState().equals(SlidingUpPanelLayout.PanelState.EXPANDED)){
-            _slidingLayout.setPanelState(SlidingUpPanelLayout.PanelState.COLLAPSED);
-        }else{
-            moveTaskToBack(true);
+        if(popup_listsong.isShow()){
+
+            popup_listsong.dismiss();
         }
+        else{
+            if(_slidingLayout.getPanelState().equals(SlidingUpPanelLayout.PanelState.EXPANDED)){
+                _slidingLayout.setPanelState(SlidingUpPanelLayout.PanelState.COLLAPSED);
+            }else{
+                moveTaskToBack(true);
+            }
+        }
+
+
 
     }
 
